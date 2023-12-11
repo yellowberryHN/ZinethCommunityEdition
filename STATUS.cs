@@ -1,0 +1,6 @@
+internal enum STATUS
+{
+	INACTIVE,
+	ACTIVE,
+	COMPLETED
+}
