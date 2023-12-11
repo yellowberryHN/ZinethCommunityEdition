@@ -385,7 +385,6 @@ public class PhoneMainMenu : PhoneScreen
 					}
 				}
 			}
-			Playtomic.Log.CustomMetric("tUsedMouseControls", "tPhone", true);
 		}
 		if (menuind >= 0 && PhoneInput.IsPressedDown())
 		{
@@ -403,7 +402,6 @@ public class PhoneMainMenu : PhoneScreen
 		{
 			StickControls_Vertical();
 		}
-		Playtomic.Log.CustomMetric("tUsedStickControls", "tPhone", true);
 	}
 
 	protected virtual void StickControls_Radial()
@@ -657,42 +655,36 @@ public class PhoneMainMenu : PhoneScreen
 			{
 				PhoneButtonSlider phoneButtonSlider6 = button as PhoneButtonSlider;
 				PhoneMemory.settings.menu_volume = phoneButtonSlider6.val;
-				Playtomic.Log.CustomMetric("tChangedMenuVolume", "tPhone", true);
 				return true;
 			}
 			if (message.StartsWith("volume_game"))
 			{
 				PhoneButtonSlider phoneButtonSlider7 = button as PhoneButtonSlider;
 				PhoneMemory.settings.game_volume = phoneButtonSlider7.val;
-				Playtomic.Log.CustomMetric("tChangedGameVolume", "tPhone", true);
 				return true;
 			}
 			if (message.StartsWith("volume_music"))
 			{
 				PhoneButtonSlider phoneButtonSlider8 = button as PhoneButtonSlider;
 				PhoneMemory.settings.music_volume = phoneButtonSlider8.val;
-				Playtomic.Log.CustomMetric("tChangedMusicVolume", "tPhone", true);
 				return true;
 			}
 			if (message.StartsWith("volume_ring"))
 			{
 				PhoneButtonSlider phoneButtonSlider9 = button as PhoneButtonSlider;
 				PhoneMemory.settings.ring_volume = phoneButtonSlider9.val;
-				Playtomic.Log.CustomMetric("tChangedRingVolume", "tPhone", true);
 				return true;
 			}
 			if (message.StartsWith("volume_master"))
 			{
 				PhoneButtonSlider phoneButtonSlider10 = button as PhoneButtonSlider;
 				PhoneMemory.settings.master_volume = phoneButtonSlider10.val;
-				Playtomic.Log.CustomMetric("tChangedMasterVolume", "tPhone", true);
 				return true;
 			}
 			if (message.StartsWith("volume_vibrate"))
 			{
 				PhoneButtonSlider phoneButtonSlider11 = button as PhoneButtonSlider;
 				PhoneMemory.settings.vibrate_amount = phoneButtonSlider11.val;
-				Playtomic.Log.CustomMetric("tChangedVibrateVolume", "tPhone", true);
 				return true;
 			}
 		}

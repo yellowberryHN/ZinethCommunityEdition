@@ -57,7 +57,7 @@ namespace Twitter
 			if (node["twitter:geo"] != null && node["twitter:geo"]["point"] != null)
 			{
 				string innerText4 = node["twitter:geo"]["point"].InnerText;
-				phoneMail.position = PlaytomicController.TranslateGPSStringToPos(innerText4);
+				//phoneMail.position = PlaytomicController.TranslateGPSStringToPos(innerText4);
 				Debug.Log(phoneMail.position);
 			}
 			return phoneMail;

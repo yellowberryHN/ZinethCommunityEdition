@@ -86,7 +86,6 @@ public class MissionDLC : MonoBehaviour
 			if ((bool)mission_obj)
 			{
 				mission_obj = mobj;
-				Playtomic.Log.CustomMetric("tDownloadedMission", PlaytomicController.current_group, true);
 				if (auto_load)
 				{
 					LoadMission();

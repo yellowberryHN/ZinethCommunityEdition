@@ -293,7 +293,6 @@ public class PhoneParser : MonoBehaviour
 	public bool ResetMonsters(string[] args)
 	{
 		PhoneMemory.ResetMonsters();
-		Playtomic.Log.CustomMetric("tResetMonsters", "tPhone", true);
 		return true;
 	}
 
@@ -301,7 +300,6 @@ public class PhoneParser : MonoBehaviour
 	{
 		HawkBehavior hawkBehavior = Object.FindObjectOfType(typeof(HawkBehavior)) as HawkBehavior;
 		hawkBehavior.canControl = true;
-		Playtomic.Log.CustomMetric("tGotHawkControl", PlaytomicController.current_group, true);
 		return true;
 	}
 
@@ -380,21 +378,18 @@ public class PhoneParser : MonoBehaviour
 	public bool LoginToTwitterCustom(string[] args)
 	{
 		TwitterDemo.instance.LoadTwitterUserInfo(false);
-		Playtomic.Log.CustomMetric("tLoggedIntoTwitter", "tPhone", true);
 		return true;
 	}
 
 	public bool LoginToTwitterDefault(string[] args)
 	{
 		TwitterDemo.instance.LoadTwitterUserInfo(true);
-		Playtomic.Log.CustomMetric("tLoggedOutOfTwitter", "tPhone", true);
 		return true;
 	}
 
 	public bool RegisterTwitter(string[] args)
 	{
 		TwitterDemo.RegisterUser();
-		Playtomic.Log.CustomMetric("tRegisteringTwitter", "tPhone", true);
 		return true;
 	}
 

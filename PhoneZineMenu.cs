@@ -125,10 +125,8 @@ public class PhoneZineMenu : PhoneMainMenu
 			showhidebutton.text = "Hide";
 			return SetZineVisible();
 		case "show":
-			Playtomic.Log.CustomMetric("tShowedZine", "tPhone", true);
 			return SetZineVisible();
 		case "hide":
-			Playtomic.Log.CustomMetric("tHidZine", "tPhone", true);
 			return HideZine();
 		default:
 			return base.ButtonMessage(button, command);

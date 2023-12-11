@@ -435,7 +435,6 @@ public class PhoneTwitterMenu : PhoneMailMenu
 				else
 				{
 					Application.OpenURL(button.id_info);
-					Playtomic.Log.CustomMetric("tOpenedTwitterLink", "tPhone", true);
 				}
 			}
 			else if (!message.StartsWith("focus_mission"))
@@ -472,9 +471,8 @@ public class PhoneTwitterMenu : PhoneMailMenu
 	{
 		if (Application.loadedLevelName == "Loader 1")
 		{
-			tweet = "pos:" + PlaytomicController.TranslatePlayerPosToGPSString() + ";" + tweet;
+			//tweet = "pos:" + PlaytomicController.TranslatePlayerPosToGPSString() + ";" + tweet;
 		}
-		Playtomic.Log.CustomMetric("tPostedTweet", "tPhone", true);
 		return TwitterDemo.PostTweet(tweet);
 	}
 

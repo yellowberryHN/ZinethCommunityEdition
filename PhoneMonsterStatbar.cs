@@ -218,8 +218,7 @@ public class PhoneMonsterStatbar : PhoneButton
 		DoRealPressedParticles();
 		PhoneMemory.SaveMonsters();
 		UpdateStat();
-		Playtomic.Log.CustomMetric("tUnlockedStat", "tPhone", true);
-		Playtomic.Log.CustomMetric("tStatsUnlocked", "tPhone", false);
+		
 		return true;
 	}
 

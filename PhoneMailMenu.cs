@@ -565,7 +565,6 @@ public class PhoneMailMenu : PhoneMainMenu
 		mail_back_button.textmesh.text = inbox_exit_text;
 		mail_back_button.transform.localPosition = mail_back_button.wantedpos + Vector3.right * 2f;
 		mail_back_button.pressed_particles = true;
-		Playtomic.Log.CustomMetric("tMessageClosed", "tPhone", true);
 	}
 
 	private bool ReplyToMail()
@@ -576,7 +575,6 @@ public class PhoneMailMenu : PhoneMainMenu
 			PhoneMemory.DeleteMail(current_mail);
 		}
 		CloseMail();
-		Playtomic.Log.CustomMetric("tRepliedToMail", "tPhone", true);
 		return result;
 	}
 
@@ -614,7 +612,6 @@ public class PhoneMailMenu : PhoneMainMenu
 				spawnpos = button.transform.position;
 				int index = mailbuttons.IndexOf(button);
 				OpenMail(index);
-				Playtomic.Log.CustomMetric("tOpenedMessage", "tPhone", true);
 				break;
 			}
 			return base.ButtonMessage(button, command);

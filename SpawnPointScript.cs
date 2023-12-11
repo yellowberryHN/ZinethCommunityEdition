@@ -576,7 +576,6 @@ public class SpawnPointScript : MonoBehaviour
 		}
 		lastRewindTime = rewindGap;
 		GameObject.Find("Main Camera").GetComponent<MotionBlur>().enabled = false;
-		PlaytomicController.LogPosition("tRewindResume", player.position);
 	}
 
 	private void GetRewindInput()

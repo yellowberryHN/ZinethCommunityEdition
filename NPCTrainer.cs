@@ -236,7 +236,6 @@ public class NPCTrainer : NPCBehavior
 		PhoneMemory.AddCapsulePoints(3f);
 		RemoveBadge();
 		SaveMyInfo();
-		Playtomic.Log.CustomMetric("trainer_defeated_" + GetSaveName());
 	}
 
 	public void GiveBadge()

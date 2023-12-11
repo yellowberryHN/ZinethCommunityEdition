@@ -34,9 +34,6 @@ public class SecretObject : MonoBehaviour
 	{
 		OnFound();
 		SaveMyInfo();
-		PlaytomicController.LogPosition("secret_found", base.transform.position);
-		Playtomic.Log.CustomMetric("SecretFound", PlaytomicController.current_group);
-		Playtomic.Log.CustomMetric("Secret_" + secret_name, "Secrets");
 	}
 
 	private void OnFound()

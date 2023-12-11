@@ -168,9 +168,6 @@ public class Capsule : MonoBehaviour
 			AudioSource.PlayClipAtPoint(clip, Vector3.zero);
 		}
 		PhoneInterface.AddCapsulePoints(currentValue);
-		PlaytomicController.LogPosition("tGotCapsule", base.transform.position);
-		Playtomic.Log.CustomMetric("tGotACapsule", PlaytomicController.current_group, true);
-		Playtomic.Log.CustomMetric("Capsule_" + capsule_index, PlaytomicController.current_group, true);
 		SaveMyInfo();
 	}
 

@@ -199,8 +199,6 @@ public class PhoneMonsterMenu : PhoneMainMenu
 			phoneMonsterStatbar.DoRealPressedParticles();
 			UpdateStatsDisplayer();
 			PhoneMemory.SaveMonster(current_monster);
-			Playtomic.Log.CustomMetric("tUnlockedStat", "tPhone", true);
-			Playtomic.Log.CustomMetric("tStatsUnlocked", "tPhone", false);
 		}
 	}
 

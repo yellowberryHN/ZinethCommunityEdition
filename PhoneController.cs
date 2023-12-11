@@ -336,7 +336,6 @@ public class PhoneController : MonoBehaviour
 			}
 		}
 		screen.OnLoad();
-		Playtomic.Log.CustomMetric("tReachedScreen " + screen.screenname, "tPhone", true);
 	}
 
 	public bool LoadPrevious()
@@ -382,7 +381,6 @@ public class PhoneController : MonoBehaviour
 		{
 			curscreen.OnResume();
 		}
-		Playtomic.Log.CustomMetric("tPhoneOpened", "tPhone", true);
 		if ((bool)PhoneInterface.player_move)
 		{
 			Animation animation = PhoneInterface.player_move.model.animation;
@@ -416,7 +414,6 @@ public class PhoneController : MonoBehaviour
 		{
 			curscreen.OnPause();
 		}
-		Playtomic.Log.CustomMetric("tPhoneClosed", "tPhone", true);
 		if ((bool)PhoneInterface.player_move)
 		{
 			Animation animation = PhoneInterface.player_move.model.animation;
@@ -451,7 +448,6 @@ public class PhoneController : MonoBehaviour
 				presspos = trans.position + trans.forward * -4f;
 				LoadScreenQuiet(startscreen);
 				getScreen(startscreen).OnHomeLoad();
-				Playtomic.Log.CustomMetric("tHomePressed", "tPhone", true);
 			}
 		}
 		else if (powerstate == PowerState.closed)

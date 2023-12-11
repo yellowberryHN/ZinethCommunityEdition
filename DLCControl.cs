@@ -385,7 +385,6 @@ public class DLCControl : MonoBehaviour
 		if (GUILayout.Button("Open Website"))
 		{
 			Application.OpenURL(url);
-			Playtomic.Log.CustomMetric("opened_update_site", PlaytomicController.current_phone_group);
 		}
 		if (info.changes.Count > 0)
 		{

@@ -138,12 +138,6 @@ public class PhoneShooterController : PhoneScreen
 		{
 			attack_tip_count = 0;
 		}
-		Playtomic.Log.CustomMetric("tPhoneGamePlays", "tPhone", false);
-		if (battle_mode)
-		{
-			Playtomic.Log.CustomMetric("tBattleModeStarted", "tPhone", true);
-			Playtomic.Log.CustomMetric("tBattleModePlays", "tPhone", false);
-		}
 	}
 
 	public void StartGame()

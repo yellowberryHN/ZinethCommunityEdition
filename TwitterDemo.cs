@@ -821,7 +821,7 @@ public class TwitterDemo : MonoBehaviour
 			tweet = AddHashTag(tweet);
 			if (Application.loadedLevelName == "Loader 1")
 			{
-				tweet = "pos:" + PlaytomicController.TranslatePlayerPosToGPSString() + ";" + tweet;
+				//tweet = "pos:" + PlaytomicController.TranslatePlayerPosToGPSString() + ";" + tweet;
 			}
 			DoPostTweet(tweet);
 		}
@@ -843,7 +843,7 @@ public class TwitterDemo : MonoBehaviour
 			AddMentions(ref tweet);
 			if (Application.loadedLevelName == "Loader 1")
 			{
-				tweet.text = "pos:" + PlaytomicController.TranslatePlayerPosToGPSString() + ";" + tweet.text;
+				//tweet.text = "pos:" + PlaytomicController.TranslatePlayerPosToGPSString() + ";" + tweet.text;
 			}
 			DoPostTweet(tweet.text);
 		}

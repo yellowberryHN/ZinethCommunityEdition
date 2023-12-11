@@ -166,7 +166,6 @@ public class PhoneMapController : PhoneMainMenu
 		base.OnLoad();
 		UpdateButtonSelected();
 		buttons[0].OnSelected();
-		Playtomic.Log.CustomMetric("tMapOpened", "tPhone", true);
 	}
 
 	private void SetupLocations()

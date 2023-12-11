@@ -368,7 +368,6 @@ public class Networking : MonoBehaviour
 		{
 			Debug.Log("connected to server...");
 		}
-		Playtomic.Log.CustomMetric("has_joined_server", PlaytomicController.current_group, true);
 		client_net = Network.Instantiate(player_prefab, player_tran.position, player_tran.rotation, 0) as NetPlayer;
 		client_net.name = "client obj";
 	}
@@ -476,7 +475,6 @@ public class Networking : MonoBehaviour
 	private void StartServer()
 	{
 		string comment = MakeServerComment();
-		Playtomic.Log.CustomMetric("has_started_server", PlaytomicController.current_group, true);
 		Network.incomingPassword = password;
 		int result;
 		if (!int.TryParse(port, out result))

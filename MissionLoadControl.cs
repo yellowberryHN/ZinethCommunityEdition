@@ -62,7 +62,6 @@ public class MissionLoadControl : MonoBehaviour
 		{
 			GameObject gob = Object.Instantiate(web.assetBundle.mainAsset) as GameObject;
 			MissionObject mobj = gob.GetComponent<MissionObject>();
-			Playtomic.Log.CustomMetric("tDownloadedMission", PlaytomicController.current_group, true);
 			MissionController.AddMission(mobj);
 			MissionController.SetActive(mobj);
 		}

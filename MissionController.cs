@@ -369,7 +369,6 @@ public class MissionController : MonoBehaviour
 		}
 		refresh = true;
 		mobj.SaveMyInfo();
-		Playtomic.Log.CustomMetric("tMissionActivated " + mobj.id, PlaytomicController.current_group, true);
 		return true;
 	}
 
@@ -395,7 +394,6 @@ public class MissionController : MonoBehaviour
 			focus_mission = null;
 		}
 		refresh = true;
-		Playtomic.Log.CustomMetric("tMissionCompleted " + mobj.id, PlaytomicController.current_group, true);
 		mobj.SaveMyInfo();
 		if (active_missions.Count > 0)
 		{
