@@ -1,0 +1,2 @@
+You should extract zineth_0_24.zip into this folder.
+Ensure that zineth.exe is in the same folder as this text document.
