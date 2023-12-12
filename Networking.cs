@@ -778,10 +778,13 @@ public class Networking : MonoBehaviour
 			{
 				GUILayout.Label("ping: " + num);
 			}
+			// TODO: twitter rework
+			/*
 			if (!string.IsNullOrEmpty(player.twitterId) && GUILayout.Button("Twitter Page"))
 			{
 				Application.OpenURL(string.Format("https://twitter.com/account/redirect_by_id?id={0}", player.twitterId));
 			}
+			*/
 			if (IsDev() && player.networkPlayer != Network.player && GUILayout.Button("Warp->>>"))
 			{
 				if ((bool)PhoneInterface.hawk && PhoneInterface.hawk.targetHeld)
@@ -807,10 +810,10 @@ public class Networking : MonoBehaviour
 					{
 						PhoneInterface.player_move.canDebugBoost = true;
 					}
-				}
-				if (IsDev() && GUILayout.Button("ghost trainer"))
-				{
-					player.DoMakeTrainer();
+					if (GUILayout.Button("ghost trainer"))
+					{
+						player.DoMakeTrainer();
+					}
 				}
 			}
 			GUILayout.EndVertical();
