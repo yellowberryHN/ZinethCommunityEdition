@@ -457,6 +457,64 @@ public class PhoneMapController : PhoneMainMenu
 		}
 	}
 
+	private void UpdatePlayerMarkers()
+	{
+		if ((bool)Networking.instance && Networking.netplayer_dic.Count > 1 )
+		{
+			foreach (var netPlayer in Networking.netplayer_dic.Values)
+			{
+				if (netPlayer == Networking.my_net_player) continue;
+				
+				PhoneElement phoneElement;
+				if (!marker_dic.ContainsKey(netPlayer.transform))
+				{
+					phoneElement = Object.Instantiate(mission_marker) as PhoneElement;
+					phoneElement.name = "player_marker_" + netPlayer.fakeName;
+					phoneElement.renderer.material.color = Color.gray;
+					phoneElement.transform.parent = player_marker.transform.parent;
+					/*
+					if ((bool)battle_sprite)
+					{
+						phoneElement.renderer.material.mainTexture = battle_sprite;
+					}
+					*/
+					marker_dic.Add(netPlayer.transform, phoneElement);
+					if (mission_marker_scale == Vector3.zero)
+					{
+						mission_marker_scale = phoneElement.transform.localScale;
+					}
+				}
+				else
+				{
+					phoneElement = marker_dic[netPlayer.transform];
+				}
+				float num = Vector3.Distance(no_maths.position, netPlayer.transform.position);
+				//if (nPCTrainer.can_challenge)
+				//{
+					phoneElement.gameObject.active = true;
+					MoveMarker(phoneElement, netPlayer.transform);
+					if (num <= 0f)
+					{
+						num = 1E-05f;
+					}
+					float num2 = Mathf.Clamp(max_dist / num * dist_scale, 0f, 1f);
+					if (num2 < 0.1f)
+					{
+						num2 = 0f;
+					}
+					Color color = new Color(1f, 0f, 1f, Random.Range(num2 * num2, 1f));
+					phoneElement.renderer.material.color = color;
+				//}
+				/*
+				else
+				{
+					phoneElement.gameObject.active = false;
+				}
+				*/
+			}
+		}
+	}
+
 	private void UpdateMarkers()
 	{
 		Vector3 eulerAngles;
@@ -477,6 +535,7 @@ public class PhoneMapController : PhoneMainMenu
 		UpdateCapsuleMarkers();
 		UpdateNPCMarkers();
 		UpdateSecretMarkers();
+		UpdatePlayerMarkers();
 		for (int i = 0; i < location_markers.Count; i++)
 		{
 			MoveMarker(location_markers[i], location_trans[i]);
