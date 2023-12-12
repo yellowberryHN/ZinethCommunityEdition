@@ -90,9 +90,9 @@ public class DLCControl : MonoBehaviour
 
 	public static DLCControl instance;
 
-	public static string websiteUrl = "http://www.arcanekids.com";
+	public static string websiteUrl = "http://yello.ooo/zineth";
 
-	public static string infoUrl = "https://dl.dropbox.com/u/15013465/dlc_test/info.xml";
+	public static string infoUrl = "http://yello.ooo/zineth/info.xml";
 
 	private int connection_trouble;
 
@@ -270,6 +270,16 @@ public class DLCControl : MonoBehaviour
 		{
 			NormalGUI();
 		}
+		
+		// add Zinemod branding
+		
+		var style = new GUIStyle
+		{
+			fontStyle = FontStyle.Bold,
+			normal = { textColor = Color.white },
+			padding = { left = 4 }
+		};
+		GUILayout.Label(new GUIContent("Zinemod v0.1A"), style);
 	}
 
 	public void NormalGUI()

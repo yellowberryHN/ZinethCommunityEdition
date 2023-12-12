@@ -33,4 +33,16 @@
       <HintPath>lib\XInputDotNetPure.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="dist\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="dist\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="dist\**" />
+  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)dist\zineth_Data\Managed\$(ProjectName).dll&quot;" />
+  </Target>
 </Project>

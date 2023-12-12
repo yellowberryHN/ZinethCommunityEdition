@@ -194,6 +194,10 @@ public class Networking : MonoBehaviour
 
 	private void Start()
 	{
+		// set up custom master server
+
+		MasterServer.ipAddress = Network.natFacilitatorIP = "master.harpnetstudios.com";
+		
 		LoadLastServer();
 		GetServerList();
 		if (chat_icon_dic.Count == 0)
