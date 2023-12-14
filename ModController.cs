@@ -7,6 +7,12 @@ public class ModController : MonoBehaviour
     private void OnLevelWasLoaded(int level)
     {
         Debug.Log(string.Format("loaded {0} ({1})", Application.loadedLevelName, Application.loadedLevel));
+        /*
+        if (level == 1)
+        {
+            GameObject.Find("GUI Text").guiText.material.color = Color.red;
+        }
+        */
     }
 
     public static ModController instance;
@@ -41,7 +47,7 @@ public class ModController : MonoBehaviour
     
     private void OnGUI()
     {
-        if (Application.loadedLevel == 1)
+        if (Application.loadedLevelName == "Loader 1") 
         {
             
             debugMenuActive = GUILayout.Toggle(debugMenuActive, "menu");

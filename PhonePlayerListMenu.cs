@@ -134,15 +134,13 @@ public class PhonePlayerListMenu : PhoneTwitterMenu
 			return false;
 		case "get_timeline":
 			return false;
+		case "refresh":
+			RefreshList();
+			break;
 		default:
 			if (message.StartsWith("openmessage"))
 			{
 				OpenMail(button.id_info);
-				break;
-			}
-			if (message == "refresh")
-			{
-				RefreshList();
 				break;
 			}
 			return base.ButtonMessage(button, message);

@@ -123,16 +123,14 @@ public class PhoneMailMenuNEW : PhoneTwitterMenu
 			return false;
 		case "get_timeline":
 			return false;
+		case "refresh":
+			RefreshList();
+			break;
 		default:
 			if (message.StartsWith("openmessage"))
 			{
 				// this is actually where a mail is opened
 				OpenMail(button.id_info);
-				break;
-			}
-			if (message == "refresh")
-			{
-				RefreshList();
 				break;
 			}
 			return base.ButtonMessage(button, message);
