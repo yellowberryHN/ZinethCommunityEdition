@@ -126,6 +126,7 @@ public class PhoneMailMenuNEW : PhoneTwitterMenu
 		default:
 			if (message.StartsWith("openmessage"))
 			{
+				// this is actually where a mail is opened
 				OpenMail(button.id_info);
 				break;
 			}

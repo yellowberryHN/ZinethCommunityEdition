@@ -85,11 +85,40 @@ public class PhoneTweetButton : PhoneButton
 		wantedscale = normal_scale;
 	}
 
+	public override void Init()
+	{
+		back_normal_color = PhoneMemory.settings.mailColor;
+		back_selected_color = Color.Lerp(back_normal_color, Color.white, 0.6f);
+
+		// recolor mail
+		if (name == "SingleTweet" && my_mail != null)
+		{
+			if ((bool)username_label)
+			{
+				var titleBack = base.gameObject.transform.FindChild("TitleBack");
+				titleBack.gameObject.renderer.material.color = Color.Lerp(back_normal_color, back_normal_color * 2f, 0.2f);
+			}
+			if ((bool)bodytext_label)
+			{
+				var bodyBack = base.gameObject.transform.FindChild("BodyBack");
+				bodyBack.gameObject.renderer.material.color = Color.Lerp(back_normal_color, back_normal_color * 2f, 0.2f);
+			}
+		}
+		
+		base.Init();
+	}
+
 	public override void OnLoad()
 	{
 		base.OnLoad();
 		if (my_mail != null)
 		{
+			if (my_mail.color != Color.clear)
+			{
+				back_normal_color = my_mail.color;
+				back_selected_color = Color.Lerp(back_normal_color, Color.white, 0.6f);
+				SetBackColor(back_normal_color);
+			}
 			if (my_mail.image_url != string.Empty && (bool)image_tex)
 			{
 				GetImage(my_mail.image_url);

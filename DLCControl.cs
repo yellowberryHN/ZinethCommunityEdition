@@ -159,7 +159,14 @@ public class DLCControl : MonoBehaviour
 		}
 		instance = this;
 		Object.DontDestroyOnLoad(base.gameObject);
+		SpawnModController();
 		DownloadInfo();
+	}
+
+	private void SpawnModController()
+	{
+		var mc = new GameObject("ModController");
+		mc.AddComponent<ModController>();
 	}
 
 	public static int CompareVersions(string a, string b)

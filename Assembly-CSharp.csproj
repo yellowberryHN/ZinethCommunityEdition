@@ -3,6 +3,7 @@
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <TargetFramework>net20</TargetFramework>
+    <RootNamespace />
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>5</LangVersion>

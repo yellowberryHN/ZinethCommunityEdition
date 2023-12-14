@@ -46,48 +46,16 @@ public class PhoneTwitterRegisterMenu : PhoneMainMenu
 
 	protected virtual void DoNumberKeyInput()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha0))
+		for (var i = 0; i < 10; i++)
 		{
-			AddToPin("0");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			AddToPin("1");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			AddToPin("2");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			AddToPin("3");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha4))
-		{
-			AddToPin("4");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha5))
-		{
-			AddToPin("5");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha6))
-		{
-			AddToPin("6");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha7))
-		{
-			AddToPin("7");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha8))
-		{
-			AddToPin("8");
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha9))
-		{
-			AddToPin("9");
+			if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+			{
+				AddToPin(i.ToString());
+				break;
+			}
 		}
 	}
-
+	
 	protected override void StickControls_Vertical()
 	{
 		Vector2 controlDirPressed = PhoneInput.GetControlDirPressed();

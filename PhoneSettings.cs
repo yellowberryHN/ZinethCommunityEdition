@@ -63,6 +63,18 @@ public class PhoneSettings
 			return pallete.particles;
 		}
 	}
+	
+	public Color mailColor
+	{
+		get
+		{
+			if (pallete.mail == new Color(0f, 0f, 0f, 0f))
+			{
+				return new Color {r = 0.9764706f, g = 0.9960784f, b = 0.7411765f, a = 1f};
+			}
+			return pallete.mail;
+		}
+	}
 
 	public bool allow_twitter
 	{

@@ -337,7 +337,8 @@ public class PhoneMailMenu : PhoneMainMenu
 		PhoneButton lastbutton = null;
 		foreach (PhoneMail message in temp_list)
 		{
-			PhoneButton button = Object.Instantiate(button_prefab) as PhoneButton;
+			// Mail button is actually of type PhoneTweetButton! Refactor needed :(
+			PhoneTweetButton button = Object.Instantiate(button_prefab) as PhoneTweetButton;
 			button.transform.parent = message_holder;
 			button.transform.localPosition = pos;
 			button.wantedpos = pos;

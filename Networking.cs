@@ -346,10 +346,10 @@ public class Networking : MonoBehaviour
 		showgui = GUILayout.Toggle(showgui, "gui (net test)");
 		if (showgui)
 		{
-			if (!Network.isClient && !Network.isServer)
+			/*if (!Network.isClient && !Network.isServer)
 			{
 				drawsettings = GUILayout.Toggle(drawsettings, "NAT");
-			}
+			}*/
 			GUILayout.EndHorizontal();
 			if (Network.isServer)
 			{
@@ -546,7 +546,7 @@ public class Networking : MonoBehaviour
 
 	private void NoneGUI()
 	{
-		DrawSettings();
+		//DrawSettings();
 		DrawBundleList();
 		DrawSceneList();
 		GUILayout.BeginVertical("Box");
@@ -1076,14 +1076,7 @@ public class Networking : MonoBehaviour
 
 	public static void AddNetPlayer(NetworkPlayer networkplayer, NetPlayer netplayer)
 	{
-		if (!netplayer_dic.ContainsKey(networkplayer))
-		{
-			netplayer_dic.Add(networkplayer, netplayer);
-		}
-		else
-		{
-			netplayer_dic[networkplayer] = netplayer;
-		}
+		netplayer_dic[networkplayer] = netplayer;
 	}
 
 	public static void RemoveNetPlayer(NetworkPlayer networkplayer)

@@ -809,76 +809,110 @@ public class PhoneMemory : MonoBehaviour
 
 	private void SetupColors()
 	{
-		PhoneColorPallete phoneColorPallete = new PhoneColorPallete();
-		phoneColorPallete.text = QCol(10, 18, 10);
-		phoneColorPallete.selectable = QCol(240, 200, 240);
-		phoneColorPallete.selected = QCol(255, 255, 255);
-		phoneColorPallete.back = QCol(154, 245, 184);
+		PhoneColorPallete phoneColorPallete = new PhoneColorPallete
+		{
+			text = QCol(10, 18, 10),
+			selectable = QCol(240, 200, 240),
+			selected = QCol(255, 255, 255),
+			back = QCol(154, 245, 184)
+		};
 		colorthemes.Add("old", phoneColorPallete);
-		phoneColorPallete = new PhoneColorPallete();
-		phoneColorPallete.text = QCol(252, 235, 182);
-		phoneColorPallete.selectable = QCol(240, 120, 24);
-		phoneColorPallete.selected = QCol(240, 168, 48);
-		phoneColorPallete.back = QCol(94, 65, 47);
+		
+		phoneColorPallete = new PhoneColorPallete
+		{
+			text = QCol(252, 235, 182),
+			selectable = QCol(240, 120, 24),
+			selected = QCol(240, 168, 48),
+			back = QCol(94, 65, 47),
+			mail = QCol(137, 82, 48)
+		};
 		colorthemes.Add("papua", phoneColorPallete);
-		phoneColorPallete = new PhoneColorPallete();
-		phoneColorPallete.text = QCol(48, 98, 48);
-		phoneColorPallete.selectable = QCol(139, 172, 15);
-		phoneColorPallete.selected = QCol(155, 188, 15);
-		phoneColorPallete.back = QCol(15, 56, 15);
+		
+		phoneColorPallete = new PhoneColorPallete
+		{
+			text = QCol(48, 98, 48),
+			selectable = QCol(139, 172, 15),
+			selected = QCol(155, 188, 15),
+			back = QCol(15, 56, 15)
+		};
 		colorthemes.Add("gameboy", phoneColorPallete);
-		phoneColorPallete = new PhoneColorPallete();
-		phoneColorPallete.text = QCol(60, 50, 81);
-		phoneColorPallete.selectable = QCol(168, 212, 111);
-		phoneColorPallete.selected = QCol(53, 150, 104);
-		phoneColorPallete.back = QCol(255, 237, 144);
+		
+		phoneColorPallete = new PhoneColorPallete
+		{
+			text = QCol(60, 50, 81),
+			selectable = QCol(168, 212, 111),
+			selected = QCol(53, 150, 104),
+			back = QCol(255, 237, 144)
+		};
 		colorthemes.Add("moment", phoneColorPallete);
-		phoneColorPallete = new PhoneColorPallete();
-		phoneColorPallete.back = QCol(244, 252, 232);
-		phoneColorPallete.text = QCol(195, 255, 104);
-		phoneColorPallete.selectable = QCol(78, 150, 137);
-		phoneColorPallete.selected = QCol(126, 208, 214);
+		
+		phoneColorPallete = new PhoneColorPallete
+		{
+			back = QCol(244, 252, 232),
+			text = QCol(195, 255, 104),
+			selectable = QCol(78, 150, 137),
+			selected = QCol(126, 208, 214)
+		};
 		colorthemes.Add("frogs", phoneColorPallete);
-		phoneColorPallete = new PhoneColorPallete();
-		phoneColorPallete.back = QCol(233, 233, 233);
-		phoneColorPallete.text = QCol(66, 66, 66);
-		phoneColorPallete.selectable = QCol(188, 188, 188);
-		phoneColorPallete.selected = QCol(255, 153, 0);
+		
+		phoneColorPallete = new PhoneColorPallete
+		{
+			back = QCol(233, 233, 233),
+			text = QCol(66, 66, 66),
+			selectable = QCol(188, 188, 188),
+			selected = QCol(255, 153, 0)
+		};
 		colorthemes.Add("gamebookers", phoneColorPallete);
-		phoneColorPallete = new PhoneColorPallete();
-		phoneColorPallete.back = QCol(152, 127, 105);
-		phoneColorPallete.text = QCol(253, 241, 204);
-		phoneColorPallete.selectable = QCol(227, 173, 64);
-		phoneColorPallete.selected = QCol(252, 208, 54);
+		
+		phoneColorPallete = new PhoneColorPallete
+		{
+			back = QCol(152, 127, 105),
+			text = QCol(253, 241, 204),
+			selectable = QCol(227, 173, 64),
+			selected = QCol(252, 208, 54)
+		};
 		phoneColorPallete.particles = phoneColorPallete.selected;
 		colorthemes.Add("honey", phoneColorPallete);
-		phoneColorPallete = new PhoneColorPallete();
-		phoneColorPallete.back = QCol(0, 0, 0);
-		phoneColorPallete.text = QCol(255, 255, 255);
-		phoneColorPallete.selectable = QCol(231, 80, 80);
-		phoneColorPallete.selected = QCol(255, 20, 20);
+		
+		phoneColorPallete = new PhoneColorPallete
+		{
+			back = QCol(0, 0, 0),
+			text = QCol(255, 255, 255),
+			selectable = QCol(231, 80, 80),
+			selected = QCol(255, 20, 20),
+			mail = Color.gray
+		};
 		phoneColorPallete.particles = phoneColorPallete.selected;
 		colorthemes.Add("black", phoneColorPallete);
-		phoneColorPallete = new PhoneColorPallete();
-		phoneColorPallete.back = QCol(255, 255, 255);
-		phoneColorPallete.text = QCol(0, 0, 0);
-		phoneColorPallete.selectable = QCol(42, 42, 84);
-		phoneColorPallete.selected = QCol(50, 50, 140);
+		
+		phoneColorPallete = new PhoneColorPallete
+		{
+			back = QCol(255, 255, 255),
+			text = QCol(0, 0, 0),
+			selectable = QCol(42, 42, 84),
+			selected = QCol(50, 50, 140)
+		};
 		phoneColorPallete.particles = phoneColorPallete.selected;
 		colorthemes.Add("white", phoneColorPallete);
-		phoneColorPallete = new PhoneColorPallete();
-		phoneColorPallete.back = QCol(53, 49, 48);
-		phoneColorPallete.text = QCol(203, 207, 180);
-		phoneColorPallete.selectable = QCol(171, 106, 110);
-		phoneColorPallete.selected = QCol(247, 52, 91);
+		
+		phoneColorPallete = new PhoneColorPallete
+		{
+			back = QCol(53, 49, 48),
+			text = QCol(203, 207, 180),
+			selectable = QCol(171, 106, 110),
+			selected = QCol(247, 52, 91)
+		};
 		phoneColorPallete.particles = phoneColorPallete.selected;
 		colorthemes.Add("killer", phoneColorPallete);
+		
+		//settings.pallete = colorthemes["white"];
+		settings.pallete = colorthemes[PlayerPrefs.GetString("phone_theme", "white")];
 		settings.pallete = colorthemes["white"];
 	}
 
-	private Color QCol(int r1, int g1, int b1)
+	private static Color QCol(int r1, int g1, int b1)
 	{
-		return new Color((float)r1 / 255f, (float)g1 / 255f, (float)b1 / 255f);
+		return new Color(r1 / 255f, g1 / 255f, b1 / 255f);
 	}
 
 	private PhoneColorPallete QuickColorAdder(string name, int r1, int g1, int b1, int r2, int g2, int b2, int r3, int g3, int b3)

@@ -42,6 +42,9 @@ public class PhoneMail
 
 	public List<string> link_urls = new List<string>();
 
+	[NonSerialized]
+	public Color color = Color.clear;
+
 	public PhoneMail()
 	{
 	}
