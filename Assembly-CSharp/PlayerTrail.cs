@@ -31,6 +31,7 @@ public class PlayerTrail : MonoBehaviour
 	{
 		get
 		{
+			Debug.Log("trail color get: "+_color);
 			if (!_set_color)
 			{
 				_color = trailList[0].renderer.material.color;
@@ -40,7 +41,8 @@ public class PlayerTrail : MonoBehaviour
 		}
 		set
 		{
-			value.a = color.a;
+			Debug.Log("trail color set: "+value);
+			value.a = 0.71f;
 			_color = value;
 			foreach (TrailRenderer trail in trailList)
 			{
@@ -67,7 +69,7 @@ public class PlayerTrail : MonoBehaviour
 			trailList.Add(gameObject.GetComponent<TrailRenderer>());
 			lastPointList.Add(trailHolder.position);
 		}
-		color = color;
+		SetColor(color);
 	}
 
 	public void SetColor(Color col)

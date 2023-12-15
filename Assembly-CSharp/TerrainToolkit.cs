@@ -737,7 +737,7 @@ public class TerrainToolkit : MonoBehaviour
 
 	public void OnDrawGizmos()
 	{
-		Terrain terrain = (Terrain)GetComponent(typeof(Terrain));
+		var terrain = GetComponent<Terrain>();
 		if (terrain == null)
 		{
 			return;
@@ -791,7 +791,7 @@ public class TerrainToolkit : MonoBehaviour
 	private void erodeTerrainWithBrush()
 	{
 		erosionMode = ErosionMode.Brush;
-		Terrain terrain = (Terrain)GetComponent(typeof(Terrain));
+		var terrain = GetComponent<Terrain>();
 		if (terrain == null)
 		{
 			return;
@@ -867,7 +867,7 @@ public class TerrainToolkit : MonoBehaviour
 	{
 		erosionMode = ErosionMode.Filter;
 		convertIntVarsToEnums();
-		Terrain terrain = (Terrain)GetComponent(typeof(Terrain));
+		var terrain = GetComponent<Terrain>();
 		if (terrain == null)
 		{
 			return;
@@ -939,7 +939,7 @@ public class TerrainToolkit : MonoBehaviour
 		int num = (int)arraySize.y;
 		int num2 = (int)arraySize.x;
 		float[,] array = new float[num, num2];
-		Terrain terrain = (Terrain)GetComponent(typeof(Terrain));
+		var terrain = GetComponent<Terrain>();
 		TerrainData terrainData = terrain.terrainData;
 		Vector3 size = terrainData.size;
 		float num3 = 0f;
@@ -1786,7 +1786,7 @@ public class TerrainToolkit : MonoBehaviour
 
 	private float[,] windErosion(float[,] heightMap, Vector2 arraySize, int iterations, ErosionProgressDelegate erosionProgressDelegate)
 	{
-		Terrain terrain = (Terrain)GetComponent(typeof(Terrain));
+		Terrain terrain = GetComponent<Terrain>();
 		TerrainData terrainData = terrain.terrainData;
 		Quaternion quaternion = Quaternion.Euler(0f, windDirection + 180f, 0f);
 		Vector3 to = quaternion * Vector3.forward;
@@ -1996,7 +1996,7 @@ public class TerrainToolkit : MonoBehaviour
 
 	public void textureTerrain(TextureProgressDelegate textureProgressDelegate)
 	{
-		Terrain terrain = (Terrain)GetComponent(typeof(Terrain));
+		var terrain = GetComponent<Terrain>();
 		if (terrain == null)
 		{
 			return;
@@ -2258,7 +2258,7 @@ public class TerrainToolkit : MonoBehaviour
 	public void generateTerrain(GeneratorProgressDelegate generatorProgressDelegate)
 	{
 		convertIntVarsToEnums();
-		Terrain terrain = (Terrain)GetComponent(typeof(Terrain));
+		var terrain = GetComponent<Terrain>();
 		if (terrain == null)
 		{
 			return;
@@ -2833,7 +2833,7 @@ public class TerrainToolkit : MonoBehaviour
 				return;
 			}
 		}
-		Terrain terrain = (Terrain)GetComponent(typeof(Terrain));
+		var terrain = GetComponent<Terrain>();
 		TerrainData terrainData = terrain.terrainData;
 		splatPrototypes = terrainData.splatPrototypes;
 		deleteAllSplatPrototypes();

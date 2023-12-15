@@ -170,9 +170,9 @@ public class PhoneInterface : MonoBehaviour
 		set
 		{
 			playerTrail.color = value;
-			PlayerPrefs.SetFloat("color_trail_r", PhoneInterface.trailColor.r);
-			PlayerPrefs.SetFloat("color_trail_g", PhoneInterface.trailColor.g);
-			PlayerPrefs.SetFloat("color_trail_b", PhoneInterface.trailColor.b);
+			PlayerPrefs.SetFloat("color_trail_r", value.r);
+			PlayerPrefs.SetFloat("color_trail_g", value.g);
+			PlayerPrefs.SetFloat("color_trail_b", value.b);
 		}
 	}
 	
@@ -184,7 +184,7 @@ public class PhoneInterface : MonoBehaviour
 			r = PlayerPrefs.GetFloat("color_robot_r", 0.44f),
 			g = PlayerPrefs.GetFloat("color_robot_g", 0.86f),
 			b = PlayerPrefs.GetFloat("color_robot_b", 1.00f),
-			a = robotColor.a
+			a = 1f
 		};
 		
 		trailColor = new Color
@@ -192,7 +192,7 @@ public class PhoneInterface : MonoBehaviour
 			r = PlayerPrefs.GetFloat("color_trail_r", 1.00f),
 			g = PlayerPrefs.GetFloat("color_trail_g", 0.00f),
 			b = PlayerPrefs.GetFloat("color_trail_b", 0.40f),
-			a = trailColor.a
+			a = 0.71f
 		};
 	}
 
