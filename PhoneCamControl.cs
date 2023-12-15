@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Twitter;
 using UnityEngine;
 
 public class PhoneCamControl : PhoneScreen
@@ -374,46 +373,17 @@ public class PhoneCamControl : PhoneScreen
 		RenderTexture.active = rendtex;
 		ntex.ReadPixels(new Rect(0f, 0f, 480f, 800f), 0, 0);
 		RenderTexture.active = null;
-		if (TwitterDemo.instance._canTweet && TwitterDemo.instance._isConnected)
+		yield return null;
+		byte[] bytes = ntex.EncodeToPNG();
+		yield return null;
+		string timestr = DateTime.Now.ToString("M-d-yyyy_H-mm-ss");
+		// this replace function might be unneeded due to the format string above?
+		string filename = timestr.Replace(' ', '_').Replace(':', '-').Replace('/', '-') + ".png";
+		File.WriteAllBytes(filename, bytes);
+		SetMessage(string.Format("Saved: {0}", filename));
+		if (Application.isEditor)
 		{
-			TweetContext tweet = new TweetContext
-			{
-				texture = ntex
-			};
-			List<NetPlayer> players = GetPlayersInView(cam);
-			foreach (NetPlayer player in players)
-			{
-				string nam = player.userName;
-				if (nam.Contains(" "))
-				{
-					nam = "gamsfest";
-				}
-				if (!tweet.mentions.Contains(nam))
-				{
-					tweet.mentions.Add(nam);
-				}
-			}
-			yield return null;
-			TwitterDemo.instance.DoPostImage(tweet);
-			SetMessage("Posting to twitter");
-			if (Application.isEditor)
-			{
-				Debug.Log("Sending to twitter...");
-			}
-		}
-		else
-		{
-			yield return null;
-			byte[] bytes = ntex.EncodeToPNG();
-			yield return null;
-			string timestr = DateTime.Now.ToString("M-d-yyyy_H-mm-ss");
-			string filename = timestr.Replace(' ', '_').Replace(':', '-').Replace('/', '-') + ".png";
-			File.WriteAllBytes(filename, bytes);
-			SetMessage(string.Format("Saved: {0}", filename));
-			if (Application.isEditor)
-			{
-				Debug.Log(string.Format("Took screenshot to: {0}", filename));
-			}
+			Debug.Log(string.Format("Took screenshot to: {0}", filename));
 		}
 		yield return null;
 		UnityEngine.Object.Destroy(ntex);

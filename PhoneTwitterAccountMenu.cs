@@ -48,7 +48,7 @@ public class PhoneTwitterAccountMenu : PhoneMainMenu
 		{
 			return;
 		}
-		string customScreenName = TwitterDemo.instance.GetCustomScreenName();
+		string customScreenName = "";
 		if (customScreenName != string.Empty && signInButton.text != "Sign in as\n@" + customScreenName)
 		{
 			signInButton.text = "Sign in as\n@" + customScreenName;

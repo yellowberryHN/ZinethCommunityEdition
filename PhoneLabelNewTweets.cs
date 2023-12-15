@@ -24,10 +24,6 @@ public class PhoneLabelNewTweets : PhoneLabelNewMail
 
 	protected override int GetNumber()
 	{
-		if (!PhoneMemory.IsMenuUnlocked("Twitter"))
-		{
-			return 0;
-		}
-		return TwitterDemo.instance.newtweets;
+		return 0;
 	}
 }

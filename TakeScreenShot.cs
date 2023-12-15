@@ -13,15 +13,6 @@ public class TakeScreenShot : MonoBehaviour
 		{
 			StartCoroutine(ScreenshotEncode());
 		}
-		if (Input.GetKeyDown(KeyCode.F11))
-		{
-			TweetScreenshot();
-		}
-	}
-
-	private void TweetScreenshot()
-	{
-		TwitterDemo.instance.DoPostScreenshot();
 	}
 
 	private IEnumerator ScreenshotEncode()

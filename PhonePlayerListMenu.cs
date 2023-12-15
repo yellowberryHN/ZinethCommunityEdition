@@ -51,7 +51,6 @@ public class PhonePlayerListMenu : PhoneTwitterMenu
 		{
 			CloseMail();
 		}
-		RefreshTwitter();
 		if (CheckUpdates())
 		{
 			RefreshList();
@@ -77,11 +76,6 @@ public class PhonePlayerListMenu : PhoneTwitterMenu
 			right_button.OnLoad();
 		}
 		UpdateButtonSelected();
-	}
-
-	public override bool RefreshTwitter()
-	{
-		return true;
 	}
 
 	protected override bool CheckUpdates()

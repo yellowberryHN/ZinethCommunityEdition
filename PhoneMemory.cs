@@ -514,6 +514,7 @@ public class PhoneMemory : MonoBehaviour
 		{
 			UnlockMenuQuiet("Cool Cam");
 		}
+		LockMenu("Twitter");
 	}
 
 	public static void LoadMail()
@@ -696,14 +697,6 @@ public class PhoneMemory : MonoBehaviour
 		phoneMail.body = "You finished picking up those zine pages yet?  I need you to go towards the city and hand them out to anyone and everyone.";
 		phoneMail.open_command = "mission_activate DeliverZines|mission_focus DeliverZines";
 		MailController.AddMail(phoneMail);
-		phoneMail = new PhoneMail();
-		phoneMail.id = "intro_twitter";
-		phoneMail.subject = "Free Twitter App";
-		phoneMail.sender = "Catco";
-		phoneMail.body = "We are excited to offer you our new Twitter application! Click on the download link to install it.";
-		phoneMail.can_reply = true;
-		phoneMail.accept_command = "menu_unlock Twitter";
-		phoneMail.accept_button_text = "Download";
 		phoneMail = new PhoneMail();
 		phoneMail.id = "tut_capsule";
 		phoneMail.subject = "Capsule Quest!";

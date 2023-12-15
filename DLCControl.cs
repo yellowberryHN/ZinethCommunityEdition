@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
-using Twitter;
 using UnityEngine;
 
 public class DLCControl : MonoBehaviour
@@ -14,18 +13,11 @@ public class DLCControl : MonoBehaviour
 
 		public string message;
 
-		public string hashtag;
-
 		public StatusInfo(XmlNode node)
 		{
 			current_version = URLDecode(node["current"]);
 			url = URLDecode(node["url"]);
 			message = URLDecode(node["message"]);
-			if (node["hashtag"] != null)
-			{
-				hashtag = URLDecode(node["hashtag"]);
-				TwitterDemo.hash_tag = hashtag;
-			}
 		}
 	}
 
@@ -439,6 +431,6 @@ public class DLCControl : MonoBehaviour
 
 	private static string URLDecode(string url)
 	{
-		return Parser.UrlDecode(url).Replace("{dir}", dirUrl);
+		return WWW.UnEscapeURL(url).Replace("{dir}", dirUrl);
 	}
 }

@@ -18,6 +18,7 @@ public class PhoneController : MonoBehaviour
 
 	public PhoneViewController phoneviewcontroller;
 
+	// TODO: this needs to be stubbed out, as it's serialized
 	public TwitterDemo demo;
 
 	public Color backcolor = Color.gray;
@@ -145,10 +146,6 @@ public class PhoneController : MonoBehaviour
 		if (phoneviewcontroller == null)
 		{
 			phoneviewcontroller = Object.FindObjectOfType(typeof(PhoneViewController)) as PhoneViewController;
-		}
-		if (demo == null)
-		{
-			demo = Object.FindObjectOfType(typeof(TwitterDemo)) as TwitterDemo;
 		}
 		PhoneInput.phonecontroller = this;
 		PhoneInput.phonescenecamera = phonecam;

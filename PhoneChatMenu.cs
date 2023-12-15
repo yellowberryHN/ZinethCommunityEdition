@@ -86,35 +86,6 @@ public class PhoneChatMenu : PhoneMainMenu
 			}
 			return true;
 		}
-		if (message.StartsWith("dart"))
-		{
-			switch (message)
-			{
-			case "dart_search":
-				DArtControl.SearchAndGrab(button.id_info);
-				DArtControl.instance.indx = 0;
-				return true;
-			case "dart_next":
-				DArtControl.instance.indx = Mathf.Clamp(DArtControl.instance.indx, 0, DArtControl.url_list.Count - 1);
-				DArtControl.instance.indx++;
-				if (DArtControl.instance.indx >= DArtControl.url_list.Count)
-				{
-					DArtControl.instance.indx = 0;
-				}
-				DArtControl.instance.ShowDart();
-				break;
-			case "dart_prev":
-				DArtControl.instance.indx = Mathf.Clamp(DArtControl.instance.indx, 0, DArtControl.url_list.Count - 1);
-				DArtControl.instance.indx--;
-				if (DArtControl.instance.indx < 0)
-				{
-					DArtControl.instance.indx = DArtControl.url_list.Count - 1;
-				}
-				DArtControl.instance.ShowDart();
-				break;
-			}
-			return true;
-		}
 		return base.ButtonMessage(button, message);
 	}
 }

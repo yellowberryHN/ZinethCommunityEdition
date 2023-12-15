@@ -473,7 +473,7 @@ public class Networking : MonoBehaviour
 		{
 			return string.Format("{0} ({1})", arg, my_net_player.userName);
 		}
-		return string.Format("{0} ({1})", arg, TwitterDemo.instance.GetCurrentScreenName());
+		return arg;
 	}
 
 	private void StartServer()
@@ -1089,25 +1089,6 @@ public class Networking : MonoBehaviour
 
 	public static bool IsDev()
 	{
-		if (!TwitterDemo.instance._isConnected || !TwitterDemo.instance._isCustom)
-		{
-			return false;
-		}
-		string currentUserId = TwitterDemo.instance.GetCurrentUserId();
-		int result;
-		switch (currentUserId)
-		{
-		default:
-			result = ((currentUserId == "177965708") ? 1 : 0);
-			break;
-		case "280379781":
-		case "293352325":
-		case "751234076":
-		case "293795267":
-		case "272431331":
-			result = 1;
-			break;
-		}
-		return (byte)result != 0;
+		return false;
 	}
 }

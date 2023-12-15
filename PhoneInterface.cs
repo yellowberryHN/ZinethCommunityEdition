@@ -323,11 +323,6 @@ public class PhoneInterface : MonoBehaviour
 		string_dic.Clear();
 		StoreInfo("version_number", version);
 		StoreInfoInt("tried_tutorial");
-		StoreInfo("allow_twitter", 1);
-		StoreInfoString("TwitterUserID");
-		StoreInfoString("TwitterUserScreenName");
-		StoreInfoString("TwitterUserToken");
-		StoreInfoString("TwitterUserTokenSecret");
 		StoreInfo("volume_master", 0.75f);
 		StoreInfo("volume_menu", 1f);
 		StoreInfo("volume_ring", 1f);

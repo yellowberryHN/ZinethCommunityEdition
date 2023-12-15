@@ -17,7 +17,6 @@ public class PhoneTwitterRegisterMenu : PhoneMainMenu
 	public override void OnLoad()
 	{
 		base.OnLoad();
-		TwitterDemo.RegisterUser();
 		if ((bool)status_text)
 		{
 			status_text.text = string.Empty;
@@ -136,8 +135,6 @@ public class PhoneTwitterRegisterMenu : PhoneMainMenu
 				status_text.text = "Submitting...";
 				status_text.textmesh.renderer.material.color = Color.red;
 			}
-			TwitterDemo.registercallback = OnRegistered;
-			TwitterDemo.GetAccess(pin_button.text);
 			break;
 		default:
 			return base.ButtonMessage(button, message);
@@ -155,7 +152,6 @@ public class PhoneTwitterRegisterMenu : PhoneMainMenu
 			}
 			pin_button.text = string.Empty;
 			controller.LoadScreen("AccountMenu");
-			TwitterDemo.registercallback = TwitterDemo.instance.OnRegister;
 		}
 		else if ((bool)status_text)
 		{

@@ -64,8 +64,6 @@ public class PhoneParser : MonoBehaviour
 		commandMethods.Add("capsule_points_add", AddCapsulePoints);
 		commandMethods.Add("player_freeze", FreezePlayer);
 		commandMethods.Add("player_unfreeze", UnfreezePlayer);
-		commandMethods.Add("twitter_post", PostTweet);
-		commandMethods.Add("twitter_get_mentions", GetTwitterMentions);
 		commandMethods.Add("menu_unlock", UnlockMenu);
 		commandMethods.Add("menu_lock", LockMenu);
 		commandMethods.Add("monster_save_all", SaveMonsters);
@@ -78,10 +76,6 @@ public class PhoneParser : MonoBehaviour
 		commandMethods.Add("open_phone", OpenPhone);
 		commandMethods.Add("close_phone", ClosePhone);
 		commandMethods.Add("open_mail", OpenMail);
-		commandMethods.Add("twitter_login", LoginToTwitterCustom);
-		commandMethods.Add("twitter_login_default", LoginToTwitterDefault);
-		commandMethods.Add("twitter_logout", LoginToTwitterDefault);
-		commandMethods.Add("twitter_register", RegisterTwitter);
 		commandMethods.Add("summon_hawk", SummonHawk);
 		commandMethods.Add("hawk_whistle", SummonHawk);
 		commandMethods.Add("reset_prefs", ResetPlayerPrefs);
@@ -251,18 +245,6 @@ public class PhoneParser : MonoBehaviour
 		return true;
 	}
 
-	public bool PostTweet(string[] args)
-	{
-		Debug.LogError("Doing the post tweet thing...");
-		return false;
-	}
-
-	public bool GetTwitterMentions(string[] args)
-	{
-		TwitterDemo.GetMentions();
-		return true;
-	}
-
 	public bool UnlockMenu(string[] args)
 	{
 		if (args.Length > 1)
@@ -374,25 +356,7 @@ public class PhoneParser : MonoBehaviour
 		}
 		PhoneController.instance.curscreen.SendMessage("OpenMail", ArgsToString(args, 1));
 	}
-
-	public bool LoginToTwitterCustom(string[] args)
-	{
-		TwitterDemo.instance.LoadTwitterUserInfo(false);
-		return true;
-	}
-
-	public bool LoginToTwitterDefault(string[] args)
-	{
-		TwitterDemo.instance.LoadTwitterUserInfo(true);
-		return true;
-	}
-
-	public bool RegisterTwitter(string[] args)
-	{
-		TwitterDemo.RegisterUser();
-		return true;
-	}
-
+	
 	public bool SummonHawk(string[] args)
 	{
 		return PhoneInterface.SummonHawk();

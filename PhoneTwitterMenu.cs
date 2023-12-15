@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PhoneTwitterMenu : PhoneMailMenu
 {
+	// TODO: this needs to be stubbed out, as it's serialized
 	public TwitterDemo demo;
 
 	public float mailsep = 0.05f;
@@ -115,7 +116,6 @@ public class PhoneTwitterMenu : PhoneMailMenu
 		{
 			CloseMail();
 		}
-		RefreshTwitter();
 		if (CheckUpdates())
 		{
 			RefreshList();
@@ -146,11 +146,6 @@ public class PhoneTwitterMenu : PhoneMailMenu
 			phoneElement.OnLoad();
 		}
 		UpdateButtonSelected();
-	}
-
-	public virtual bool RefreshTwitter()
-	{
-		return TwitterDemo.GetTimeLine();
 	}
 
 	protected override bool CheckUpdates()
@@ -403,23 +398,13 @@ public class PhoneTwitterMenu : PhoneMailMenu
 			CloseMail();
 			break;
 		case "reply":
-			if (TwitterDemo.instance._canTweet && current_mail != null && mode == mailmode.single)
-			{
-				bool result = ReplyToTweet(current_mail);
-				CloseMail();
-				return result;
-			}
 			return false;
 		case "post_tweet":
-			if (TwitterDemo.instance._canTweet)
-			{
-				return PostTweet();
-			}
 			return false;
 		case "get_mentions":
-			return TwitterDemo.GetMentions();
+			return false;
 		case "get_timeline":
-			return TwitterDemo.GetTimeLine();
+			return false;
 		default:
 			if (message.StartsWith("openmessage"))
 			{
@@ -473,7 +458,8 @@ public class PhoneTwitterMenu : PhoneMailMenu
 		{
 			//tweet = "pos:" + PlaytomicController.TranslatePlayerPosToGPSString() + ";" + tweet;
 		}
-		return TwitterDemo.PostTweet(tweet);
+
+		return false;
 	}
 
 	protected virtual bool ReplyToTweet(string mailid)

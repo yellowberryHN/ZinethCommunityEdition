@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Twitter;
 using UnityEngine;
 
 public class NetPlayer : MonoBehaviour
@@ -108,7 +107,7 @@ public class NetPlayer : MonoBehaviour
 
 	private static Dictionary<string, char> screen_state_dic;
 
-	private static string[] screen_state_list = new string[8] { "closed", "na", "Twitter", "Cool Cam", "GameScreen", "Mail", "Settings", "Radar" };
+	private static string[] screen_state_list = new string[8] { "closed", "na", "Unused", "Cool Cam", "GameScreen", "Mail", "Settings", "Radar" };
 
 	public string cur_screenstate = "closed";
 
@@ -790,11 +789,6 @@ public class NetPlayer : MonoBehaviour
 		networkPlayer = player;
 		userName = twitname;
 		twitterId = twitid;
-		if (!string.IsNullOrEmpty(twitterId))
-		{
-			string iconURL = Parser.GetIconURL(twitterId);
-			iconTex = ImageDownloadHelper.NewImage(iconURL);
-		}
 		if (!Networking.netplayer_dic.ContainsKey(networkPlayer))
 		{
 			Networking.AddNetPlayer(networkPlayer, this);

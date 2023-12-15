@@ -721,53 +721,6 @@ public class PhoneMainMenu : PhoneScreen
 			button.text = button.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
 			button.text += ((!PhoneInput.invert_stick) ? "(off)" : "(on)");
 		}
-		else
-		{
-			if (!message.StartsWith("post_"))
-			{
-				return base.ButtonMessage(button, message);
-			}
-			switch (message)
-			{
-			case "post_text_tweet":
-				if (TwitterDemo.instance._canTweet)
-				{
-					if (button.id_info == string.Empty)
-					{
-						controller.LoadScreen("Twitter");
-						PhoneTwitterMenu.instance.PostTweet();
-					}
-					else
-					{
-						controller.LoadScreen("Twitter");
-						PhoneTwitterMenu.instance.PostTweet(button.id_info);
-					}
-					break;
-				}
-				return false;
-			case "post_image_tweet":
-				if (TwitterDemo.instance._canTweet)
-				{
-					TwitterDemo.instance.DoPostScreenshot();
-					Invoke("LoadTwitterScreen", 0.25f);
-					break;
-				}
-				return false;
-			case "post_monster_info_tweet":
-				if (TwitterDemo.instance._canTweet)
-				{
-					PhoneResourceController.SaveMonsterInfoCard(PhoneMemory.main_monster, TwitterDemo.instance.DoPostImage);
-					controller.LoadScreen("Twitter");
-					break;
-				}
-				return false;
-			}
-		}
 		return true;
-	}
-
-	private void LoadTwitterScreen()
-	{
-		controller.LoadScreen("Twitter");
 	}
 }

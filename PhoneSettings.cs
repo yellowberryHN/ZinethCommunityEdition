@@ -4,8 +4,6 @@ public class PhoneSettings
 {
 	public PhoneColorPallete pallete;
 
-	private int _allow_twitter = -1;
-
 	public bool muted;
 
 	private float _master_volume = -1f;
@@ -73,30 +71,6 @@ public class PhoneSettings
 				return new Color {r = 0.9764706f, g = 0.9960784f, b = 0.7411765f, a = 1f};
 			}
 			return pallete.mail;
-		}
-	}
-
-	public bool allow_twitter
-	{
-		get
-		{
-			if (_allow_twitter == -1)
-			{
-				_allow_twitter = PlayerPrefs.GetInt("allow_twitter", 1);
-			}
-			return _allow_twitter > 0;
-		}
-		set
-		{
-			if (value)
-			{
-				_allow_twitter = 1;
-			}
-			else
-			{
-				_allow_twitter = 0;
-			}
-			PlayerPrefs.SetInt("allow_twitter", _allow_twitter);
 		}
 	}
 
