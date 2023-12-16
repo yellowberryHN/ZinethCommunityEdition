@@ -26,27 +26,21 @@ public class PlayerTrail : MonoBehaviour
 	private static bool _set_color;
 
 	private static Color _color;
-
+	
 	public Color color
 	{
 		get
 		{
-			Debug.Log("trail color get: "+_color);
-			if (!_set_color)
-			{
-				_color = trailList[0].renderer.material.color;
-				_set_color = true;
-			}
+			//Debug.Log("trail color get: "+_color);
 			return _color;
 		}
 		set
 		{
-			Debug.Log("trail color set: "+value);
-			value.a = 0.71f;
+			//Debug.Log("trail color set: "+value);
 			_color = value;
 			foreach (TrailRenderer trail in trailList)
 			{
-				trail.renderer.material.color = color;
+				trail.renderer.material.color = value;
 			}
 		}
 	}

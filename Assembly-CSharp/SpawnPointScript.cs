@@ -480,6 +480,7 @@ public class SpawnPointScript : MonoBehaviour
 	private void ReparentSpawns()
 	{
 		PlayerTrail component = player.GetComponent<PlayerTrail>();
+		Color trailColor = component.color;
 		for (int i = 0; i < component.trailList.Count; i++)
 		{
 			GameObject gameObject = new GameObject("spawnHolder");
@@ -489,7 +490,7 @@ public class SpawnPointScript : MonoBehaviour
 			trailRenderer.startWidth = component.startWidth;
 			trailRenderer.endWidth = component.endWidth;
 			trailRenderer.time = trailTime;
-			trailRenderer.material.color = component.color;
+			trailRenderer.material.color = trailColor;
 			oldSpawns.Add(component.holderObjectList[i]);
 			oldSpawnDecays.Add(component.decayTime);
 			component.holderObjectList[i].transform.parent = null;

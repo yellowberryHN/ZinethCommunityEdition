@@ -184,7 +184,7 @@ public class PhoneInterface : MonoBehaviour
 			r = PlayerPrefs.GetFloat("color_robot_r", 0.44f),
 			g = PlayerPrefs.GetFloat("color_robot_g", 0.86f),
 			b = PlayerPrefs.GetFloat("color_robot_b", 1.00f),
-			a = 1f
+			a = 0.47f
 		};
 		
 		trailColor = new Color
