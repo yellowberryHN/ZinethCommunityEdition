@@ -502,7 +502,8 @@ public class PhoneMapController : PhoneMainMenu
 					{
 						num2 = 0f;
 					}
-					Color color = new Color(1f, 0f, 1f, Random.Range(num2 * num2, 1f));
+					Color color = netPlayer.robotColor;
+					color.a = Random.Range(num2 * num2, 1f);
 					phoneElement.renderer.material.color = color;
 				//}
 				/*
