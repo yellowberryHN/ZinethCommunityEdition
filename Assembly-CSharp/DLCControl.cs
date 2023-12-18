@@ -82,9 +82,9 @@ public class DLCControl : MonoBehaviour
 
 	public static DLCControl instance;
 
-	public static string websiteUrl = "http://yello.ooo/zineth";
+	public static string websiteUrl = "http://yello.ooo/projects/zinemod";
 
-	public static string infoUrl = "http://yello.ooo/zineth/info.xml";
+	public static string infoUrl = "http://yello.ooo/projects/zinemod/info.xml";
 
 	private int connection_trouble;
 
