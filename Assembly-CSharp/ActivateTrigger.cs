@@ -36,33 +36,35 @@ public class ActivateTrigger : MonoBehaviour
 		{
 			gameObject = behaviour.gameObject;
 		}
+		if (gameObject == null) return; // this should never happen
 		switch (action)
 		{
-		case Mode.Trigger:
-			gameObject.BroadcastMessage("DoActivateTrigger");
-			break;
-		case Mode.Replace:
-			if (source != null)
-			{
-				Object.Instantiate(source, gameObject.transform.position, gameObject.transform.rotation);
-				Object.DestroyObject(gameObject);
-			}
-			break;
-		case Mode.Activate:
-			gameObject.active = true;
-			break;
-		case Mode.Enable:
-			if (behaviour != null)
-			{
-				behaviour.enabled = true;
-			}
-			break;
-		case Mode.Animate:
-			gameObject.animation.Play();
-			break;
-		case Mode.Deactivate:
-			gameObject.active = false;
-			break;
+			case Mode.Trigger:
+				gameObject.BroadcastMessage("DoActivateTrigger");
+				break;
+			case Mode.Replace:
+				if (source != null)
+				{
+					Object.Instantiate(source, gameObject.transform.position, gameObject.transform.rotation);
+					Object.DestroyObject(gameObject);
+				}
+				break;
+			case Mode.Activate:
+			default:
+				gameObject.active = true;
+				break;
+			case Mode.Enable:
+				if (behaviour != null)
+				{
+					behaviour.enabled = true;
+				}
+				break;
+			case Mode.Animate:
+				gameObject.animation.Play();
+				break;
+			case Mode.Deactivate:
+				gameObject.active = false;
+				break;
 		}
 	}
 

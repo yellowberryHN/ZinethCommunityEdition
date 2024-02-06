@@ -33,15 +33,15 @@ public class Arrow : MonoBehaviour
 		if (!pointObjective || pointObjective.completed)
 		{
 			MissionController.GetInstance().arrowActive = false;
-			base.gameObject.SetActiveRecursively(false);
+			gameObject.SetActiveRecursively(false);
 			Invoke("CheckAndPoint", 0.5f);
 			return;
 		}
-		if (!base.gameObject.active)
+		if (!gameObject.active)
 		{
-			base.gameObject.SetActiveRecursively(true);
+			gameObject.SetActiveRecursively(true);
 		}
-		base.transform.LookAt(pointObjective.objectivePosition);
+		transform.LookAt(pointObjective.objectivePosition);
 		CancelInvoke("CheckAndPoint");
 	}
 }

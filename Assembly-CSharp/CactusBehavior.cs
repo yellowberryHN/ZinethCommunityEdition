@@ -35,8 +35,8 @@ public class CactusBehavior : MonoBehaviour
 	private void Awake()
 	{
 		float num = Random.Range(0f, 0.1f);
-		base.transform.rotation = Quaternion.Euler(0f, Random.Range(0, 360), 0f);
-		base.transform.localScale += new Vector3(num, num, num);
+		transform.rotation = Quaternion.Euler(0f, Random.Range(0, 360), 0f);
+		transform.localScale += new Vector3(num, num, num);
 	}
 
 	private void FixedUpdate()
@@ -55,7 +55,7 @@ public class CactusBehavior : MonoBehaviour
 		{
 			DestroySelf();
 		}
-		if (!base.transform.GetChild(0).renderer.isVisible)
+		if (!transform.GetChild(0).renderer.isVisible)
 		{
 			offscreenTimer--;
 		}
@@ -65,9 +65,9 @@ public class CactusBehavior : MonoBehaviour
 			{
 				return;
 			}
-			base.transform.LookAt(Camera.main.transform.position);
-			base.transform.Rotate(Vector3.up * -90f);
-			float num = Vector3.Distance(base.transform.position, Camera.main.transform.position);
+			transform.LookAt(Camera.main.transform.position);
+			transform.Rotate(Vector3.up * -90f);
+			float num = Vector3.Distance(transform.position, Camera.main.transform.position);
 			float num2 = (num - 300f) / 1000f;
 			if (num2 >= 0.5f)
 			{
@@ -86,7 +86,7 @@ public class CactusBehavior : MonoBehaviour
 				mirageTimer -= 1f;
 				if (mirageTimer <= 0f)
 				{
-					Object.Destroy(base.gameObject);
+					Object.Destroy(gameObject);
 				}
 			}
 		}
@@ -120,11 +120,11 @@ public class CactusBehavior : MonoBehaviour
 		}
 		if (mirage)
 		{
-			Object.Destroy(base.gameObject);
+			Object.Destroy(gameObject);
 			return;
 		}
 		XInput.AddVibrateForce(0.5f, 0.1f, 0.1f, false);
-		foreach (Transform item in base.transform)
+		foreach (Transform item in transform)
 		{
 			float num = Random.Range(minForce, maxForce);
 			num /= 15f;
@@ -137,22 +137,22 @@ public class CactusBehavior : MonoBehaviour
 			component.velocity = collider.transform.rigidbody.velocity;
 			component.AddForce(collider.transform.up * num);
 			component.AddForce(collider.transform.right * Random.Range(0f - maxForce, maxForce) / 15f);
-			component.AddTorque(Random.Range(0, 360), Random.Range(0, 360), (float)Random.Range(0, 360) * torqueForce);
+			component.AddTorque(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360) * torqueForce);
 		}
 	}
 
 	private void IncreaseGravity()
 	{
-		foreach (Transform item in base.transform)
+		foreach (Transform item in transform)
 		{
 			Rigidbody component = item.gameObject.GetComponent<Rigidbody>();
-			component.AddForce(Physics.gravity * 8f * component.mass);
+			component.AddForce(Physics.gravity * (8f * component.mass));
 		}
 	}
 
 	private void DestroySelf()
 	{
-		Object.Destroy(base.transform.gameObject);
+		Object.Destroy(transform.gameObject);
 		CactusPlacer.instance.currentNum--;
 	}
 

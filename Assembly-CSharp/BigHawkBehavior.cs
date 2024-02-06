@@ -129,12 +129,12 @@ public class BigHawkBehavior : MonoBehaviour
 
 	private bool InBounds()
 	{
-		if (!inBounds && (double)inBound < 0.1)
+		if (!inBounds && inBound < 0.1)
 		{
 			inBound += Time.deltaTime;
 			return true;
 		}
-		if (!inBounds && (double)inBound >= 0.1)
+		if (!inBounds && inBound >= 0.1)
 		{
 			return false;
 		}
@@ -144,10 +144,10 @@ public class BigHawkBehavior : MonoBehaviour
 
 	private void SwoopIn()
 	{
-		base.transform.Find("interiorHawk").gameObject.SetActiveRecursively(true);
+		transform.Find("interiorHawk").gameObject.SetActiveRecursively(true);
 		Fly();
-		base.transform.position = playerRef.position + new Vector3(0f, startSwoopDistance, 0f);
-		base.transform.rotation = Quaternion.Euler(0f, playerRef.eulerAngles.y, 0f);
+		transform.position = playerRef.position + new Vector3(0f, startSwoopDistance, 0f);
+		transform.rotation = Quaternion.Euler(0f, playerRef.eulerAngles.y, 0f);
 		startSwoopDistance -= startSwoopInc;
 		if (carryPoint.position.y - playerRef.position.y <= distanceAbove)
 		{
@@ -159,8 +159,8 @@ public class BigHawkBehavior : MonoBehaviour
 
 	private void FollowClosely()
 	{
-		base.transform.position = playerRef.position + new Vector3(0f, distanceAbove, 0f);
-		base.transform.rotation = Quaternion.Euler(0f, playerRef.eulerAngles.y, 0f);
+		transform.position = playerRef.position + new Vector3(0f, distanceAbove, 0f);
+		transform.rotation = Quaternion.Euler(0f, playerRef.eulerAngles.y, 0f);
 		timeFollowed += Time.fixedDeltaTime;
 		if (timeFollowed >= maxTimeFollowed)
 		{
@@ -175,7 +175,7 @@ public class BigHawkBehavior : MonoBehaviour
 	private void Disappear()
 	{
 		Fly();
-		base.transform.position = new Vector3(0f, -10000f, 0f);
+		transform.position = new Vector3(0f, -10000f, 0f);
 		targetEngaged = false;
 		targetHeld = false;
 		flyAway = false;
@@ -190,13 +190,13 @@ public class BigHawkBehavior : MonoBehaviour
 		offsetY = 0f;
 		offsetZ = 0f;
 		active = false;
-		base.transform.Find("interiorHawk").gameObject.SetActiveRecursively(false);
+		transform.Find("interiorHawk").gameObject.SetActiveRecursively(false);
 	}
 
 	private void SwoopDown()
 	{
-		base.transform.position = playerRef.position + new Vector3(0f, swoopDistance, 0f);
-		base.transform.rotation = Quaternion.Euler(0f, playerRef.eulerAngles.y, 0f);
+		transform.position = playerRef.position + new Vector3(0f, swoopDistance, 0f);
+		transform.rotation = Quaternion.Euler(0f, playerRef.eulerAngles.y, 0f);
 		swoopDistance -= swoopInc;
 		if (swoopDistance <= 0f)
 		{
@@ -204,7 +204,7 @@ public class BigHawkBehavior : MonoBehaviour
 			swoopDistance = distanceAbove;
 			targetHeld = true;
 			facingNest = false;
-			playerRef.rotation = base.transform.rotation;
+			playerRef.rotation = transform.rotation;
 			playerRef.GetComponent<HawkBehavior>().isHeld = true;
 			GameObject.Find("SpawnPoint").GetComponent<SpawnPointScript>().canRespawn = false;
 		}
@@ -215,10 +215,10 @@ public class BigHawkBehavior : MonoBehaviour
 		if (takeOffTime > 0f)
 		{
 			takeOffTime -= Time.fixedDeltaTime;
-			base.transform.rotation *= Quaternion.Euler(-50f * Time.fixedDeltaTime, 0f, 0f);
-			base.transform.position += base.transform.forward * flightSpeed * Time.fixedDeltaTime;
+			transform.rotation *= Quaternion.Euler(-50f * Time.fixedDeltaTime, 0f, 0f);
+			transform.position += transform.forward * (flightSpeed * Time.fixedDeltaTime);
 			playerRef.position = carryPoint.position;
-			playerRef.rotation = base.transform.rotation;
+			playerRef.rotation = transform.rotation;
 			return;
 		}
 		float num = flightSpeed;
@@ -226,40 +226,40 @@ public class BigHawkBehavior : MonoBehaviour
 		{
 			carryPoint.transform.LookAt(dropLocation);
 			Quaternion rotation = carryPoint.transform.rotation;
-			if (Vector3.Distance(base.transform.position, dropLocation.position) < 10000f)
+			if (Vector3.Distance(transform.position, dropLocation.position) < 10000f)
 			{
-				num *= Vector3.Distance(base.transform.position, dropLocation.position) / 10000f;
+				num *= Vector3.Distance(transform.position, dropLocation.position) / 10000f;
 				num = Mathf.Clamp(num, 2000f, flightSpeed);
 			}
-			base.transform.rotation = Quaternion.Slerp(base.transform.rotation, rotation, rotateAngle * Time.fixedDeltaTime);
-			base.transform.position += base.transform.forward * num * Time.fixedDeltaTime;
+			transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotateAngle * Time.fixedDeltaTime);
+			transform.position += transform.forward * (num * Time.fixedDeltaTime);
 			playerRef.position = carryPoint.position;
-			playerRef.rotation = base.transform.rotation;
+			playerRef.rotation = transform.rotation;
 			playerRef.position += new Vector3(offsetX, offsetY, offsetZ);
-			if (Quaternion.Angle(base.transform.rotation, rotation) <= nestAngle)
+			if (Quaternion.Angle(transform.rotation, rotation) <= nestAngle)
 			{
-				base.transform.rotation = rotation;
-				playerRef.rotation = base.transform.rotation;
+				transform.rotation = rotation;
+				playerRef.rotation = transform.rotation;
 				facingNest = true;
 			}
-			if (Vector3.Distance(base.transform.position, dropLocation.position) <= dropDistance)
+			if (Vector3.Distance(transform.position, dropLocation.position) <= dropDistance)
 			{
 				Drop();
 			}
 		}
 		else
 		{
-			Vector3 position = base.transform.position;
-			if (Vector3.Distance(base.transform.position, dropLocation.position) < 10000f)
+			Vector3 position = transform.position;
+			if (Vector3.Distance(transform.position, dropLocation.position) < 10000f)
 			{
-				num *= Vector3.Distance(base.transform.position, dropLocation.position) / 10000f;
+				num *= Vector3.Distance(transform.position, dropLocation.position) / 10000f;
 				num = Mathf.Clamp(num, 2000f, flightSpeed);
 			}
-			base.transform.position = Vector3.MoveTowards(base.transform.position, dropLocation.position, num * Time.fixedDeltaTime);
-			flightVector = base.transform.position - position;
+			transform.position = Vector3.MoveTowards(transform.position, dropLocation.position, num * Time.fixedDeltaTime);
+			flightVector = transform.position - position;
 			playerRef.transform.position = carryPoint.position;
 			playerRef.position += new Vector3(offsetX, offsetY, offsetZ);
-			if (Vector3.Distance(base.transform.position, dropLocation.position) <= dropDistance)
+			if (Vector3.Distance(transform.position, dropLocation.position) <= dropDistance)
 			{
 				Drop();
 			}
@@ -310,7 +310,7 @@ public class BigHawkBehavior : MonoBehaviour
 		if (flyAwayCurrent > 0f)
 		{
 			flyAwayCurrent -= Time.fixedDeltaTime;
-			base.transform.position += flightVector;
+			transform.position += flightVector;
 		}
 		else
 		{

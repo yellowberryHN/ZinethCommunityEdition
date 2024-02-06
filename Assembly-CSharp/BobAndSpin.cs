@@ -19,13 +19,13 @@ public class BobAndSpin : MonoBehaviour
 
 	private void BS()
 	{
-		base.transform.Rotate(0f, spinSpeed * Time.deltaTime, 0f);
+		transform.Rotate(0f, spinSpeed * Time.deltaTime, 0f);
 		if (bobUp)
 		{
 			if (currentBob < maxBob)
 			{
 				currentBob += bobSpeed * Time.deltaTime;
-				base.transform.position += new Vector3(0f, bobSpeed * Time.deltaTime, 0f);
+				transform.position += new Vector3(0f, bobSpeed * Time.deltaTime, 0f);
 			}
 			else
 			{
@@ -35,7 +35,7 @@ public class BobAndSpin : MonoBehaviour
 		else if (currentBob > 0f)
 		{
 			currentBob -= bobSpeed * Time.deltaTime;
-			base.transform.position -= new Vector3(0f, bobSpeed * Time.deltaTime, 0f);
+			transform.position -= new Vector3(0f, bobSpeed * Time.deltaTime, 0f);
 		}
 		else
 		{
