@@ -7,6 +7,16 @@ using Boo.Lang.Runtime;
 using UnityEngine;
 using UnityScript.Lang;
 
+ /*
+  * move.cs - player movement code:
+  * this code seems to be responsible for managing the logic for the movement of the character
+  *
+  * notes:
+  * - camera movement can't keep up at over 4700 units of speed, snaps to player, maybe in here?
+  * 
+  * TODO: clean up variable names in here as much as possible (i hate unityscript)
+  */
+
 [Serializable]
 public class move : MonoBehaviour
 {

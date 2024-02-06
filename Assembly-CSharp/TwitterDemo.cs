@@ -159,7 +159,7 @@ public class TwitterDemo : MonoBehaviour
 	
 	public string GetCurrentScreenName()
 	{ 
-		return "";
+		return "gamsfest";
 	}
 
 	public string GetCurrentUserId()

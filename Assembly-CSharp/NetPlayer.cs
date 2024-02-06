@@ -219,17 +219,19 @@ public class NetPlayer : MonoBehaviour
 			myAnimation.gameObject.active = true;
 			hawk_obj.SetActiveRecursively(false);
 			myAnimation = Networking.instance.player_anim;
-			string currentScreenName = TwitterDemo.instance.GetCurrentScreenName();
+			//string currentScreenName = TwitterDemo.instance.GetCurrentScreenName();
 			fakeName = MonsterTraits.Name.createFullName();
+			/*
 			if (currentScreenName == "gamsfest")
 			{
 				currentScreenName = fakeName;
 			}
+			*/
 			string currentUserId = TwitterDemo.instance.GetCurrentUserId();
 			networkPlayer = Network.player;
 			int[] array = ColToInt(PhoneInterface.trailColor);
 			int[] array2 = ColToInt(PhoneInterface.robotColor);
-			base.networkView.RPC("SetInfoColor", RPCMode.All, networkPlayer, currentScreenName, currentUserId, array[0], array[1], array[2], array2[0], array2[1], array2[2]);
+			base.networkView.RPC("SetInfoColor", RPCMode.All, networkPlayer, fakeName, currentUserId, array[0], array[1], array[2], array2[0], array2[1], array2[2]);
 			InvokeRepeating("CheckInfo", 5f + Random.value, 5f);
 		}
 		else
@@ -253,14 +255,16 @@ public class NetPlayer : MonoBehaviour
 	{
 		if (base.networkView.owner == Network.player && (Network.isClient || Network.isServer))
 		{
+			/*
 			string currentScreenName = TwitterDemo.instance.GetCurrentScreenName();
 			if (currentScreenName == "gamsfest")
 			{
 				currentScreenName = fakeName;
 			}
-			if (userName != currentScreenName || _trailColor != PhoneInterface.trailColor || _robotColor != PhoneInterface.robotColor)
+			*/
+			if (userName != fakeName || _trailColor != PhoneInterface.trailColor || _robotColor != PhoneInterface.robotColor)
 			{
-				string text = currentScreenName;
+				string text = fakeName;
 				string currentUserId = TwitterDemo.instance.GetCurrentUserId();
 				networkPlayer = Network.player;
 				int[] array = ColToInt(PhoneInterface.trailColor);

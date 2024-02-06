@@ -4,6 +4,11 @@ using Boo.Lang.Runtime;
 using UnityEngine;
 using UnityScript.Lang;
 
+/*
+ * move1.cs - old movement code:
+ * this seems to be unused, move.cs is used instead, i wonder if this is an older revision.
+ */
+
 [Serializable]
 public class move1 : MonoBehaviour
 {
