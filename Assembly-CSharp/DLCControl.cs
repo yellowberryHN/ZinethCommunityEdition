@@ -82,9 +82,9 @@ public class DLCControl : MonoBehaviour
 
 	public static DLCControl instance;
 
-	public static string websiteUrl = "http://yello.ooo/projects/zinemod";
+	public static string websiteUrl = "https://yello.ooo/projects/zinemod";
 
-	public static string infoUrl = "http://yello.ooo/projects/zinemod/info.xml";
+	public static string infoUrl = "https://yello.ooo/projects/zinemod/info.xml";
 
 	private int connection_trouble;
 
@@ -108,7 +108,7 @@ public class DLCControl : MonoBehaviour
 
 	private bool gui_show_local;
 
-	private bool debug_gui;
+	private bool debug_gui = true;
 
 	public string current_version
 	{
