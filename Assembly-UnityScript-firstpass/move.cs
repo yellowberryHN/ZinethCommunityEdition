@@ -20,254 +20,6 @@ using UnityScript.Lang;
 [Serializable]
 public class move : MonoBehaviour
 {
-	[Serializable]
-	[CompilerGenerated]
-	internal sealed class _0024Decent_002488 : GenericGenerator<WaitForSeconds>
-	{
-		[Serializable]
-		[CompilerGenerated]
-		internal sealed class _0024 : GenericGeneratorEnumerator<WaitForSeconds>, IEnumerator
-		{
-			internal float _0024tv_002489;
-
-			internal float _0024counter_002490;
-
-			internal Vector3 _0024tempVelocity_002491;
-
-			internal move _0024self__002492;
-
-			public _0024(move self_)
-			{
-				_0024self__002492 = self_;
-			}
-
-			public override bool MoveNext()
-			{
-				int result;
-				switch (_state)
-				{
-				default:
-					result = (Yield(2, new WaitForSeconds(0.2f)) ? 1 : 0);
-					break;
-				case 2:
-					_0024tv_002489 = _0024self__002492.rigidbody.velocity.magnitude;
-					_0024counter_002490 = 0.01f;
-					goto case 3;
-				case 3:
-					if (_0024counter_002490 < 0.95f)
-					{
-						_0024counter_002490 += 0.01f;
-						_0024tempVelocity_002491 = _0024self__002492.transform.InverseTransformDirection(_0024self__002492.rigidbody.velocity);
-						_0024tempVelocity_002491.z -= 100f;
-						_0024tempVelocity_002491.y -= 50f;
-						if (!(_0024tempVelocity_002491.z >= 20f))
-						{
-							_0024tempVelocity_002491.z = 20f;
-						}
-						_0024self__002492.rigidbody.velocity = _0024self__002492.transform.TransformDirection(_0024tempVelocity_002491);
-						result = (Yield(3, new WaitForSeconds(0.03f)) ? 1 : 0);
-						break;
-					}
-					YieldDefault(1);
-					goto case 1;
-				case 1:
-					result = 0;
-					break;
-				}
-				return (byte)result != 0;
-			}
-		}
-
-		internal move _0024self__002493;
-
-		public _0024Decent_002488(move self_)
-		{
-			_0024self__002493 = self_;
-		}
-
-		public override IEnumerator<WaitForSeconds> GetEnumerator()
-		{
-			return new _0024(_0024self__002493);
-		}
-	}
-
-	[Serializable]
-	[CompilerGenerated]
-	internal sealed class _0024LowerDamping_002494 : GenericGenerator<WaitForSeconds>
-	{
-		[Serializable]
-		[CompilerGenerated]
-		internal sealed class _0024 : GenericGeneratorEnumerator<WaitForSeconds>, IEnumerator
-		{
-			internal Component _0024cam_002495;
-
-			internal move _0024self__002496;
-
-			public _0024(move self_)
-			{
-				_0024self__002496 = self_;
-			}
-
-			public override bool MoveNext()
-			{
-				int result;
-				switch (_state)
-				{
-				default:
-					_0024cam_002495 = _0024self__002496.mainCam.GetComponent<NewCamera>();
-					goto case 2;
-				case 2:
-					if (RuntimeServices.ToBool(RuntimeServices.InvokeBinaryOperator("op_GreaterThan", UnityRuntimeServices.GetProperty(_0024cam_002495, "damping"), 8)))
-					{
-						RuntimeServices.SetProperty(_0024cam_002495, "damping", RuntimeServices.InvokeBinaryOperator("op_Subtraction", UnityRuntimeServices.GetProperty(_0024cam_002495, "damping"), 10));
-						if (RuntimeServices.ToBool(RuntimeServices.InvokeBinaryOperator("op_LessThan", UnityRuntimeServices.GetProperty(_0024cam_002495, "damping"), 8)))
-						{
-							RuntimeServices.SetProperty(_0024cam_002495, "damping", 8);
-						}
-						result = (Yield(2, new WaitForSeconds(0.1f)) ? 1 : 0);
-						break;
-					}
-					RuntimeServices.SetProperty(_0024cam_002495, "damping", 8);
-					YieldDefault(1);
-					goto case 1;
-				case 1:
-					result = 0;
-					break;
-				}
-				return (byte)result != 0;
-			}
-		}
-
-		internal move _0024self__002497;
-
-		public _0024LowerDamping_002494(move self_)
-		{
-			_0024self__002497 = self_;
-		}
-
-		public override IEnumerator<WaitForSeconds> GetEnumerator()
-		{
-			return new _0024(_0024self__002497);
-		}
-	}
-
-	[Serializable]
-	[CompilerGenerated]
-	internal sealed class _0024IncreaseDamping_002498 : GenericGenerator<WaitForSeconds>
-	{
-		[Serializable]
-		[CompilerGenerated]
-		internal sealed class _0024 : GenericGeneratorEnumerator<WaitForSeconds>, IEnumerator
-		{
-			internal Component _0024cam_002499;
-
-			internal move _0024self__0024100;
-
-			public _0024(move self_)
-			{
-				_0024self__0024100 = self_;
-			}
-
-			public override bool MoveNext()
-			{
-				int result;
-				switch (_state)
-				{
-				default:
-					_0024cam_002499 = _0024self__0024100.mainCam.GetComponent<NewCamera>();
-					goto case 2;
-				case 2:
-					if (RuntimeServices.ToBool(RuntimeServices.InvokeBinaryOperator("op_LessThan", UnityRuntimeServices.GetProperty(_0024cam_002499, "damping"), 500)))
-					{
-						RuntimeServices.SetProperty(_0024cam_002499, "damping", RuntimeServices.InvokeBinaryOperator("op_Addition", UnityRuntimeServices.GetProperty(_0024cam_002499, "damping"), 10));
-						if (RuntimeServices.ToBool(RuntimeServices.InvokeBinaryOperator("op_GreaterThan", UnityRuntimeServices.GetProperty(_0024cam_002499, "damping"), 500)))
-						{
-							RuntimeServices.SetProperty(_0024cam_002499, "damping", 500);
-						}
-						result = (Yield(2, new WaitForSeconds(0.1f)) ? 1 : 0);
-						break;
-					}
-					RuntimeServices.SetProperty(_0024cam_002499, "damping", 500);
-					YieldDefault(1);
-					goto case 1;
-				case 1:
-					result = 0;
-					break;
-				}
-				return (byte)result != 0;
-			}
-		}
-
-		internal move _0024self__0024101;
-
-		public _0024IncreaseDamping_002498(move self_)
-		{
-			_0024self__0024101 = self_;
-		}
-
-		public override IEnumerator<WaitForSeconds> GetEnumerator()
-		{
-			return new _0024(_0024self__0024101);
-		}
-	}
-
-	[Serializable]
-	[CompilerGenerated]
-	internal sealed class _0024Reminder_0024102 : GenericGenerator<WaitForSeconds>
-	{
-		[Serializable]
-		[CompilerGenerated]
-		internal sealed class _0024 : GenericGeneratorEnumerator<WaitForSeconds>, IEnumerator
-		{
-			internal move _0024self__0024103;
-
-			public _0024(move self_)
-			{
-				_0024self__0024103 = self_;
-			}
-
-			public override bool MoveNext()
-			{
-				int result;
-				switch (_state)
-				{
-				default:
-					if (_0024self__0024103.fuckYou != null)
-					{
-						_0024self__0024103.fuckYou.active = true;
-						result = (Yield(2, new WaitForSeconds(3f)) ? 1 : 0);
-						break;
-					}
-					goto IL_0062;
-				case 2:
-					_0024self__0024103.fuckYou.active = false;
-					goto IL_0062;
-				case 1:
-					{
-						result = 0;
-						break;
-					}
-					IL_0062:
-					YieldDefault(1);
-					goto case 1;
-				}
-				return (byte)result != 0;
-			}
-		}
-
-		internal move _0024self__0024104;
-
-		public _0024Reminder_0024102(move self_)
-		{
-			_0024self__0024104 = self_;
-		}
-
-		public override IEnumerator<WaitForSeconds> GetEnumerator()
-		{
-			return new _0024(_0024self__0024104);
-		}
-	}
-
 	public float maxSpeed;
 
 	public float speedStep;
@@ -696,19 +448,67 @@ public class move : MonoBehaviour
 		StartCoroutine("Decent");
 	}
 
-	public virtual IEnumerator Decent()
+	IEnumerator Decent()
 	{
-		return new _0024Decent_002488(this).GetEnumerator();
+		float tv = rigidbody.velocity.magnitude;
+		float counter = 0.01f;
+		Vector3 tempVelocity;
+
+		yield return new WaitForSeconds(0.2f);
+		
+		while (counter < 0.95f)
+		{
+			counter += 0.01f;
+
+			tempVelocity = transform.InverseTransformDirection(rigidbody.velocity);
+			tempVelocity.z -= 100f;
+			tempVelocity.y -= 50f;
+
+			if (!(tempVelocity.z >= 20f))
+			{
+				tempVelocity.z = 20f;
+			}
+
+			rigidbody.velocity = transform.TransformDirection(tempVelocity);
+
+			yield return new WaitForSeconds(0.03f);
+		}
 	}
 
-	public virtual IEnumerator LowerDamping()
+	IEnumerator LowerDamping()
 	{
-		return new _0024LowerDamping_002494(this).GetEnumerator();
+		var cam = this.mainCam.GetComponent<NewCamera>();
+
+		while (cam.damping > 8)
+		{
+			cam.damping -= 10;
+			if (cam.damping < 8) cam.damping = 8;
+			yield return new WaitForSeconds(0.1f);
+		}
+		
+		cam.damping = 8;
 	}
 
-	public virtual IEnumerator IncreaseDamping()
+	IEnumerator IncreaseDamping()
 	{
-		return new _0024IncreaseDamping_002498(this).GetEnumerator();
+		var cam = this.mainCam.GetComponent<NewCamera>();
+
+		while (cam.damping < 500)
+		{
+			cam.damping += 10;
+			if (cam.damping > 500) cam.damping = 500;
+			yield return new WaitForSeconds(0.1f);
+		}
+
+		cam.damping = 500;
+	}
+	
+	IEnumerator Reminder()
+	{
+		if (fuckYou == null) yield break;
+		fuckYou.gameObject.active = true;
+		yield return new WaitForSeconds(3f);
+		fuckYou.gameObject.active = false;
 	}
 
 	public virtual void Update()
@@ -771,11 +571,6 @@ public class move : MonoBehaviour
 			}
 		}
 		playerGraphic.DoFixedUpdate();
-	}
-
-	public virtual IEnumerator Reminder()
-	{
-		return new _0024Reminder_0024102(this).GetEnumerator();
 	}
 
 	public virtual void FixedUpdate()
