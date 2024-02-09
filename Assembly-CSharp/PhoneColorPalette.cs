@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PhoneColorPallete
+public class PhoneColorPalette
 {
 	public Color back;
 
@@ -14,11 +14,11 @@ public class PhoneColorPallete
 	
 	public Color mail = new Color(0f, 0f, 0f, 0f);
 
-	public PhoneColorPallete()
+	public PhoneColorPalette()
 	{
 	}
 
-	public PhoneColorPallete(Color _text, Color _selected, Color _selectable, Color _back)
+	public PhoneColorPalette(Color _text, Color _selected, Color _selectable, Color _back)
 	{
 		text = _text;
 		selected = _selected;
@@ -28,7 +28,7 @@ public class PhoneColorPallete
 		particles = selected;
 	}
 	
-	public PhoneColorPallete(Color _text, Color _selected, Color _selectable, Color _back, Color _mail)
+	public PhoneColorPalette(Color _text, Color _selected, Color _selectable, Color _back, Color _mail)
 	{
 		text = _text;
 		selected = _selected;
@@ -39,7 +39,7 @@ public class PhoneColorPallete
 	}
 
 
-	public PhoneColorPallete(Color _text, Color _selected, Color _selectable, Color _back, Color _mail, Color _particles)
+	public PhoneColorPalette(Color _text, Color _selected, Color _selectable, Color _back, Color _mail, Color _particles)
 	{
 		text = _text;
 		selected = _selected;

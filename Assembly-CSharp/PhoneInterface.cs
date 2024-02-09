@@ -119,9 +119,7 @@ public class PhoneInterface : MonoBehaviour
 			{
 				material.color = value;
 			}
-			PlayerPrefs.SetFloat("color_robot_r", value.r);
-			PlayerPrefs.SetFloat("color_robot_g", value.g);
-			PlayerPrefs.SetFloat("color_robot_b", value.b);
+			PlayerPrefs.SetInt("color_robot", ((Color32)value).PackedColor);
 		}
 	}
 
@@ -170,40 +168,21 @@ public class PhoneInterface : MonoBehaviour
 		set
 		{
 			playerTrail.color = value;
-			PlayerPrefs.SetFloat("color_trail_r", value.r);
-			PlayerPrefs.SetFloat("color_trail_g", value.g);
-			PlayerPrefs.SetFloat("color_trail_b", value.b);
+			PlayerPrefs.SetInt("color_trail", ((Color32)value).PackedColor);
 		}
 	}
 	
 	private static void LoadSavedColors()
 	{
-		// this code isn't particularly expandable, rethink this later.
-		robotColor = new Color
-		{
-			r = PlayerPrefs.GetFloat("color_robot_r", 0.44f),
-			g = PlayerPrefs.GetFloat("color_robot_g", 0.86f),
-			b = PlayerPrefs.GetFloat("color_robot_b", 1.00f),
-			a = 0.47f
-		};
-		
-		trailColor = new Color
-		{
-			r = PlayerPrefs.GetFloat("color_trail_r", 1.00f),
-			g = PlayerPrefs.GetFloat("color_trail_g", 0.00f),
-			b = PlayerPrefs.GetFloat("color_trail_b", 0.40f),
-			a = 0.71f
-		};
+		robotColor = new Color32(PlayerPrefs.GetInt("color_robot", 1893465975));
+		trailColor = new Color32(PlayerPrefs.GetInt("color_trail", -16750923));
 	}
 
 	private static void FindRobotMaterials()
 	{
 		List<Material> list = new List<Material>();
 		GameObject gameObject = GameObject.Find("Holder");
-		if (gameObject == null)
-		{
-			return;
-		}
+		if (gameObject == null) return;
 		Renderer[] componentsInChildren = gameObject.transform.FindChild("main_character").FindChild("geometry_GRP").gameObject.GetComponentsInChildren<Renderer>();
 		Renderer[] array = componentsInChildren;
 		foreach (Renderer renderer in array)
@@ -218,8 +197,6 @@ public class PhoneInterface : MonoBehaviour
 		{
 			_robot_materials[j] = list[j];
 		}
-		
-		// load robot colors from save file
 		
 		LoadSavedColors();
 	}

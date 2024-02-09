@@ -624,27 +624,27 @@ public class PhoneMainMenu : PhoneScreen
 			if (message.StartsWith("bgcolor_r"))
 			{
 				PhoneButtonSlider phoneButtonSlider3 = button as PhoneButtonSlider;
-				Color back = PhoneMemory.settings.pallete.back;
+				Color back = PhoneMemory.settings.Palette.back;
 				back.r = phoneButtonSlider3.val;
-				PhoneMemory.settings.pallete.back = back;
+				PhoneMemory.settings.Palette.back = back;
 				PhoneController.instance.SetBackColor(back);
 				return true;
 			}
 			if (message.StartsWith("bgcolor_g"))
 			{
 				PhoneButtonSlider phoneButtonSlider4 = button as PhoneButtonSlider;
-				Color back2 = PhoneMemory.settings.pallete.back;
+				Color back2 = PhoneMemory.settings.Palette.back;
 				back2.g = phoneButtonSlider4.val;
-				PhoneMemory.settings.pallete.back = back2;
+				PhoneMemory.settings.Palette.back = back2;
 				PhoneController.instance.SetBackColor(back2);
 				return true;
 			}
 			if (message.StartsWith("bgcolor_b"))
 			{
 				PhoneButtonSlider phoneButtonSlider5 = button as PhoneButtonSlider;
-				Color back3 = PhoneMemory.settings.pallete.back;
+				Color back3 = PhoneMemory.settings.Palette.back;
 				back3.b = phoneButtonSlider5.val;
-				PhoneMemory.settings.pallete.back = back3;
+				PhoneMemory.settings.Palette.back = back3;
 				PhoneController.instance.SetBackColor(back3);
 				return true;
 			}

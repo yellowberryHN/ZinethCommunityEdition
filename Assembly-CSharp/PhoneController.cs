@@ -80,6 +80,14 @@ public class PhoneController : MonoBehaviour
 	private float vibratetimer;
 
 	public GameObject _buttonBackPrefab;
+	
+	private GameObject phonescreenbottom;
+
+	private GameObject phonescreentop;
+
+	private GameObject phonebuttonopen;
+
+	private GameObject phonebuttonhome;
 
 	public static float deltatime
 	{
@@ -139,6 +147,22 @@ public class PhoneController : MonoBehaviour
 		{
 			phoneviewcam = GameObject.Find("PhoneViewCamera").camera;
 		}
+		if (phonescreentop == null)
+		{
+			phonescreentop = GameObject.Find("PhoneScreenTop");
+			if (phonebuttonopen == null)
+			{
+				phonebuttonopen = phonescreentop.transform.FindChild("PhoneScreenOpenButton").gameObject;
+			}
+		}
+		if (phonescreenbottom == null)
+		{
+			phonescreenbottom = GameObject.Find("PhoneScreenBottom");
+			if (phonebuttonhome == null)
+			{
+				phonebuttonhome = phonescreenbottom.transform.FindChild("PhoneScreenHomeButton").gameObject;
+			}
+		}
 		if (particlesys == null)
 		{
 			particlesys = particleSystemPrefab;
@@ -170,7 +194,7 @@ public class PhoneController : MonoBehaviour
 	private void BootUp()
 	{
 		presspos = trans.position;
-		SetBackColor();
+		SetColors();
 		SetupScreenDict();
 		InitScreens();
 		if (load_tut)
@@ -340,6 +364,14 @@ public class PhoneController : MonoBehaviour
 		return LoadScreen(returnname);
 	}
 
+	public void SetColors()
+	{
+		SetBackColor();
+		SetPhoneColor();
+		//SetPhoneButtonColor();
+		SetPhoneButtonHighlight();
+	}
+	
 	public void SetBackColor()
 	{
 		Color backgroundColor = PhoneMemory.settings.backgroundColor;
@@ -357,6 +389,64 @@ public class PhoneController : MonoBehaviour
 			color.a = 0.9f;
 		}
 		phoneback.renderer.material.color = color;
+	}
+
+	public void SetPhoneColor()
+	{
+		SetPhoneColor(PhoneMemory.settings.phoneColor);
+	}
+	
+	public void SetPhoneColor(Color color)
+	{
+		var phoneparts = new[]
+		{
+			phonescreentop,
+			phonescreenbottom
+		};
+		foreach (var part in phoneparts)
+		{
+			var meshRenderer = part.transform.GetComponent<MeshRenderer>();
+			if (meshRenderer != null)
+			{
+				meshRenderer.material.SetColor("_Color", color);
+			}
+		}
+	}
+	
+	public void SetPhoneButtonColor()
+	{
+		SetPhoneButtonColor(PhoneMemory.settings.phoneButtonColor);
+	}
+	
+	
+	// TODO: this doesn't persist very well, look into it.
+	public void SetPhoneButtonColor(Color color)
+	{
+		phonebuttonopen.transform.GetComponent<PhoneViewOpenButton>().normalcolor = color;
+		phonebuttonopen.transform.GetComponent<PhoneViewOpenButton>().wantedColor = color;
+		phonebuttonhome.transform.GetComponent<PhoneViewHomeButton>().normalcolor = color;
+	}
+	
+	public void SetPhoneButtonHighlight()
+	{
+		SetPhoneButtonHighlight(PhoneMemory.settings.phoneButtonHighlightColor);
+	}
+	
+	public void SetPhoneButtonHighlight(Color color)
+	{
+		var phoneparts = new[]
+		{
+			phonebuttonopen.transform.FindChild("PhoneSpritePlane").gameObject,
+			phonebuttonhome.transform.FindChild("PhoneSpritePlane").gameObject
+		};
+		foreach (var part in phoneparts)
+		{
+			var meshRenderer = part.transform.GetComponent<MeshRenderer>();
+			if (meshRenderer != null)
+			{
+				meshRenderer.material.SetColor("_Color", color);
+			}
+		}
 	}
 
 	public void OnScreenOpen()
@@ -569,4 +659,6 @@ public class PhoneController : MonoBehaviour
 		vibratecount = 2;
 		vibratetimer = 0f;
 	}
+
+	
 }

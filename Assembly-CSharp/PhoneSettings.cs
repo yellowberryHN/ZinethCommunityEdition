@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PhoneSettings
 {
-	public PhoneColorPallete pallete;
+	public PhoneColorPalette Palette;
 
 	public bool muted;
 
@@ -22,7 +22,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return pallete.back;
+			return Palette.back;
 		}
 	}
 
@@ -30,7 +30,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return pallete.text;
+			return Palette.text;
 		}
 	}
 
@@ -38,7 +38,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return pallete.selected;
+			return Palette.selected;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return pallete.selectable;
+			return Palette.selectable;
 		}
 	}
 
@@ -54,11 +54,11 @@ public class PhoneSettings
 	{
 		get
 		{
-			if (pallete.particles == new Color(0f, 0f, 0f, 0f))
+			if (Palette.particles == new Color(0f, 0f, 0f, 0f))
 			{
-				return pallete.selected;
+				return Palette.selected;
 			}
-			return pallete.particles;
+			return Palette.particles;
 		}
 	}
 	
@@ -66,11 +66,35 @@ public class PhoneSettings
 	{
 		get
 		{
-			if (pallete.mail == new Color(0f, 0f, 0f, 0f))
+			if (Palette.mail == new Color(0f, 0f, 0f, 0f))
 			{
 				return new Color {r = 0.9764706f, g = 0.9960784f, b = 0.7411765f, a = 1f};
 			}
-			return pallete.mail;
+			return Palette.mail;
+		}
+	}
+	
+	public Color phoneColor
+	{
+		get
+		{
+			return new Color32(PlayerPrefs.GetInt("color_phone", -665101313));
+		}
+	}
+	
+	public Color phoneButtonColor
+	{
+		get
+		{
+			return new Color32(PlayerPrefs.GetInt("color_phone_button", -1717986817));
+		}
+	}
+
+	public Color phoneButtonHighlightColor
+	{
+		get
+		{
+			return new Color32(PlayerPrefs.GetInt("color_phone_highlight", -665101313));
 		}
 	}
 
