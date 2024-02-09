@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <remarks>
+/// This hides Unity's <see cref="UnityEngine.Color32"/>, which might be unexpected behaviour.
+/// </remarks>
 public struct Color32
 {
     public byte r;
