@@ -58,41 +58,41 @@ public static class PhoneTextController
 
 	public static string WrapText(string text, int charwidth)
 	{
-		string text2 = string.Empty;
-		string[] array = text.Split(' ');
+		string wrappedText = string.Empty;
+		string[] words = text.Split(' ');
 		string text3 = string.Empty;
 		string text4 = string.Empty;
-		string text5 = string.Empty;
-		for (int i = 0; i < array.Length; i++)
+		string trimmedWord = string.Empty;
+		for (int i = 0; i < words.Length; i++)
 		{
-			text5 = array[i].Trim();
+			trimmedWord = words[i].Trim();
 			string text6 = text4;
 			if (i == 0)
 			{
-				text4 = array[0];
-				text2 = text3 + text4;
+				text4 = words[0];
+				wrappedText = text3 + text4;
 			}
 			if (i > 0)
 			{
-				text4 = text4 + " " + text5;
-				text2 = text3 + text4;
+				text4 = text4 + " " + trimmedWord;
+				wrappedText = text3 + text4;
 			}
 			if (text4.Length > charwidth)
 			{
 				text3 = text3 + text6 + "\n";
-				text2 = text3;
-				text4 = text5;
+				wrappedText = text3;
+				text4 = trimmedWord;
 			}
 			else
 			{
-				text5 = string.Empty;
+				trimmedWord = string.Empty;
 			}
 		}
-		if (text5 != string.Empty)
+		if (trimmedWord != string.Empty)
 		{
-			text2 += text5;
+			wrappedText += trimmedWord;
 		}
-		return text2;
+		return wrappedText;
 	}
 
 	public static Vector2 GetTextMeshSize(string text, Font font, int fontSize, FontStyle fontStyle, TextAnchor alignment)

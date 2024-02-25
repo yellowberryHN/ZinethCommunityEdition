@@ -13,10 +13,6 @@ public class spinClouds : MonoBehaviour
 		one = true;
 	}
 
-	public virtual void Start()
-	{
-	}
-
 	public virtual void FixedUpdate()
 	{
 		if (one)
@@ -27,9 +23,5 @@ public class spinClouds : MonoBehaviour
 		{
 			transform.Rotate(0f, 0f, spinAmount);
 		}
-	}
-
-	public virtual void Main()
-	{
 	}
 }

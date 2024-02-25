@@ -24,7 +24,6 @@ public class HqMan : MonoBehaviour
 	{
 		TurnOff(signs);
 		TurnOff(capsules);
-		Debug.Log("HqMan");
 	}
 
 	public virtual void TurnOff(Transform obj)

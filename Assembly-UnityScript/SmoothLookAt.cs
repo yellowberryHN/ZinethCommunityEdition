@@ -40,8 +40,4 @@ public class SmoothLookAt : MonoBehaviour
 			rigidbody.freezeRotation = true;
 		}
 	}
-
-	public virtual void Main()
-	{
-	}
 }

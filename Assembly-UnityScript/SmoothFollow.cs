@@ -43,8 +43,4 @@ public class SmoothFollow : MonoBehaviour
 			transform.LookAt(target);
 		}
 	}
-
-	public virtual void Main()
-	{
-	}
 }

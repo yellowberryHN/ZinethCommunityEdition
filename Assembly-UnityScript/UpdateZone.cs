@@ -8,8 +8,4 @@ public class UpdateZone : MonoBehaviour
 	{
 		ZoneLoader.SetPlayerTransform(GameObject.Find("Player").transform);
 	}
-
-	public virtual void Main()
-	{
-	}
 }

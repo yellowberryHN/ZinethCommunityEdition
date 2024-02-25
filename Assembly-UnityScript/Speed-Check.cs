@@ -78,8 +78,4 @@ public class Speed_0020Check : MonoBehaviour
 		UnityRuntimeServices.Invoke(GameObject.Find("Door One Trigger").GetComponent<DoorScript>(), "Open2", new object[0], typeof(MonoBehaviour));
 		UnityRuntimeServices.Invoke(transform.GetComponent<DoCommandTrigger>(), "Activate", new object[0], typeof(MonoBehaviour));
 	}
-
-	public virtual void Main()
-	{
-	}
 }

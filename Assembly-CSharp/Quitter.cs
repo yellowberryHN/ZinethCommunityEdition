@@ -48,7 +48,6 @@ public class Quitter : MonoBehaviour
 
 	private void Update()
 	{
-		bool flag = Application.loadedLevelName == "Loader 3";
 		if (Input.GetKey(quitKey))
 		{
 			_guiText.enabled = true;

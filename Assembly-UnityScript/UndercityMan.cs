@@ -111,8 +111,4 @@ public class UndercityMan : MonoBehaviour
 			TurnOn(cliff);
 		}
 	}
-
-	public virtual void Main()
-	{
-	}
 }

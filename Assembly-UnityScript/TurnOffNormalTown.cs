@@ -18,12 +18,4 @@ public class TurnOffNormalTown : MonoBehaviour
 			}
 		}
 	}
-
-	public virtual void Update()
-	{
-	}
-
-	public virtual void Main()
-	{
-	}
 }
