@@ -5,8 +5,7 @@ public class MonsterTraits
 {
 	public class Name
 	{
-		public static string[] possiblenames = new string[153]
-		{
+		public static string[] possiblenames = {
 			"Cave", "Robby", "Grape", "Isabel", "Pink", "Flip", "George", "Blue", "Berry", "Dust",
 			"Pup", "Cave", "Rock", "Mobile", "Sand", "Tree", "Tim", "Trombone", "Drum", "Hour",
 			"Sand", "Stick", "Burn", "Despair", "Carp", "Physics", "Blood", "H20", "Bubble", "Baby",
@@ -22,7 +21,16 @@ public class MonsterTraits
 			"Bark", "Moss", "Net", "Slam", "Coyote", "Rash", "Lion", "Tiger", "Gym", "File",
 			"Law", "Seal", "Flood", "Skull", "Wiz", "Double", "Wow", "Hanger", "Mist", "Pond",
 			"Dude", "Lady", "Tent", "Ring", "Jelly", "Magic", "Glue", "Cat", "Pooch", "Jam",
-			"Yell", "Junk", "Mold"
+			"Yell", "Junk", "Mold",
+			
+			// new names
+			
+			"Pixel", "Stone", "Rat", "Soul", "Head", "Nail", "Real", "Novice", "Winner", "Extra",
+			"Extreme", "Fruit", "Spell", "Hole", "Slam", "Trash", "Balloon", "Big", "Small", "Bowl",
+			"Igloo", "Chime", "Ad", "Time", "Skill", "Yard", "Winter", "Key", "Song", "Base", "Bass",
+			"Guy", "Gal", "Bro", "Fake", "Burger", "Pizza", "Fries", "Cake", "Cupcake", "Hotdog",
+			"Juice", "Tank", "Car", "Sun", "Rad", "Cheese", "Bread", "Clean", "Clear", "Horse",
+			"Zest", "Fluff", "Puff", "Munch", "Zing", "Squish"
 		};
 
 		public string firstname;
