@@ -16,6 +16,8 @@ public class DebugPlayer : MonoBehaviour
 
 	public virtual void Start()
 	{
+		new GameObject("Speedrunning").AddComponent<SpeedrunTimer>().Setup(guiText);
+
 		player = GameObject.Find("Player").transform;
 		rail = GameObject.Find("GrindPoint").GetComponent<SplineGrinding>();
 		spawn = GameObject.Find("SpawnPoint").GetComponent<SpawnPointScript>();

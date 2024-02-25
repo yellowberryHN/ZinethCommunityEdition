@@ -5,17 +5,14 @@ public class EndLevel : MonoBehaviour
 {
 	public Transform door;
 
-	private void Start()
-	{
-	}
-
-	private void Update()
-	{
-	}
-
 	private IEnumerator Go()
 	{
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(door.animation.clip.length);
+		
+		// stop the timer after the door closes
+		SpeedrunTimer.instance.StopTimer();
+		
+		yield return new WaitForSeconds(2f - door.animation.clip.length);
 		Application.LoadLevel("Loader 1");
 	}
 
