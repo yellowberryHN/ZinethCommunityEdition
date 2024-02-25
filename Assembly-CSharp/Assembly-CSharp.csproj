@@ -3,7 +3,6 @@
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <TargetFramework>net20</TargetFramework>
-    <RootNamespace />
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>5</LangVersion>
@@ -35,6 +34,6 @@
     </Reference>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)dist\zineth_Data\Managed\$(ProjectName).dll&quot;" />
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)dist\zinethCE_Data\Managed\$(ProjectName).dll&quot;" />
   </Target>
 </Project>

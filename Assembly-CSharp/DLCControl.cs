@@ -65,6 +65,7 @@ public class DLCControl : MonoBehaviour
 		}
 	}
 
+	// TODO: this is crazy, a whole DLC mission system, seemingly mostly complete, completely unused. Explore this more.
 	public class DLCInfo
 	{
 		public string name;
@@ -82,9 +83,9 @@ public class DLCControl : MonoBehaviour
 
 	public static DLCControl instance;
 
-	public static string websiteUrl = "https://yello.ooo/projects/zinemod";
+	public static string websiteUrl = "https://yello.ooo/projects/zineth";
 
-	public static string infoUrl = "https://yello.ooo/projects/zinemod/info.xml";
+	public static string infoUrl = "https://yello.ooo/projects/zineth/info.xml";
 
 	private int connection_trouble;
 
@@ -108,7 +109,7 @@ public class DLCControl : MonoBehaviour
 
 	private bool gui_show_local;
 
-	private bool debug_gui = true;
+	private bool debug_gui = false;
 
 	public string current_version
 	{
@@ -269,21 +270,18 @@ public class DLCControl : MonoBehaviour
 		{
 			NormalGUI();
 		}
-		
-		// add Zinemod branding
-		
-		var style = new GUIStyle
-		{
-			fontStyle = FontStyle.Bold,
-			normal = { textColor = Color.white },
-			padding = { left = 4 }
-		};
-		GUILayout.Label(new GUIContent("Zinemod v0.1A"), style);
 	}
+	
+	private readonly GUIStyle communityEditionStyle = new GUIStyle
+	{
+		fontStyle = FontStyle.Bold,
+		normal = { textColor = new Color32(0xFF, 0xC7, 0x00) },
+		padding = { left = 4, top = 4 }
+	};
 
 	public void NormalGUI()
 	{
-		GUILayout.Label(PhoneInterface.version);
+		GUILayout.Label(PhoneInterface.version, communityEditionStyle);
 		if (statusInfo != null)
 		{
 			if (is_current < 0)
@@ -373,15 +371,7 @@ public class DLCControl : MonoBehaviour
 	public void DrawInfo(VersionInfo info)
 	{
 		GUILayout.BeginVertical("Box");
-		string text = "Version: ";
-		string text2 = info.version;
-		if (text2.StartsWith("v"))
-		{
-			text2 = text2.Remove(0, 1);
-		}
-		text += text2;
-		text = text + " (" + info.date + ")";
-		GUILayout.Label(text);
+		GUILayout.Label("Version: " + info.version + " (" + info.date + ")");
 		if (!string.IsNullOrEmpty(info.info))
 		{
 			GUILayout.Label(info.info);

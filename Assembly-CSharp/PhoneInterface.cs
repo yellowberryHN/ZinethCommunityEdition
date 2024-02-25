@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PhoneInterface : MonoBehaviour
 {
-	public static string version = "v0_24";
+	public static string version = "v0_27";
 
 	private static PhoneViewController _view_controller;
 

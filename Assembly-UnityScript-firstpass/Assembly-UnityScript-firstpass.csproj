@@ -14,13 +14,13 @@
       <HintPath>..\lib\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\dist\zineth_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\dist\zinethCE_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\dist\zineth_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\dist\zinethCE_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-UnityScript">
-      <HintPath>..\dist\zineth_Data\Managed\Assembly-UnityScript.dll</HintPath>
+      <HintPath>..\dist\zinethCE_Data\Managed\Assembly-UnityScript.dll</HintPath>
     </Reference>
     <Reference Include="Boo.Lang">
       <HintPath>..\lib\Boo.Lang.dll</HintPath>
@@ -30,6 +30,6 @@
     </Reference>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)dist\zineth_Data\Managed\$(ProjectName).dll&quot;" />
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)dist\zinethCE_Data\Managed\$(ProjectName).dll&quot;" />
   </Target>
 </Project>
