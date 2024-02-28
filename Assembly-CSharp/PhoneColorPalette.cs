@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PhoneColorPalette
 {
+	public string name;
+	
 	public Color back;
 
 	public Color text;
