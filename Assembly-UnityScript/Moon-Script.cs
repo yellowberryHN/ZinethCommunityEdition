@@ -173,7 +173,7 @@ public class Moon_Script : MonoBehaviour
 		player.GetComponent<move>().LandOnMoon();
 		
 		// TODO: make this configurable, might not want to stop on moon
-		SpeedrunTimer.instance.StopTimer();
+		if(SpeedrunTimer.instance != null) SpeedrunTimer.instance.StopTimer();
 	}
 
 	public virtual void OnCollisionEnter(Collision obj)

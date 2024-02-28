@@ -10,7 +10,7 @@ public class EndLevel : MonoBehaviour
 		yield return new WaitForSeconds(door.animation.clip.length);
 		
 		// stop the timer after the door closes
-		SpeedrunTimer.instance.StopTimer();
+		if(SpeedrunTimer.instance != null) SpeedrunTimer.instance.StopTimer();
 		
 		yield return new WaitForSeconds(2f - door.animation.clip.length);
 		Application.LoadLevel("Loader 1");

@@ -16,8 +16,6 @@ public class DebugPlayer : MonoBehaviour
 
 	public virtual void Start()
 	{
-		new GameObject("Speedrunning").AddComponent<SpeedrunTimer>().Setup(guiText);
-
 		player = GameObject.Find("Player").transform;
 		rail = GameObject.Find("GrindPoint").GetComponent<SplineGrinding>();
 		spawn = GameObject.Find("SpawnPoint").GetComponent<SpawnPointScript>();
@@ -28,6 +26,11 @@ public class DebugPlayer : MonoBehaviour
 		}
 		behindText.material.color = Color.black;
 		SetText(string.Empty);
+		
+		if (PlayerPrefs.GetInt("speedrun_mode", 0) == 1)
+		{
+			new GameObject("Speedrunning").AddComponent<SpeedrunTimer>().Setup(guiText);
+		}
 	}
 
 	public virtual void Update()
