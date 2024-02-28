@@ -40,10 +40,6 @@ public class PhoneMonsterStatsDisplay : MonoBehaviour
 		}
 	}
 
-	private void Start()
-	{
-	}
-
 	public void OnUpdate()
 	{
 		if ((bool)spritedisplay)

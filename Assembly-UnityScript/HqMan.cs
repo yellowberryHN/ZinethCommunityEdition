@@ -76,8 +76,4 @@ public class HqMan : MonoBehaviour
 			TurnOn(capsules);
 		}
 	}
-
-	public virtual void Main()
-	{
-	}
 }

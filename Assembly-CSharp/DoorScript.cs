@@ -22,10 +22,6 @@ public class DoorScript : MonoBehaviour
 		player = GameObject.Find("Player").transform;
 	}
 
-	private void Update()
-	{
-	}
-
 	private void Open2()
 	{
 		MonoBehaviour.print("sup");

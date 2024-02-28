@@ -81,8 +81,4 @@ public class Vignetting : PostEffectsBase
 		RenderTexture.ReleaseTemporary(temporary3);
 		RenderTexture.ReleaseTemporary(temporary4);
 	}
-
-	public override void Main()
-	{
-	}
 }

@@ -58,10 +58,6 @@ public class tutTriggers1 : MonoBehaviour
 		player = GameObject.Find("Player").GetComponent<move>();
 	}
 
-	private void Update()
-	{
-	}
-
 	private void OnTriggerStay(Collider collision)
 	{
 		xbox = Input.GetJoystickNames().Length;

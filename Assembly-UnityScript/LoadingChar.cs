@@ -14,8 +14,4 @@ public class LoadingChar : MonoBehaviour
 	{
 		animation.CrossFade("Skate");
 	}
-
-	public virtual void Main()
-	{
-	}
 }

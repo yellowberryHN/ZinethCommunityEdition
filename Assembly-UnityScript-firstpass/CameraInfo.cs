@@ -12,8 +12,4 @@ public class CameraInfo : MonoBehaviour
 	public RenderingPath currentRenderPath;
 
 	public int recognizedPostFxCount;
-
-	public virtual void Main()
-	{
-	}
 }

@@ -131,8 +131,4 @@ public class SunShafts : PostEffectsBase
 	{
 		return (its < 1) ? 1 : ((its <= 4) ? its : 4);
 	}
-
-	public override void Main()
-	{
-	}
 }

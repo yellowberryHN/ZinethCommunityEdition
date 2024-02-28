@@ -39,10 +39,6 @@ public class MailController : MonoBehaviour
 		}
 	}
 
-	private void Awake()
-	{
-	}
-
 	public static PhoneMail FindMail(string mailid)
 	{
 		if (mailid.StartsWith("tw_"))

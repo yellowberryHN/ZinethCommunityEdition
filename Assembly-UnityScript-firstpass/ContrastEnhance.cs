@@ -63,8 +63,4 @@ public class ContrastEnhance : PostEffectsBase
 		RenderTexture.ReleaseTemporary(temporary2);
 		RenderTexture.ReleaseTemporary(temporary3);
 	}
-
-	public override void Main()
-	{
-	}
 }

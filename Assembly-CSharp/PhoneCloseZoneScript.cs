@@ -10,11 +10,7 @@ public class PhoneCloseZoneScript : MonoBehaviour
 		temp = GameObject.Find("TutObject").GetComponent<PlayerMon>();
 	}
 
-	private void Update()
-	{
-	}
-
-	private void OnTriggerEnter()
+	private void OnTriggerEnter(Collider other)
 	{
 		PhoneInterface.view_controller.SetOpen(false);
 		temp.canMaster = true;

@@ -19,8 +19,4 @@ public class StopScript : MonoBehaviour
 		UnityRuntimeServices.Invoke(GameObject.Find("SpawnPoint").GetComponent<SpawnPointScript>(), "ClearSpawns", new object[0], typeof(MonoBehaviour));
 		UnityRuntimeServices.Invoke(player.GetComponent<move>(), "Stop", new object[0], typeof(MonoBehaviour));
 	}
-
-	public virtual void Main()
-	{
-	}
 }

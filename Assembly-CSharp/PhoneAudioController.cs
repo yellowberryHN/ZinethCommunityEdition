@@ -68,10 +68,6 @@ public class PhoneAudioController : MonoBehaviour
 		}
 	}
 
-	private void Start()
-	{
-	}
-
 	public static float GetTypeVolume(SoundType type)
 	{
 		return SubGetTypeVolume(type);

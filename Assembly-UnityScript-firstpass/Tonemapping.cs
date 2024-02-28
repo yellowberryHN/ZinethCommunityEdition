@@ -223,8 +223,4 @@ public class Tonemapping : PostEffectsBase
 		}
 		RenderTexture.ReleaseTemporary(temporary);
 	}
-
-	public override void Main()
-	{
-	}
 }

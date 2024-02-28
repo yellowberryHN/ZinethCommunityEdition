@@ -44,8 +44,4 @@ public class Fisheye : PostEffectsBase
 		fisheyeMaterial.SetVector("intensity", new Vector4(strengthX * num2 * num, strengthY * num, strengthX * num2 * num, strengthY * num));
 		Graphics.Blit(source, destination, fisheyeMaterial);
 	}
-
-	public override void Main()
-	{
-	}
 }

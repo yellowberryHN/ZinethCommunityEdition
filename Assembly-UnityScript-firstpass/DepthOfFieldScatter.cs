@@ -195,8 +195,4 @@ public class DepthOfFieldScatter : PostEffectsBase
 			RenderTexture.ReleaseTemporary(renderTexture);
 		}
 	}
-
-	public override void Main()
-	{
-	}
 }

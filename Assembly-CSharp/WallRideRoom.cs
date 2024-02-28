@@ -29,10 +29,6 @@ public class WallRideRoom : MonoBehaviour
 		base.renderer.enabled = false;
 	}
 
-	private void Update()
-	{
-	}
-
 	private void OnTriggerEnter(Collider other)
 	{
 		player.Stop();

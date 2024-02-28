@@ -45,10 +45,6 @@ public class PhoneButtonMonsterDebug : PhoneButton
 		Init();
 	}
 
-	private void Start()
-	{
-	}
-
 	public override void OnPressed()
 	{
 		tester.enabled = !is_on;

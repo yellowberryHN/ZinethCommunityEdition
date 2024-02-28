@@ -70,8 +70,4 @@ public class MouseOrbit : MonoBehaviour
 		}
 		return Mathf.Clamp(angle, min, max);
 	}
-
-	public virtual void Main()
-	{
-	}
 }

@@ -55,10 +55,6 @@ public class tutTriggers : MonoBehaviour
 		playerMon = GameObject.Find("TutObject").GetComponent<PlayerMon>();
 	}
 
-	private void Update()
-	{
-	}
-
 	private void OnTriggerEnter(Collider collision)
 	{
 		xbox = Input.GetJoystickNames().Length;

@@ -58,10 +58,6 @@ public class tutSpeed : MonoBehaviour
 		_pyramid = GameObject.Find("TextHolder").transform;
 	}
 
-	private void Update()
-	{
-	}
-
 	private void OnTriggerEnter(Collider collision)
 	{
 		Transform transform = GameObject.Find("Player").transform;

@@ -121,8 +121,4 @@ public class Triangles : MonoBehaviour
 		mesh.uv2 = array3;
 		return mesh;
 	}
-
-	public virtual void Main()
-	{
-	}
 }

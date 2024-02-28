@@ -96,8 +96,4 @@ public class PlayerGraphic : MonoBehaviour
 			transform.rotation = Quaternion.Slerp(transform.rotation, player.rotation, Time.fixedDeltaTime * 2f);
 		}
 	}
-
-	public virtual void Main()
-	{
-	}
 }

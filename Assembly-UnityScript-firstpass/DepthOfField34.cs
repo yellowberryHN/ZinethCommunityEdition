@@ -462,8 +462,4 @@ public class DepthOfField34 : PostEffectsBase
 			foregroundTexture.filterMode = FilterMode.Bilinear;
 		}
 	}
-
-	public override void Main()
-	{
-	}
 }

@@ -17,8 +17,4 @@ public class Turn_Off_Window_Colliders : MonoBehaviour
 			}
 		}
 	}
-
-	public virtual void Main()
-	{
-	}
 }

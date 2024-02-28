@@ -10,10 +10,6 @@ public class norewind : MonoBehaviour
 		base.renderer.enabled = false;
 	}
 
-	private void Update()
-	{
-	}
-
 	private void OnTriggerEnter(Collider collider)
 	{
 		player.ignore = true;

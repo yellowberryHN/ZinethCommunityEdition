@@ -240,8 +240,4 @@ public class PostEffectsBase : MonoBehaviour
 		}
 		GL.PopMatrix();
 	}
-
-	public virtual void Main()
-	{
-	}
 }

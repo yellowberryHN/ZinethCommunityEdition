@@ -267,10 +267,6 @@ public class move1 : MonoBehaviour
 		return RuntimeServices.EqualityOperator(axis, "Horizontal") ? inputVec.x : ((!RuntimeServices.EqualityOperator(axis, "Vertical")) ? 0f : inputVec.y);
 	}
 
-	public virtual void Start()
-	{
-	}
-
 	public virtual void DebugBehavoirs()
 	{
 		if (Input.GetButtonDown("Debug"))
@@ -1312,9 +1308,5 @@ public class move1 : MonoBehaviour
 			lastAnim = "Idle";
 			model.animation.CrossFade("Idle");
 		}
-	}
-
-	public virtual void Main()
-	{
 	}
 }

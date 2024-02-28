@@ -31,10 +31,6 @@ public class PhoneButtonMusicDebug : PhoneButton
 		Init();
 	}
 
-	private void Start()
-	{
-	}
-
 	public override void OnPressed()
 	{
 		MusicManager.show_debug_gui = !is_on;

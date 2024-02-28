@@ -32,8 +32,4 @@ public class Jitter : MonoBehaviour
 			transform.localPosition = new Vector3(0f, UnityEngine.Random.Range(0f - jitterAmount, jitterAmount), UnityEngine.Random.Range(0f - jitterAmount, jitterAmount)) + startPosition;
 		}
 	}
-
-	public virtual void Main()
-	{
-	}
 }

@@ -126,8 +126,4 @@ public class GlobalFog : PostEffectsBase
 		GL.End();
 		GL.PopMatrix();
 	}
-
-	public override void Main()
-	{
-	}
 }

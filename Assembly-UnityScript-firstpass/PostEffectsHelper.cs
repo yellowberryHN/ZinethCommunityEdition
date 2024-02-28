@@ -6,10 +6,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class PostEffectsHelper : MonoBehaviour
 {
-	public virtual void Start()
-	{
-	}
-
 	public virtual void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
 		Debug.Log("OnRenderImage in Helper called ...");
@@ -178,9 +174,5 @@ public class PostEffectsHelper : MonoBehaviour
 			GL.End();
 		}
 		GL.PopMatrix();
-	}
-
-	public virtual void Main()
-	{
 	}
 }

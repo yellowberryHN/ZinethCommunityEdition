@@ -211,8 +211,4 @@ public class PlayerScript_rigidBody : MonoBehaviour
 		grounded = false;
 		collider.material = airMaterial;
 	}
-
-	public virtual void Main()
-	{
-	}
 }

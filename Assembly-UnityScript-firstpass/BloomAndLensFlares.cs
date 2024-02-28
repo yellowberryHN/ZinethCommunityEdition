@@ -267,8 +267,4 @@ public class BloomAndLensFlares : PostEffectsBase
 			Graphics.Blit(from, to, vignetteMaterial);
 		}
 	}
-
-	public override void Main()
-	{
-	}
 }

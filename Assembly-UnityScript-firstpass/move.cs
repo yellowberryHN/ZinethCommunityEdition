@@ -1744,8 +1744,4 @@ public class move : MonoBehaviour
 			ForceDebugBoost(z);
 		}
 	}
-
-	public virtual void Main()
-	{
-	}
 }

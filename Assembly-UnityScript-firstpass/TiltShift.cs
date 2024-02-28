@@ -121,8 +121,4 @@ public class TiltShift : PostEffectsBase
 		RenderTexture.ReleaseTemporary(temporary3);
 		RenderTexture.ReleaseTemporary(temporary4);
 	}
-
-	public override void Main()
-	{
-	}
 }

@@ -32,10 +32,6 @@ public class PhoneEffects : MonoBehaviour
 		camlocalpos = phonecam.transform.localPosition;
 	}
 
-	private void Start()
-	{
-	}
-
 	private void FixedUpdate()
 	{
 		DoShaking();

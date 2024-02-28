@@ -66,10 +66,6 @@ public class ColorCorrectionCurves : PostEffectsBase
 		updateTexturesOnStartup = true;
 	}
 
-	public virtual void Awake()
-	{
-	}
-
 	public override bool CheckResources()
 	{
 		CheckSupport(mode == ColorCorrectionMode.Advanced);
@@ -173,9 +169,5 @@ public class ColorCorrectionCurves : PostEffectsBase
 			Graphics.Blit(renderTexture, destination, selectiveCcMaterial);
 			RenderTexture.ReleaseTemporary(renderTexture);
 		}
-	}
-
-	public override void Main()
-	{
 	}
 }

@@ -23,8 +23,4 @@ public class Movie_Start : MonoBehaviour
 		}
 		videoTimer += Time.deltaTime;
 	}
-
-	public virtual void Main()
-	{
-	}
 }

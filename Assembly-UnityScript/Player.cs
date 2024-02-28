@@ -87,8 +87,4 @@ public class Player : MonoBehaviour
 			rigidbody.AddForce(-transform.right * 25f, ForceMode.Impulse);
 		}
 	}
-
-	public virtual void Main()
-	{
-	}
 }

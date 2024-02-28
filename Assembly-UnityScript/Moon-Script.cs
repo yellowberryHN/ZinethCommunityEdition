@@ -203,8 +203,4 @@ public class Moon_Script : MonoBehaviour
 		
 		obj.gameObject.active = true;
 	}
-
-	public virtual void Main()
-	{
-	}
 }

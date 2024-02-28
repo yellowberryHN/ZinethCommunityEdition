@@ -154,8 +154,4 @@ public class AntialiasingAsPostEffect : PostEffectsBase
 			Graphics.Blit(source, destination);
 		}
 	}
-
-	public override void Main()
-	{
-	}
 }

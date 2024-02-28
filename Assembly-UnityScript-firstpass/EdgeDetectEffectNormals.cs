@@ -63,8 +63,4 @@ public class EdgeDetectEffectNormals : PostEffectsBase
 			Graphics.Blit(source, destination, edgeDetectMaterial, 1);
 		}
 	}
-
-	public override void Main()
-	{
-	}
 }

@@ -6,10 +6,6 @@ public class moonbox : MonoBehaviour
 
 	private bool once = true;
 
-	private void Start()
-	{
-	}
-
 	private void OnCollisionEnter(Collision obj)
 	{
 		if (obj.gameObject.name == "Player" && once)

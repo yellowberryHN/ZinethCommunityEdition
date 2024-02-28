@@ -118,10 +118,6 @@ public class PhoneResourceController : MonoBehaviour
 		}
 	}
 
-	private void Start()
-	{
-	}
-
 	private void SetupSprites()
 	{
 		SetupMonster("fly", 1f, new Vector2(5f, 7f));

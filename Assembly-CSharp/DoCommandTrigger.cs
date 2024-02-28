@@ -6,14 +6,6 @@ public class DoCommandTrigger : MonoBehaviour
 
 	public bool destroy_on_activate = true;
 
-	private void Start()
-	{
-	}
-
-	private void Update()
-	{
-	}
-
 	public virtual void Activate()
 	{
 		if (Application.isEditor)
