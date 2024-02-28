@@ -1,63 +1,85 @@
-using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class ModController : MonoBehaviour
 {
-    private void OnLevelWasLoaded(int level)
-    {
-        Debug.Log(string.Format("loaded {0} ({1})", Application.loadedLevelName, Application.loadedLevel));
-        /*
-        if (level == 1)
-        {
-            GameObject.Find("GUI Text").guiText.material.color = Color.red;
-        }
-        */
-    }
-
     public static ModController instance;
-    
+
     private void Awake()
     {
         if (instance != null)
         {
-            Object.Destroy(this);
+            Destroy(this);
             return;
         }
         instance = this;
-        Object.DontDestroyOnLoad(base.gameObject);
-        Debug.Log("Mod controller is active!");
-    }
-
-    private void Start()
-    {
+        DontDestroyOnLoad(gameObject);
+        Debug.Log("Mod controller is active, quick keys enabled.");
     }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.F5))
+        if (Input.GetKey(KeyCode.F1))
         {
-            Application.LoadLevel("Loader 3");
+            if (Application.loadedLevelName != "Loader 3")
+            {
+                Application.LoadLevel("Loader 3"); 
+            }
+        }
+        else if (SpeedrunTimer.instance != null)
+        {
+            if (Input.GetKey(KeyCode.F5))
+            {
+                SpeedrunTimer.instance.StopTimer();
+            }
+            else if (Input.GetKey(KeyCode.F8))
+            {
+                PhoneInterface.ClearGameData();
+                PhoneLoaderMenu.CleanUp();
+                Application.LoadLevel("loader 1");
+            }
         }
     }
 
-    private bool debugMenuActive = false;
-
+#if DEBUG
+    private void OnLevelWasLoaded(int level)
+    {
+        Debug.Log(string.Format("Loaded {0} ({1})", Application.loadedLevelName, Application.loadedLevel));
+    }
+    
+    private bool debugMenuActive;
+    
     private string command_to_run = "";
     
     private void OnGUI()
     {
-        if (Application.loadedLevelName == "Loader 1") 
+        if (Application.loadedLevelName == "Loader 1" && !Networking.instance.enabled) 
         {
-            
-            debugMenuActive = GUILayout.Toggle(debugMenuActive, "menu");
+            debugMenuActive = GUILayout.Toggle(debugMenuActive, "debug menu");
             if(debugMenuActive)
             {
                 if (GUILayout.Button("monster tester"))
                 {
                     debugMenuActive = false;
-                    var mt = base.gameObject.AddComponent<MonsterTester>();
+                    var mt = PhoneController.instance.GetComponent<MonsterTester>();
+                    mt.enabled = true;
                     mt.showgui = true;
+                }
+                if (GUILayout.Button("enable hawk control"))
+                {
+                    PhoneController.DoPhoneCommand("enable_hawk_control");
+                }
+                if (GUILayout.Button("show test menu"))
+                {
+                    PhoneController.DoPhoneCommand("open_phone|load_screen testMenu");
+                }
+                if (GUILayout.Button("generate monster name"))
+                {
+                    Debug.Log(MonsterTraits.Name.createFullName());
+                }
+                if (GUILayout.Button("toggle edge detect"))
+                {
+                    Camera.mainCamera.GetComponent<EdgeDetectEffect>().enabled = 
+                        !Camera.mainCamera.GetComponent<EdgeDetectEffect>().enabled;
                 }
                 GUILayout.BeginHorizontal();
                 command_to_run = GUILayout.TextField(command_to_run);
@@ -70,4 +92,5 @@ public class ModController : MonoBehaviour
             
         }
     }
+#endif
 }

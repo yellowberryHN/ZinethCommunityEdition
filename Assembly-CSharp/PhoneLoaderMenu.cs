@@ -102,7 +102,7 @@ public class PhoneLoaderMenu : PhoneMainMenu
 		}
 	}
 
-	private void CleanUp()
+	public static void CleanUp()
 	{
 		Capsule.all_list.Clear();
 		Capsule.collected_list.Clear();
