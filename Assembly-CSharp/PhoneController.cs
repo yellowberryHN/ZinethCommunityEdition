@@ -208,12 +208,21 @@ public class PhoneController : MonoBehaviour
 		powerstate = PowerState.closed;
 	}
 
+	private void SetupDynamicScreens()
+	{
+		var testMenu = PhoneMainMenu.CreateMenu("testMenu", this);
+		testMenu.menu_items = new[] { "test", "menu", "123", "test", "menu", "123", "test", "menu", "123", "test", "menu", "123" };
+		testMenu.autocreatebuttons = true;
+	}
+
 	private void SetupScreenDict()
 	{
 		screendict.Clear();
+		SetupDynamicScreens();
 		PhoneScreen[] componentsInChildren = base.transform.GetComponentsInChildren<PhoneScreen>();
 		foreach (PhoneScreen phoneScreen in componentsInChildren)
 		{
+			//Debug.Log(string.Format("Adding screen: {0} ({1})", phoneScreen.screenname, phoneScreen.name));
 			screendict.Add(phoneScreen.screenname, phoneScreen);
 		}
 	}

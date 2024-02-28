@@ -279,7 +279,7 @@ public class PhoneMainMenu : PhoneScreen
 			phoneButton.animateOnLoad = true;
 			buttons.Add(phoneButton);
 			auto_buttons.Add(phoneButton);
-			position += base.transform.forward * -1f;
+			position += base.transform.forward * -0.75f;
 			phoneButton.Init();
 		}
 	}
@@ -722,5 +722,22 @@ public class PhoneMainMenu : PhoneScreen
 			button.text += ((!PhoneInput.invert_stick) ? "(off)" : "(on)");
 		}
 		return true;
+	}
+	
+	public static PhoneMainMenu CreateMenu(string name, PhoneController controller)
+	{
+		var menuScreen = new GameObject(string.Format("CustomMenu{0}", name));
+
+		menuScreen.transform.parent = GameObject.Find("PhoneScene").transform;
+		menuScreen.transform.localScale = new Vector3(4.8f, 0.2f, 8.0f);
+		menuScreen.transform.localPosition = Vector3.zero;
+
+		menuScreen.AddComponent<MeshFilter>();
+		menuScreen.AddComponent<MeshRenderer>();
+		var menu = menuScreen.AddComponent<PhoneMainMenu>();
+		menu.screenname = name;
+		menu.controller = controller;
+
+		return menu;
 	}
 }
