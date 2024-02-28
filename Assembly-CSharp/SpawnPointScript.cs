@@ -104,7 +104,7 @@ public class SpawnPointScript : MonoBehaviour
 	{
 		get
 		{
-			return Path.Combine(Application.dataPath, Path.Combine("whatever", "Bundles"));
+			return Path.Combine(Application.dataPath, "CustomMaps");
 		}
 	}
 
