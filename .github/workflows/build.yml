@@ -1,0 +1,27 @@
+name: Build test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+      - uses: nuget/setup-nuget@v2
+      - run: nuget restore ZinethCommunityEdition.sln
+      - name: Build game files
+        run: msbuild ZinethCommunityEdition.sln -t:rebuild -property:Configuration=Release
+      - name: Package archive
+        run: Compress-Archive -Path .\dist\* -DestinationPath zinethCE.zip
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: zinethCE
+          path: zinethCE.zip
