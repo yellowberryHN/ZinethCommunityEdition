@@ -19,8 +19,8 @@ jobs:
       - name: Build game files
         run: msbuild ZinethCommunityEdition.sln -t:rebuild -property:Configuration=Release
       - name: Package archive
-        run: Compress-Archive -Path .\dist\* -DestinationPath zinethCE.zip
+        run: Compress-Archive -Path .\dist\* -DestinationPath zinethCE_${{ github.ref_name }}.zip
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          files: zinethCE.zip
+          files: zinethCE_${{ github.ref_name }}.zip
