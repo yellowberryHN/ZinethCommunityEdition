@@ -1,4 +1,10 @@
 bin/
-dist/
 obj/
 .idea/
+
+# dev stuff (BepinEx)
+
+/dist/BepinEx
+/dist/doorstop_config.ini
+/dist/version.dll
+/dist/zinethCE_data/output_log.txt

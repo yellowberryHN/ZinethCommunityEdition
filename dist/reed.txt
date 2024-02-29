@@ -1,0 +1,30 @@
+Zineth Community Edition v0_27
+
+twitter:	@yellowberry__
+mail:	yellowberry@cocaine.ninja
+web: 	https://yello.ooo/projects/zineth/
+
+A better manual coming soon?
+
+It's been a little while, hasn't it?
+
+Here are some new features, hot off the presses:
+- Trail and robot colors actually save now!
+- Multiplayer over the Internet works again, without port forwarding!
+- New monster names! Pretty cool, right?
+- You can now press F1 to go back to the menu without restarting the game.
+- A built-in timer for speedrunning! Check your phone for more info.
+
+Some other stuff changed too:
+- Removed the long-broken Twitter integration (rest in piece, you will be missed...)
+- Changed the location of custom maps from "whatever/Bundles" to "CustomMaps"
+
+A mapping kit (for making cool custom maps) has been released, check it out:
+https://yello.ooo/projects/zineth/mapkit/
+
+An improved multiplayer experience is in the works, stay tuned...
+
+
+Wow! Thanks for playing and thanks for reading!
+
+-=- LONG LIVE ARCANE KIDS -=-
