@@ -298,7 +298,7 @@ public class PhoneInterface : MonoBehaviour
 		int_dic.Clear();
 		float_dic.Clear();
 		string_dic.Clear();
-		StoreInfo("version_number", version);
+		StoreInfo("version", version);
 		StoreInfoInt("tried_tutorial");
 		StoreInfo("volume_master", 0.75f);
 		StoreInfo("volume_menu", 1f);
