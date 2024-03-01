@@ -514,7 +514,6 @@ public class PhoneMemory : MonoBehaviour
 		{
 			UnlockMenuQuiet("Cool Cam");
 		}
-		LockMenu("Twitter");
 	}
 
 	public static void LoadMail()

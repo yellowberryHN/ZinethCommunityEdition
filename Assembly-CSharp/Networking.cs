@@ -368,16 +368,18 @@ public class Networking : MonoBehaviour
 
 	private void OnConnectedToServer()
 	{
-		if (Application.isEditor)
-		{
+		PhoneMemory.UnlockMenuQuiet("TextTest");
+		//if (Application.isEditor)
+		//{
 			Debug.Log("connected to server...");
-		}
+		//}
 		client_net = Network.Instantiate(player_prefab, player_tran.position, player_tran.rotation, 0) as NetPlayer;
 		client_net.name = "client obj";
 	}
 
 	private void OnDisconnectedFromServer(NetworkDisconnection info)
 	{
+		PhoneMemory.LockMenu("TextTest");
 		Debug.Log("Disconnected from server: " + info);
 		if ((bool)client_net)
 		{
@@ -478,6 +480,7 @@ public class Networking : MonoBehaviour
 
 	private void StartServer()
 	{
+		PhoneMemory.UnlockMenuQuiet("TextTest");
 		string comment = MakeServerComment();
 		Network.incomingPassword = password;
 		int result;

@@ -214,10 +214,48 @@ public class PhoneController : MonoBehaviour
 		testMenu.menu_items = new[] { "test", "menu", "123", "test", "menu", "123", "test", "menu", "123", "test", "menu", "123" };
 		testMenu.autocreatebuttons = true;
 	}
+	
+	private void CreateExtraSettings()
+	{
+		//if (!(bool)GameObject.Find("SettingsBackButton")) return;
+		var menuScreen = new GameObject("ExtraSettings");
+
+		menuScreen.transform.parent = GameObject.Find("PhoneScene").transform;
+		menuScreen.transform.localScale = new Vector3(4.8f, 0.2f, 8.0f);
+		menuScreen.transform.localPosition = Vector3.zero;
+
+		menuScreen.AddComponent<MeshFilter>();
+		menuScreen.AddComponent<MeshRenderer>();
+		var menu = menuScreen.AddComponent<PhoneMainMenu>();
+		menu.screenname = "Extra";
+		menu.controller = this;
+		menu.menu_items = new[] { "extra", "settings", "menu" };
+		menu.autocreatebuttons = true;
+
+		var doneBtnOld = GameObject.Find("SettingsBackButton");
+		GameObject doneBtn = (GameObject)Instantiate(doneBtnOld);
+		doneBtn.transform.parent = menuScreen.transform;
+		doneBtn.transform.localPosition = doneBtnOld.transform.localPosition;
+		doneBtn.transform.localScale = doneBtnOld.transform.localScale;
+
+		GameObject.Find("PhoneSettingsMenu").GetComponent<PhoneMainMenu>().menu_items = new[] { "Color", "Sound", "Debug", "Extra" };
+	}
+
+	private void ReplaceTwitterScreen()
+	{
+		if (!(bool)GameObject.Find("PhoneMainMenu")) return;
+		var textMenu = GameObject.Find("PhoneTextTest");
+
+		textMenu.GetComponent<PhoneChatMenu>().icon_texture = (Texture2D)Resources.Load("icon_text", typeof(Texture2D));; //new Texture2D(32, 32);
+			
+		GameObject.Find("PhoneMainMenu").GetComponent<PhoneMainMenu>().menu_items[4] = "TextTest";
+	}
 
 	private void SetupScreenDict()
 	{
 		screendict.Clear();
+		ReplaceTwitterScreen();
+		CreateExtraSettings();
 		SetupDynamicScreens();
 		PhoneScreen[] componentsInChildren = base.transform.GetComponentsInChildren<PhoneScreen>();
 		foreach (PhoneScreen phoneScreen in componentsInChildren)
