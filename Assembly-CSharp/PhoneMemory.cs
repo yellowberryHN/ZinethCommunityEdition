@@ -785,6 +785,15 @@ public class PhoneMemory : MonoBehaviour
 			phoneMail.sender = "PSA";
 			extra_mail_add.Add(phoneMail);
 		}
+		if (now.Month == 2 && now.Day == 29)
+		{
+			phoneMail = new PhoneMail();
+			phoneMail.id = "npc_s_leapday";
+			phoneMail.subject = "I can't believe it!";
+			phoneMail.body = "You've broken the clock again! How irritating!";
+			phoneMail.sender = "Time Frog";
+			extra_mail_add.Add(phoneMail);
+		}
 		if (now.Month == 4 && now.Day == 1)
 		{
 			phoneMail = new PhoneMail();
