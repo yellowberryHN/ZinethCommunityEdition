@@ -24,3 +24,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: zinethCE_${{ github.ref_name }}.zip
+          draft: true
