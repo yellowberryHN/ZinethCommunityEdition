@@ -22,6 +22,7 @@ public class ModController : MonoBehaviour
         {
             if (Application.loadedLevelName != "Loader 3")
             {
+                Networking.instance.enabled = false;
                 Application.LoadLevel("Loader 3"); 
             }
         }
