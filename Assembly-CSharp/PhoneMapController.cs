@@ -475,12 +475,10 @@ public class PhoneMapController : PhoneMainMenu
 					phoneElement.name = "player_marker_" + netPlayer.fakeName;
 					phoneElement.renderer.material.color = Color.gray;
 					phoneElement.transform.parent = player_marker.transform.parent;
-					/*
 					if ((bool)battle_sprite)
 					{
 						phoneElement.renderer.material.mainTexture = battle_sprite;
 					}
-					*/
 					marker_dic.Add(netPlayer.transform, phoneElement);
 					if (mission_marker_scale == Vector3.zero)
 					{
