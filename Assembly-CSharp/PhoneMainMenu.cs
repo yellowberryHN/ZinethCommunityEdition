@@ -721,6 +721,19 @@ public class PhoneMainMenu : PhoneScreen
 			button.text = button.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
 			button.text += ((!PhoneInput.invert_stick) ? "(off)" : "(on)");
 		}
+		else if (message.StartsWith("speedrun_toggle"))
+		{
+			PlayerPrefs.SetInt("speedrun_mode", PlayerPrefs.GetInt("speedrun_mode", 0) == 0 ? 1 : 0);
+			button.text = button.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
+			button.text += PlayerPrefs.GetInt("speedrun_mode", 0) == 0 ? "(off)" : "(on)";
+		}
+		else if (message.StartsWith("player_radar"))
+		{
+			PhoneMapController.player_radar = !PhoneMapController.player_radar;
+			PlayerPrefs.SetInt("player_radar", PhoneMapController.player_radar ? 1 : 0);
+			button.text = button.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
+			button.text += !PhoneMapController.player_radar ? "(off)" : "(on)";
+		}
 		return true;
 	}
 	

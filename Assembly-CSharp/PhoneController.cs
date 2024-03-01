@@ -217,7 +217,7 @@ public class PhoneController : MonoBehaviour
 	
 	private void CreateExtraSettings()
 	{
-		//if (!(bool)GameObject.Find("SettingsBackButton")) return;
+		if (!(bool)GameObject.Find("SettingsBackButton")) return;
 		var menuScreen = new GameObject("ExtraSettings");
 
 		menuScreen.transform.parent = GameObject.Find("PhoneScene").transform;
@@ -229,8 +229,8 @@ public class PhoneController : MonoBehaviour
 		var menu = menuScreen.AddComponent<PhoneMainMenu>();
 		menu.screenname = "Extra";
 		menu.controller = this;
-		menu.menu_items = new[] { "extra", "settings", "menu" };
-		menu.autocreatebuttons = true;
+		//menu.menu_items = new[] { "extra", "settings", "menu" };
+		menu.autocreatebuttons = false;
 
 		var doneBtnOld = GameObject.Find("SettingsBackButton");
 		GameObject doneBtn = (GameObject)Instantiate(doneBtnOld);
@@ -239,6 +239,42 @@ public class PhoneController : MonoBehaviour
 		doneBtn.transform.localScale = doneBtnOld.transform.localScale;
 
 		GameObject.Find("PhoneSettingsMenu").GetComponent<PhoneMainMenu>().menu_items = new[] { "Color", "Sound", "Debug", "Extra" };
+		
+		Vector3 position = menu.transform.position + menu.transform.forward * 3.2f + menu.transform.up + menu.transform.right * 2.2f;
+		
+		PhoneButton phoneButton = Instantiate(PhoneTextController.buttonprefab) as PhoneButton;
+		phoneButton.transform.position = position;
+		phoneButton.transform.parent = menu.transform;
+		phoneButton.textmesh.text = "Speedrun Mode (off)";
+		phoneButton.textmesh.characterSize = 0.7f;
+		phoneButton.button_name = "Speedrun Mode (off)";
+		phoneButton.text = phoneButton.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
+		phoneButton.text += PlayerPrefs.GetInt("speedrun_mode", 0) == 0 ? "(off)" : "(on)";
+		phoneButton.command = ".speedrun_toggle";
+		phoneButton.screen = menu;
+		phoneButton.textmesh.alignment = TextAlignment.Right;
+		phoneButton.textmesh.anchor = TextAnchor.MiddleRight;
+		phoneButton.animateOnLoad = true;
+		menu.buttons.Add(phoneButton);
+		position += base.transform.forward * -0.75f;
+		phoneButton.Init();
+		
+		phoneButton = Instantiate(PhoneTextController.buttonprefab) as PhoneButton;
+		phoneButton.transform.position = position;
+		phoneButton.transform.parent = menu.transform;
+		phoneButton.textmesh.text = "Player Radar (on)";
+		phoneButton.textmesh.characterSize = 0.75f;
+		phoneButton.button_name = "Player Radar (on)";
+		phoneButton.text = phoneButton.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
+		phoneButton.text += PhoneMapController.player_radar ? "(off)" : "(on)";
+		phoneButton.command = ".player_radar";
+		phoneButton.screen = menu;
+		phoneButton.textmesh.alignment = TextAlignment.Right;
+		phoneButton.textmesh.anchor = TextAnchor.MiddleRight;
+		phoneButton.animateOnLoad = true;
+		menu.buttons.Add(phoneButton);
+		position += base.transform.forward * -0.75f;
+		phoneButton.Init();
 	}
 
 	private void ReplaceTwitterScreen()
