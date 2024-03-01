@@ -233,12 +233,21 @@ public class PhoneController : MonoBehaviour
 		menu.autocreatebuttons = false;
 
 		var doneBtnOld = GameObject.Find("SettingsBackButton");
-		GameObject doneBtn = (GameObject)Instantiate(doneBtnOld);
-		doneBtn.transform.parent = menuScreen.transform;
-		doneBtn.transform.localPosition = doneBtnOld.transform.localPosition;
-		doneBtn.transform.localScale = doneBtnOld.transform.localScale;
+		GameObject doneBtnObj = (GameObject)Instantiate(doneBtnOld);
+		doneBtnObj.transform.parent = menuScreen.transform;
+		doneBtnObj.transform.localPosition = doneBtnOld.transform.localPosition;
+		doneBtnObj.transform.localScale = doneBtnOld.transform.localScale;
+		var doneBtn = doneBtnObj.GetComponent<PhoneButton>();
+		doneBtn.screen = menu;
+		menu.buttons.Add(doneBtn);
 
-		GameObject.Find("PhoneSettingsMenu").GetComponent<PhoneMainMenu>().menu_items = new[] { "Color", "Sound", "Debug", "Extra" };
+		var settingsMenu = GameObject.Find("PhoneSettingsMenu").GetComponent<PhoneMainMenu>();
+		settingsMenu.menu_items = new[] { "Color", "Sound", "Debug", "Extra" };
+		
+		// TODO: in the future, this will be required.
+		//settingsMenu.radial_menu = false;
+		
+		// TODO: clean this up, abstract out toggle button creation to method or whatever
 		
 		Vector3 position = menu.transform.position + menu.transform.forward * 3.2f + menu.transform.up + menu.transform.right * 2.2f;
 		
@@ -255,6 +264,7 @@ public class PhoneController : MonoBehaviour
 		phoneButton.textmesh.alignment = TextAlignment.Right;
 		phoneButton.textmesh.anchor = TextAnchor.MiddleRight;
 		phoneButton.animateOnLoad = true;
+		phoneButton.left_button = menu.buttons[0];
 		menu.buttons.Add(phoneButton);
 		position += base.transform.forward * -0.75f;
 		phoneButton.Init();
@@ -272,6 +282,7 @@ public class PhoneController : MonoBehaviour
 		phoneButton.textmesh.alignment = TextAlignment.Right;
 		phoneButton.textmesh.anchor = TextAnchor.MiddleRight;
 		phoneButton.animateOnLoad = true;
+		phoneButton.left_button = menu.buttons[0];
 		menu.buttons.Add(phoneButton);
 		position += base.transform.forward * -0.75f;
 		phoneButton.Init();
