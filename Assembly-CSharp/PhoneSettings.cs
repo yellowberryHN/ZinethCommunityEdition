@@ -78,7 +78,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return new Color32(PlayerPrefs.GetInt("color_phone", -665101313));
+			return PlayerPrefsX.GetColor("color_phone", -665101313);
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return new Color32(PlayerPrefs.GetInt("color_phone_button", -1717986817));
+			return PlayerPrefsX.GetColor("color_phone_button", -1717986817);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return new Color32(PlayerPrefs.GetInt("color_phone_highlight", -665101313));
+			return PlayerPrefsX.GetColor("color_phone_highlight", -665101313);
 		}
 	}
 

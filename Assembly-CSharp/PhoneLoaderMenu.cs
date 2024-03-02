@@ -22,7 +22,7 @@ public class PhoneLoaderMenu : PhoneMainMenu
 		{
 			if (value)
 			{
-				PlayerPrefs.SetInt("tried_tutorial", 1);
+				PlayerPrefsX.SetBool("tried_tutorial", true);
 			}
 			else
 			{

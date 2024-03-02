@@ -149,7 +149,7 @@ public class MissionController : MonoBehaviour
 	{
 		get
 		{
-			return PlayerPrefs.GetInt("cool_cam", 0) == 1;
+			return PlayerPrefsX.GetBool("cool_cam", false);
 		}
 	}
 

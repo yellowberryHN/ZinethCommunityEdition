@@ -68,7 +68,7 @@ public class PhoneMapController : PhoneMainMenu
 
 	public Material mapmaterial;
 
-	public static bool player_radar = true;
+	public static bool player_radar;
 
 	private int total_secrets
 	{
@@ -120,7 +120,6 @@ public class PhoneMapController : PhoneMainMenu
 
 	private void Start()
 	{
-		player_radar = PlayerPrefs.GetInt("player_radar", 1) == 1;
 		no_maths = new GameObject().transform;
 		no_maths.transform.parent = base.transform;
 		no_maths.name = "no_maths";

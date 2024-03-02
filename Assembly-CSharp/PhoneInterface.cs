@@ -119,7 +119,7 @@ public class PhoneInterface : MonoBehaviour
 			{
 				material.color = value;
 			}
-			PlayerPrefs.SetInt("color_robot", ((Color32)value).PackedColor);
+			PlayerPrefsX.SetColor("color_robot", value);
 		}
 	}
 
@@ -168,14 +168,14 @@ public class PhoneInterface : MonoBehaviour
 		set
 		{
 			playerTrail.color = value;
-			PlayerPrefs.SetInt("color_trail", ((Color32)value).PackedColor);
+			PlayerPrefsX.SetColor("color_trail", value);
 		}
 	}
 	
 	private static void LoadSavedColors()
 	{
-		robotColor = new Color32(PlayerPrefs.GetInt("color_robot", 1893465975));
-		trailColor = new Color32(PlayerPrefs.GetInt("color_trail", -16750923));
+		robotColor = PlayerPrefsX.GetColor("color_robot", 1893465975);
+		trailColor = PlayerPrefsX.GetColor("color_trail", -16750923);
 	}
 
 	private static void FindRobotMaterials()
@@ -396,9 +396,9 @@ public class PhoneInterface : MonoBehaviour
 
 	public static void UnlockCamera()
 	{
-		if (PlayerPrefs.GetInt("cool_cam", 0) != 1)
+		if (!PlayerPrefsX.GetBool("cool_cam", false))
 		{
-			PlayerPrefs.SetInt("cool_cam", 1);
+			PlayerPrefsX.SetBool("cool_cam", true);
 		}
 		PhoneMemory.SendMail("cool_cam_mail");
 	}

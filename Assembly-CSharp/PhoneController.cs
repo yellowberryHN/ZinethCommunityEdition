@@ -258,7 +258,7 @@ public class PhoneController : MonoBehaviour
 		phoneButton.textmesh.characterSize = 0.7f;
 		phoneButton.button_name = "Speedrun Mode (off)";
 		phoneButton.text = phoneButton.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
-		phoneButton.text += PlayerPrefs.GetInt("speedrun_mode", 0) == 0 ? "(off)" : "(on)";
+		phoneButton.text += !PlayerPrefsX.GetBool("speedrun_mode", false) ? "(off)" : "(on)";
 		phoneButton.command = ".speedrun_toggle";
 		phoneButton.screen = menu;
 		phoneButton.textmesh.alignment = TextAlignment.Right;
@@ -272,11 +272,11 @@ public class PhoneController : MonoBehaviour
 		phoneButton = Instantiate(PhoneTextController.buttonprefab) as PhoneButton;
 		phoneButton.transform.position = position;
 		phoneButton.transform.parent = menu.transform;
-		phoneButton.textmesh.text = "Player Radar (on)";
+		phoneButton.textmesh.text = "Player Radar (off)";
 		phoneButton.textmesh.characterSize = 0.75f;
-		phoneButton.button_name = "Player Radar (on)";
+		phoneButton.button_name = "Player Radar (off)";
 		phoneButton.text = phoneButton.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
-		phoneButton.text += PhoneMapController.player_radar ? "(off)" : "(on)";
+		phoneButton.text += !PlayerPrefsX.GetBool("player_radar", true) ? "(off)" : "(on)";
 		phoneButton.command = ".player_radar";
 		phoneButton.screen = menu;
 		phoneButton.textmesh.alignment = TextAlignment.Right;

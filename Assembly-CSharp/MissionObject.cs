@@ -101,10 +101,10 @@ public class MissionObject : MonoBehaviour
 
 	public void LoadMyInfo()
 	{
-		int @int = PlayerPrefs.GetInt(GetSaveName(), -1);
-		if (@int != -1 && @int >= 0 && @int <= 2)
+		var saved_status = PlayerPrefs.GetInt(GetSaveName(), -1);
+		if (saved_status != -1 && saved_status >= 0 && saved_status <= 2)
 		{
-			status = @int;
+			status = saved_status;
 		}
 		else
 		{

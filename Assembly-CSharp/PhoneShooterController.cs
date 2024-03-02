@@ -267,7 +267,7 @@ public class PhoneShooterController : PhoneScreen
 			}
 			if (attack_tip_count >= 3)
 			{
-				PlayerPrefs.SetInt("phone_shooter_tut", 1);
+				PlayerPrefsX.SetBool("phone_shooter_tut", true);
 				PlayerPrefs.Save();
 				stat_elements.Remove(attack_tip_label);
 				Object.Destroy(attack_tip_label.gameObject);

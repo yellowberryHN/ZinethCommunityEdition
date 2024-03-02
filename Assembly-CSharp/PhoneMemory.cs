@@ -477,6 +477,8 @@ public class PhoneMemory : MonoBehaviour
 	{
 		initialized = true;
 		_settings = new PhoneSettings();
+		// TODO: this isn't a great spot for this, consider placing elsewhere
+		PhoneMapController.player_radar = PlayerPrefsX.GetBool("player_radar", true);
 		float master_volume = settings.master_volume;
 		SetupMail();
 		SetupColors();
@@ -510,7 +512,7 @@ public class PhoneMemory : MonoBehaviour
 		{
 			MailController.SendMail(item.id);
 		}
-		if (PlayerPrefs.GetInt("cool_cam", 0) == 1)
+		if (PlayerPrefsX.GetBool("cool_cam", false))
 		{
 			UnlockMenuQuiet("Cool Cam");
 		}
