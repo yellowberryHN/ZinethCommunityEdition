@@ -1,21 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Boo.Lang;
-using Boo.Lang.Runtime;
 using UnityEngine;
-using UnityScript.Lang;
 
- /*
-  * move.cs - player movement code:
-  * this code seems to be responsible for managing the logic for the movement of the character
-  *
-  * notes:
-  * - camera movement can't keep up at over 4700 units of speed, snaps to player, maybe in here?
-  * 
-  * TODO: clean up variable names in here as much as possible (i hate unityscript)
-  */
+/*
+ * move.cs - player movement code:
+ * this code seems to be responsible for managing the logic for the movement of the character
+ *
+ * notes:
+ * - camera movement can't keep up at over 4700 units of speed, snaps to player, maybe in here?
+ * 
+ * TODO: clean up variable names in here as much as possible (i hate unityscript)
+ */
 
 [Serializable]
 public class move : MonoBehaviour
@@ -83,9 +79,9 @@ public class move : MonoBehaviour
 
 	private float transitionNeeded;
 
-	private object soundManager;
+	private SoundManager soundManager;
 
-	private UnityScript.Lang.Array decayingVelocities;
+	private List<Vector3> decayingVelocities;
 
 	private Vector3 jumpVelocity;
 
@@ -259,7 +255,7 @@ public class move : MonoBehaviour
 		lastAnim = "idle";
 		animName = "IdleD";
 		transitionNeeded = 60f;
-		decayingVelocities = new UnityScript.Lang.Array();
+		decayingVelocities = new List<Vector3>();
 		jumpVelocity = new Vector3(0f, 0f, 0f);
 		jumpPower = 20;
 		jumpDecay = 0.5f;
@@ -309,10 +305,10 @@ public class move : MonoBehaviour
 		return result;
 	}
 
-	public virtual float GetAxis(object axis)
+	public virtual float GetAxis(string axis)
 	{
 		Vector2 inputVec = GetInputVec();
-		return RuntimeServices.EqualityOperator(axis, "Horizontal") ? inputVec.x : ((!RuntimeServices.EqualityOperator(axis, "Vertical")) ? 0f : inputVec.y);
+		return axis == "Horizontal" ? inputVec.x : (axis != "Vertical" ? 0f : inputVec.y);
 	}
 
 	public virtual void Stop()
@@ -357,7 +353,7 @@ public class move : MonoBehaviour
 		}
 		mainCam = GameObject.Find("Camera Holder").transform;
 		soundManager = GameObject.Find("Camera Holder").GetComponent<SoundManager>();
-		groundRayLength = RuntimeServices.UnboxSingle(RuntimeServices.InvokeBinaryOperator("op_Addition", RuntimeServices.InvokeBinaryOperator("op_Division", UnityRuntimeServices.GetProperty(collider, "height"), 2), 0.4f));
+		groundRayLength = ((CapsuleCollider)collider).height / 2 + 0.4f;
 		mathIsHard = transform.Find("Math Is Hard");
 		mathIsHard.parent = null;
 		lastRotation = transform.rotation;
@@ -365,7 +361,7 @@ public class move : MonoBehaviour
 		model = GameObject.Find("main_character").transform;
 		holder = transform.Find("Holder");
 		holder.parent = null;
-		playerGraphic = (PlayerGraphic)GameObject.Find("Holder").GetComponent<PlayerGraphic>();
+		playerGraphic = GameObject.Find("Holder").GetComponent<PlayerGraphic>();
 		if (xinputObj == null)
 		{
 			xinputObj = GameObject.Find("XInputContainer");
@@ -401,7 +397,7 @@ public class move : MonoBehaviour
 			if (!rigidbody.isKinematic)
 			{
 				rigidbody.velocity = transform.TransformDirection(direction);
-				UnityRuntimeServices.Invoke(soundManager, "PlayBoost", new object[0], typeof(MonoBehaviour));
+				soundManager.PlayBoost();
 			}
 		}
 	}
@@ -413,20 +409,20 @@ public class move : MonoBehaviour
 		if (!rigidbody.isKinematic)
 		{
 			rigidbody.velocity = transform.TransformDirection(direction);
-			UnityRuntimeServices.Invoke(soundManager, "PlayBoost", new object[0], typeof(MonoBehaviour));
+			soundManager.PlayBoost();
 		}
 	}
 
 	public virtual void LandOnMoon()
 	{
 		canDebugBoost = true;
-		PlayerPrefs.SetInt("debug_boost", 1);
+		PlayerPrefsX.SetBool("debug_boost", true);
 		onMoon = true;
 		jumpPower = (int)moonJumpPower;
 		groundSlopeLimit = moonGroundSlope;
 		Transform transform = GameObject.Find("Moon").transform;
 		RaycastHit raycastHit = default(RaycastHit);
-		RuntimeServices.SetProperty(GameObject.Find("Holder").GetComponent<PlayerGraphic>(), "onMoon", true);
+		playerGraphic.onMoon = true;
 		Vector3 vector = this.transform.position - transform.position;
 		Vector3 forward = Vector3.Cross(this.transform.right, vector);
 		this.transform.localRotation = Quaternion.LookRotation(forward, vector);
@@ -442,8 +438,9 @@ public class move : MonoBehaviour
 		moonTime = 0f;
 		jumpPower = groundJumpPower;
 		groundSlopeLimit = groundGroundSlope;
-		RuntimeServices.SetProperty(GameObject.Find("Holder").GetComponent<PlayerGraphic>(), "onMoon", false);
-		RuntimeServices.SetProperty(GameObject.Find("Moon").GetComponent<Moon_Script>(), "onMoon", false);
+		playerGraphic.onMoon = false;
+		// this is has a protection level that prevents it from being accessed here???
+		//GameObject.Find("Moon").GetComponent<Moon_Script>().onMoon = false;
 		StartCoroutine("LowerDamping");
 		StartCoroutine("Decent");
 	}
@@ -651,11 +648,10 @@ public class move : MonoBehaviour
 
 	public virtual void StandardMovement()
 	{
-		object obj = null;
-		object obj2 = null;
+		float obj;
+		Vector3 obj2;
 		float num = 0f;
-		object obj3 = null;
-		object obj4 = null;
+		Vector3 obj3;
 		Vector3 vector = default(Vector3);
 		if (!onMoon)
 		{
@@ -669,25 +665,20 @@ public class move : MonoBehaviour
 			if (flag)
 			{
 				obj3 = transform.InverseTransformDirection(rigidbody.velocity);
-				RuntimeServices.SetProperty(obj3, "x", Mathf.Clamp(RuntimeServices.UnboxSingle(UnityRuntimeServices.GetProperty(obj3, "x")), -20f - transform.InverseTransformDirection(rigidbody.velocity).z / 20f, 20f + transform.InverseTransformDirection(rigidbody.velocity).z / 20f));
-				rigidbody.velocity = transform.TransformDirection((Vector3)obj3);
+				obj3.x = Mathf.Clamp(obj3.x, -20f - obj3.z / 20f, 20f + obj3.z / 20f);
+				rigidbody.velocity = transform.TransformDirection(obj3);
 				AirControl();
 			}
 			else if ((V1 && (grounded || !Input.GetButton("Jump"))) || !V1)
 			{
 				obj = GetAxis("Horizontal") * 3f;
-				transform.Rotate(Quaternion.AngleAxis(RuntimeServices.UnboxSingle(obj), transform.up).eulerAngles);
-				obj2 = transform.InverseTransformDirection(rigidbody.velocity);
-				obj2 = RuntimeServices.InvokeBinaryOperator("op_Multiply", Quaternion.AngleAxis(RuntimeServices.UnboxSingle(obj), transform.up), obj2);
-				if (!grounded)
-				{
-					RuntimeServices.SetProperty(obj2, "x", RuntimeServices.InvokeBinaryOperator("op_Division", UnityRuntimeServices.GetProperty(obj2, "x"), 1.01f));
-				}
-				else
-				{
-					RuntimeServices.SetProperty(obj2, "x", RuntimeServices.InvokeBinaryOperator("op_Division", UnityRuntimeServices.GetProperty(obj2, "x"), 2));
-				}
-				rigidbody.velocity = transform.TransformDirection((Vector3)obj2);
+				transform.Rotate(Quaternion.AngleAxis(obj, transform.up).eulerAngles);
+				obj2 = Quaternion.AngleAxis(obj, transform.up) * transform.InverseTransformDirection(rigidbody.velocity);
+				
+				if (!grounded) obj2.x /= 1.01f;
+				else obj2.x /= 2f;
+				
+				rigidbody.velocity = transform.TransformDirection(obj2);
 				if (!(transform.InverseTransformDirection(rigidbody.velocity).z <= turnLimit))
 				{
 					overTurnLimit = true;
@@ -733,14 +724,8 @@ public class move : MonoBehaviour
 				else if (!(GetAxis("Vertical") >= -0.01f))
 				{
 					obj3 = transform.InverseTransformDirection(rigidbody.velocity);
-					obj4 = UnityRuntimeServices.GetProperty(obj3, "z");
-					RuntimeServices.SetProperty(obj3, "z", UnityRuntimeServices.Invoke(typeof(Mathf), "Clamp", new object[3]
-					{
-						RuntimeServices.InvokeBinaryOperator("op_Addition", RuntimeServices.InvokeBinaryOperator("op_Multiply", UnityRuntimeServices.GetProperty(obj3, "z"), 0.97f), RuntimeServices.InvokeBinaryOperator("op_Multiply", RuntimeServices.InvokeBinaryOperator("op_Multiply", UnityRuntimeServices.GetProperty(obj3, "z"), 0.03f), GetAxis("Vertical"))),
-						RuntimeServices.InvokeUnaryOperator("op_UnaryNegation", obj4),
-						obj4
-					}, typeof(MonoBehaviour)));
-					rigidbody.velocity = transform.TransformDirection((Vector3)obj3);
+					obj3.z = Mathf.Clamp(obj3.z * 0.97f + obj3.z * 0.03f * Input.GetAxis("Vertical"), -obj3.z, obj3.z);
+					rigidbody.velocity = transform.TransformDirection(obj3);
 				}
 				rigidbody.velocity += decayVelocities();
 				if (skateTriggered)
@@ -776,19 +761,14 @@ public class move : MonoBehaviour
 		if (grounded || (wallRideV2 && !airControl) || (!wallRideV2 && !Input.GetButton("Jump")))
 		{
 			obj = GetAxis("Horizontal") * 3f;
-			transform.Rotate(new Vector3(0f, RuntimeServices.UnboxSingle(obj), 0f));
+			transform.Rotate(new Vector3(0f, obj, 0f));
 			if (!(rigidbody.velocity.magnitude <= maxSpeed))
 			{
-				obj2 = transform.InverseTransformDirection(rigidbody.velocity);
-				obj2 = RuntimeServices.InvokeBinaryOperator("op_Multiply", Quaternion.AngleAxis(RuntimeServices.UnboxSingle(obj), transform.up), obj2);
-				if (!grounded)
-				{
-					RuntimeServices.SetProperty(obj2, "x", RuntimeServices.InvokeBinaryOperator("op_Division", UnityRuntimeServices.GetProperty(obj2, "x"), 1.01f));
-				}
-				else
-				{
-					RuntimeServices.SetProperty(obj2, "x", RuntimeServices.InvokeBinaryOperator("op_Division", UnityRuntimeServices.GetProperty(obj2, "x"), 2));
-				}
+				obj2 = Quaternion.AngleAxis(obj, transform.up) * transform.InverseTransformDirection(rigidbody.velocity);
+				
+				if (!grounded) obj2.x /= 1.01f;
+				else obj2.x /= 2f;
+				
 				if (!(rigidbody.velocity.magnitude >= lastVelocity) && !(Input.GetAxis("Vertical") <= -0.5f))
 				{
 					rigidbody.velocity = transform.forward * lastVelocity;
@@ -855,14 +835,8 @@ public class move : MonoBehaviour
 			else if (!(GetAxis("Vertical") >= -0.01f))
 			{
 				obj3 = transform.InverseTransformDirection(rigidbody.velocity);
-				obj4 = UnityRuntimeServices.GetProperty(obj3, "z");
-				RuntimeServices.SetProperty(obj3, "z", UnityRuntimeServices.Invoke(typeof(Mathf), "Clamp", new object[3]
-				{
-					RuntimeServices.InvokeBinaryOperator("op_Addition", RuntimeServices.InvokeBinaryOperator("op_Multiply", UnityRuntimeServices.GetProperty(obj3, "z"), 0.97f), RuntimeServices.InvokeBinaryOperator("op_Multiply", RuntimeServices.InvokeBinaryOperator("op_Multiply", UnityRuntimeServices.GetProperty(obj3, "z"), 0.03f), GetAxis("Vertical"))),
-					RuntimeServices.InvokeUnaryOperator("op_UnaryNegation", obj4),
-					obj4
-				}, typeof(MonoBehaviour)));
-				rigidbody.velocity = transform.TransformDirection((Vector3)obj3);
+				obj3.z = Mathf.Clamp(obj3.z * 0.97f + obj3.z * 0.03f * Input.GetAxis("Vertical"), -obj3.z, obj3.z);
+				rigidbody.velocity = transform.TransformDirection(obj3);
 			}
 			if (skateTriggered)
 			{
@@ -1120,13 +1094,13 @@ public class move : MonoBehaviour
 	public virtual Vector3 decayVelocities()
 	{
 		Vector3 vector = new Vector3(0f, 0f, 0f);
-		for (int i = 0; i < decayingVelocities.length; i++)
+		for (int i = 0; i < decayingVelocities.Count; i++)
 		{
-			if (RuntimeServices.ToBool(RuntimeServices.InvokeBinaryOperator("op_GreaterThan", UnityRuntimeServices.GetProperty(decayingVelocities[i], "magnitude"), 1)))
+			if (decayingVelocities[i].magnitude > 1)
 			{
-				vector = (Vector3)RuntimeServices.InvokeBinaryOperator("op_Addition", vector, decayingVelocities[i]);
-				object rhs = RuntimeServices.InvokeBinaryOperator("op_Subtraction", UnityRuntimeServices.GetProperty(decayingVelocities[i], "magnitude"), decaySpeed);
-				decayingVelocities[i] = RuntimeServices.InvokeBinaryOperator("op_Multiply", UnityRuntimeServices.GetProperty(decayingVelocities[i], "normalized"), rhs);
+				vector += decayingVelocities[i];
+				float magDiff = decayingVelocities[i].magnitude - decaySpeed;
+				decayingVelocities[i] = decayingVelocities[i].normalized * magDiff;
 			}
 		}
 		return vector;
@@ -1292,16 +1266,16 @@ public class move : MonoBehaviour
 		}
 		if (justJumped)
 		{
-			UnityRuntimeServices.Invoke(soundManager, "PlayJump", new object[0], typeof(MonoBehaviour));
+			soundManager.PlayJump();
 			justJumped = false;
 		}
-		else if (wallRiding && !RuntimeServices.EqualityOperator(UnityRuntimeServices.GetProperty(soundManager, "currentSound"), "wallRide"))
+		else if (wallRiding && soundManager.currentSound != "wallRide")
 		{
-			UnityRuntimeServices.Invoke(soundManager, "PlayWallRide", new object[0], typeof(MonoBehaviour));
+			soundManager.PlayWallRide();
 		}
-		else if (isGrinding && !RuntimeServices.EqualityOperator(UnityRuntimeServices.GetProperty(soundManager, "currentSound"), "grind"))
+		else if (isGrinding && soundManager.currentSound != "grind")
 		{
-			UnityRuntimeServices.Invoke(soundManager, "PlayGrind", new object[0], typeof(MonoBehaviour));
+			soundManager.PlayGrind();
 		}
 		else if (flag)
 		{
@@ -1310,19 +1284,19 @@ public class move : MonoBehaviour
 			if (Physics.Linecast(transform.position + new Vector3(0f, 5f, 0f), transform.position + new Vector3(0f, -10f, 0f), out hitInfo) && (hitInfo.collider.name == "Terrain" || hitInfo.collider.tag == "Terrain"))
 			{
 				flag2 = true;
-				if (!RuntimeServices.EqualityOperator(UnityRuntimeServices.GetProperty(soundManager, "currentSound"), "skateSand"))
+				if (soundManager.currentSound != "skateSand")
 				{
-					UnityRuntimeServices.Invoke(soundManager, "PlaySkateSand", new object[0], typeof(MonoBehaviour));
+					soundManager.PlaySkateSand();
 				}
 			}
-			if (!flag2 && !RuntimeServices.EqualityOperator(UnityRuntimeServices.GetProperty(soundManager, "currentSound"), "skate"))
+			if (!flag2 && soundManager.currentSound != "skate")
 			{
-				UnityRuntimeServices.Invoke(soundManager, "PlaySkate", new object[0], typeof(MonoBehaviour));
+				soundManager.PlaySkate();
 			}
 		}
-		else if (!RuntimeServices.EqualityOperator(UnityRuntimeServices.GetProperty(soundManager, "currentSound"), "none") && !isGrinding && !flag && !wallRiding)
+		else if (soundManager.currentSound != "none" && !isGrinding && !flag && !wallRiding)
 		{
-			UnityRuntimeServices.Invoke(soundManager, "StopSound", new object[0], typeof(MonoBehaviour));
+			soundManager.StopSound();
 		}
 	}
 
@@ -1442,15 +1416,8 @@ public class move : MonoBehaviour
 				if (skatePushed && (lastAnim == "IdleR" || lastAnim == "IdleD" || lastAnim == "Skate" || lastAnim == "Landing"))
 				{
 					bool flag = false;
-					IEnumerator enumerator = UnityRuntimeServices.GetEnumerator(model.animation);
-					while (enumerator.MoveNext())
+					foreach (AnimationState animationState in model.animation)
 					{
-						object obj = enumerator.Current;
-						if (!(obj is AnimationState))
-						{
-							obj = RuntimeServices.Coerce(obj, typeof(AnimationState));
-						}
-						AnimationState animationState = (AnimationState)obj;
 						if ((animationState.name == "DeepHoldRight" || animationState.name == "DeepHoldLeft" || animationState.name == "RightToIdleD" || animationState.name == "LeftToIdleD" || animationState.name == "Skate" || animationState.name == "IdleR" || animationState.name == "IdleD" || animationState.name == "IdleD2" || animationState.name == "Landing") && !(animationState.time < animationState.length))
 						{
 							flag = true;
@@ -1486,15 +1453,8 @@ public class move : MonoBehaviour
 				{
 					bool flag2 = false;
 					model.animation["IdleD"].speed = 1f;
-					IEnumerator enumerator2 = UnityRuntimeServices.GetEnumerator(model.animation);
-					while (enumerator2.MoveNext())
+					foreach (AnimationState animationState2 in model.animation)
 					{
-						object obj2 = enumerator2.Current;
-						if (!(obj2 is AnimationState))
-						{
-							obj2 = RuntimeServices.Coerce(obj2, typeof(AnimationState));
-						}
-						AnimationState animationState2 = (AnimationState)obj2;
 						if ((animationState2.name == "SkateLeftD" || animationState2.name == "SkateRightD") && !(animationState2.time < animationState2.length))
 						{
 							flag2 = true;
@@ -1519,15 +1479,8 @@ public class move : MonoBehaviour
 				else if (isSkating)
 				{
 					bool flag3 = false;
-					IEnumerator enumerator3 = UnityRuntimeServices.GetEnumerator(model.animation);
-					while (enumerator3.MoveNext())
+					foreach (AnimationState animationState3 in model.animation)
 					{
-						object obj3 = enumerator3.Current;
-						if (!(obj3 is AnimationState))
-						{
-							obj3 = RuntimeServices.Coerce(obj3, typeof(AnimationState));
-						}
-						AnimationState animationState3 = (AnimationState)obj3;
 						if ((animationState3.name == "RightToIdleD" || animationState3.name == "LeftToIdleD" || animationState3.name == "DeepHoldLeft" || animationState3.name == "DeepHoldRight" || animationState3.name == "IdleD" || animationState3.name == "IdleD2") && !(animationState3.time < animationState3.length))
 						{
 							flag3 = true;
@@ -1562,15 +1515,8 @@ public class move : MonoBehaviour
 					bool flag4 = false;
 					if (lastAnim == "Landing")
 					{
-						IEnumerator enumerator4 = UnityRuntimeServices.GetEnumerator(model.animation);
-						while (enumerator4.MoveNext())
+						foreach (AnimationState animationState4 in model.animation)
 						{
-							object obj4 = enumerator4.Current;
-							if (!(obj4 is AnimationState))
-							{
-								obj4 = RuntimeServices.Coerce(obj4, typeof(AnimationState));
-							}
-							AnimationState animationState4 = (AnimationState)obj4;
 							if (animationState4.name == "Landing" && !(animationState4.time < animationState4.length))
 							{
 								flag4 = true;
@@ -1615,21 +1561,11 @@ public class move : MonoBehaviour
 					flag6 = false;
 					if (lastAnim == "SkateD" || lastAnim == "Landing" || lastAnim == "Skate")
 					{
-						IEnumerator enumerator5 = UnityRuntimeServices.GetEnumerator(model.animation);
-						while (enumerator5.MoveNext())
+						foreach (AnimationState animationState5 in model.animation)
 						{
-							object obj5 = enumerator5.Current;
-							if (!(obj5 is AnimationState))
-							{
-								obj5 = RuntimeServices.Coerce(obj5, typeof(AnimationState));
-							}
-							AnimationState animationState5 = (AnimationState)obj5;
 							if (animationState5.name == "SkateLeftD" || animationState5.name == "SkateRightD" || animationState5.name == "RightToIdleD" || animationState5.name == "LeftToIdleD" || animationState5.name == "Landing")
 							{
-								if (!(animationState5.time < animationState5.length))
-								{
-									flag6 = true;
-								}
+								flag6 = true;
 							}
 							else if (animationState5.name == "Skate")
 							{
@@ -1637,7 +1573,6 @@ public class move : MonoBehaviour
 								{
 									flag6 = true;
 									animationState5.time -= animationState5.length;
-									UnityRuntimeServices.Update(enumerator5, animationState5);
 								}
 								else if (!(animationState5.time >= animationState5.length * 0.75f))
 								{
@@ -1668,15 +1603,8 @@ public class move : MonoBehaviour
 				flag5 = true;
 				if (lastAnim == "Skate")
 				{
-					IEnumerator enumerator6 = UnityRuntimeServices.GetEnumerator(model.animation);
-					while (enumerator6.MoveNext())
+					foreach (AnimationState animationState6 in model.animation)
 					{
-						object obj6 = enumerator6.Current;
-						if (!(obj6 is AnimationState))
-						{
-							obj6 = RuntimeServices.Coerce(obj6, typeof(AnimationState));
-						}
-						AnimationState animationState6 = (AnimationState)obj6;
 						if (animationState6.name == "Skate")
 						{
 							if (!(animationState6.time >= animationState6.length))
@@ -1684,8 +1612,8 @@ public class move : MonoBehaviour
 								flag5 = false;
 								continue;
 							}
+
 							animationState6.time -= animationState6.length;
-							UnityRuntimeServices.Update(enumerator6, animationState6);
 						}
 					}
 				}
