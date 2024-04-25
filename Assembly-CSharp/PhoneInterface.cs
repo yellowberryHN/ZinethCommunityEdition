@@ -300,6 +300,7 @@ public class PhoneInterface : MonoBehaviour
 		string_dic.Clear();
 		StoreInfo("version", version);
 		StoreInfoInt("tried_tutorial");
+		StoreInfoInt("speedrun_mode");
 		StoreInfo("volume_master", 0.75f);
 		StoreInfo("volume_menu", 1f);
 		StoreInfo("volume_ring", 1f);
@@ -343,17 +344,29 @@ public class PhoneInterface : MonoBehaviour
 		}
 	}
 
+	
+
+	private static void StoreInfo(string pref_name, int default_val)
+	{
+		int_dic.Add(pref_name, PlayerPrefs.GetInt(pref_name, default_val));
+	}
+	
+	private static void StoreInfo(string pref_name, float default_val)
+	{
+		float_dic.Add(pref_name, PlayerPrefs.GetFloat(pref_name, default_val));
+	}
+	
+	private static void StoreInfo(string pref_name, string default_val)
+	{
+		string_dic.Add(pref_name, PlayerPrefs.GetString(pref_name, default_val));
+	}
+	
 	private static void StoreInfoInt(string pref_name)
 	{
 		if (PlayerPrefs.HasKey(pref_name))
 		{
 			int_dic.Add(pref_name, PlayerPrefs.GetInt(pref_name));
 		}
-	}
-
-	private static void StoreInfo(string pref_name, int default_val)
-	{
-		int_dic.Add(pref_name, PlayerPrefs.GetInt(pref_name, default_val));
 	}
 
 	private static void StoreInfoFloat(string pref_name)
@@ -364,22 +377,12 @@ public class PhoneInterface : MonoBehaviour
 		}
 	}
 
-	private static void StoreInfo(string pref_name, float default_val)
-	{
-		float_dic.Add(pref_name, PlayerPrefs.GetFloat(pref_name, default_val));
-	}
-
 	private static void StoreInfoString(string pref_name)
 	{
 		if (PlayerPrefs.HasKey(pref_name))
 		{
 			string_dic.Add(pref_name, PlayerPrefs.GetString(pref_name));
 		}
-	}
-
-	private static void StoreInfo(string pref_name, string default_val)
-	{
-		string_dic.Add(pref_name, PlayerPrefs.GetString(pref_name, default_val));
 	}
 
 	private void Awake()
