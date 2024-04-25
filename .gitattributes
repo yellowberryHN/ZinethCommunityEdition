@@ -1,0 +1,5 @@
+# Set default behavior
+* text=auto
+
+# Always use windows line endings
+*.sln text eol=crlf
