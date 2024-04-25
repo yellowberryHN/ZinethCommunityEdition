@@ -49,7 +49,7 @@ public class ModController : MonoBehaviour
     
     private bool debugMenuActive;
     
-    private string command_to_run = "";
+    private string commandToRun = "";
     
     private void OnGUI()
     {
@@ -83,10 +83,10 @@ public class ModController : MonoBehaviour
                         !Camera.mainCamera.GetComponent<EdgeDetectEffect>().enabled;
                 }
                 GUILayout.BeginHorizontal();
-                command_to_run = GUILayout.TextField(command_to_run);
+                commandToRun = GUILayout.TextField(commandToRun);
                 if (GUILayout.Button("run command"))
                 {
-                    PhoneController.DoPhoneCommand(command_to_run);
+                    PhoneController.DoPhoneCommand(commandToRun);
                 }
                 GUILayout.EndHorizontal();
             }
