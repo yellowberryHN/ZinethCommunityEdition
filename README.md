@@ -17,13 +17,13 @@ all while staying true to the games original aesthetics.
 
 - Additional phone game monster names
 
-- Hotkey for returning back to the main menu
+- Hotkey for returning back to the main menu (<kbd>F1</kbd>)
 
 - ***A speedrunning mode***
     - Built-in speedrunning timer
     - Timer auto-stop when reaching specific goals
-    - Hotkey for restarting run
-    - Hotkey for stopping timer
+    - Hotkey for restarting run (<kbd>F5</kbd>)
+    - Hotkey for stopping timer (<kbd>F8</kbd>)
 
 - Removed broken Twitter integration (it will be missed...)
 
