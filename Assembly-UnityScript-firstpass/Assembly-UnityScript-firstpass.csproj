@@ -29,7 +29,7 @@
       <HintPath>..\lib\UnityScript.Lang.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)dist\zinethCE_Data\Managed\$(ProjectName).dll&quot;" />
+  <Target Name="CopyDLL" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="$(SolutionDir)dist/zinethCE_Data/Managed" />
   </Target>
 </Project>
