@@ -1,8 +1,16 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class ModController : MonoBehaviour
 {
     public static ModController instance;
+    private System.IntPtr windowHandle;
+    
+    [DllImport("user32.dll", EntryPoint = "FindWindow")]
+    public static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
+    
+    [DllImport("user32.dll", EntryPoint = "SetWindowTextW", CharSet = CharSet.Unicode)]
+    public static extern bool SetWindowTextW(System.IntPtr hWnd, string lpString);
 
     private void Awake()
     {
@@ -14,6 +22,25 @@ public class ModController : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         Debug.Log("Mod controller is active, quick keys enabled.");
+        UpdateTitle();
+    }
+    
+    // TODO: I really quite dislike this solution, find a better way to do this
+    private void UpdateTitle()
+    {
+        try
+        {
+            if (windowHandle == System.IntPtr.Zero)
+            {
+                windowHandle = FindWindow(null, "Zineth");
+            }
+
+            SetWindowTextW(windowHandle, "Zineth Community Edition");
+        }
+        catch(System.EntryPointNotFoundException)
+        {
+            Debug.LogWarning("Failed to update window title, probably not running on Windows.");
+        }
     }
 
     private void Update()
