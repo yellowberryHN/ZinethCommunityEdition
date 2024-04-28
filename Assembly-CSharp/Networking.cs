@@ -669,6 +669,7 @@ public class Networking : MonoBehaviour
 		{
 			text += " ";
 		}
+		// TODO: max players not sent to all players
 		text = ((!Network.isServer) ? (text + string.Format("[{0}]", netplayer_dic.Count.ToString())) : (text + string.Format("[{0}/{1}]", (Network.connections.Length + 1).ToString(), (Network.maxConnections + 1).ToString())));
 		Rect screenRect = player_list_rect;
 		if (!show_player_list)

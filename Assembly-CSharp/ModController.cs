@@ -12,6 +12,8 @@ public class ModController : MonoBehaviour
     [DllImport("user32.dll", EntryPoint = "SetWindowTextW", CharSet = CharSet.Unicode)]
     public static extern bool SetWindowTextW(System.IntPtr hWnd, string lpString);
 
+    public static Discord.Discord discord;
+
     private void Awake()
     {
         if (instance != null)
@@ -23,6 +25,7 @@ public class ModController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         Debug.Log("Mod controller is active, quick keys enabled.");
         UpdateTitle();
+        discord = new Discord.Discord(1233330405092888660, (ulong)Discord.CreateFlags.NoRequireDiscord);
     }
     
     // TODO: I really quite dislike this solution, find a better way to do this
@@ -63,9 +66,79 @@ public class ModController : MonoBehaviour
             {
                 PhoneInterface.ClearGameData();
                 PhoneLoaderMenu.CleanUp();
-                Application.LoadLevel("loader 1");
+                Application.LoadLevel("Loader 1");
             }
         }
+
+        if (discord != null)
+        {
+            discord.RunCallbacks();
+            InvokeRepeating("UpdateDiscord", 5f, 5f);
+        }
+    }
+
+    public void UpdateDiscord()
+    {
+        var details = string.Empty;
+        var state = string.Empty;
+        
+        details = "Main Menu";
+        switch (Application.loadedLevelName)
+        {
+            case "test": // Custom Map
+            case "Loader 1": // Game
+                details = "Skating";
+                MissionObject mission = MissionController.focus_mission;
+                if (mission != null)
+                {
+                    details = "On Mission: " + mission.title;
+                }
+                break;
+            case "Loader 5": // Tutorial
+                details = "Tutorial";
+                break;
+            default:
+                details = "Main Menu";
+                break;
+        }
+
+        var activity = new Discord.Activity
+        {
+            Details = details,
+            State = state,
+            Assets =
+            {
+                LargeImage = "zineth-ce", // Larger Image Asset Value
+                LargeText = "Zineth CE", // Large Image Tooltip
+            }
+        };
+
+        if (Application.loadedLevelName == "test")
+        {
+            activity.Details += " (Custom Map)";
+        }
+        if (Networking.instance != null && Networking.instance.enabled)
+        {
+            activity.State = "Playing together";
+            if (Network.isServer)
+            {
+                activity.Party.Size.CurrentSize = Network.connections.Length + 1;
+                activity.Party.Size.MaxSize = Network.maxConnections + 1;
+            }
+            else if (Network.isClient)
+            {
+                activity.Party.Size.CurrentSize = Networking.netplayer_dic.Count;
+                // TODO: max players not sent to all players
+            }
+        }
+        
+        discord.GetActivityManager().UpdateActivity(activity, (result) =>
+        {
+            if (result != Discord.Result.Ok)
+            {
+                Debug.LogWarning("Failed to update Discord Rich Presence");
+            }
+        });
     }
 
 #if DEBUG
