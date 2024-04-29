@@ -9,6 +9,10 @@ public class SpeedrunTimer : MonoBehaviour
     public GUIText behindText;
     
     private static SpeedrunTimer _instance;
+    
+    public long startTimestamp; // used by Discord
+
+    public string finalTime { get; private set; }
 
     // sinful code
     public void Setup(GUIText text)
@@ -32,6 +36,12 @@ public class SpeedrunTimer : MonoBehaviour
     {
         elapsedTime = 0f;
     }
+
+    private void Start()
+    {
+        System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+        startTimestamp = (long)(System.DateTime.UtcNow - epochStart).TotalSeconds;
+    }
     
     private void Update()
     {
@@ -54,6 +64,7 @@ public class SpeedrunTimer : MonoBehaviour
     {
         guiText.material.color = Color.red;
         enabled = false;
+        finalTime = string.Format("{0:00}:{1:00}.{2:000}", Mathf.Floor(elapsedTime / 60), elapsedTime % 60, (elapsedTime * 1000) % 1000);
     }
     
     public static SpeedrunTimer instance

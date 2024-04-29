@@ -23,9 +23,22 @@ public class ModController : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
-        Debug.Log("Mod controller is active, quick keys enabled.");
+        Debug.Log("Mod controller initialized.");
         UpdateTitle();
-        discord = new Discord.Discord(1233330405092888660, (ulong)Discord.CreateFlags.NoRequireDiscord);
+        if (PlayerPrefsX.GetBool("discord_rpc", true)) // discord rich presence enableda
+        {
+            try
+            {
+                discord = new Discord.Discord(1233330405092888660, (ulong)Discord.CreateFlags.NoRequireDiscord);
+                InvokeRepeating("UpdateDiscord", 5f, 5f);
+            }
+            catch (Discord.ResultException)
+            {
+                Debug.LogWarning("Failed to initialize Discord integration, might not be running.");
+                discord = null;
+                CancelInvoke("UpdateDiscord");
+            }
+        }
     }
     
     // TODO: I really quite dislike this solution, find a better way to do this
@@ -72,8 +85,16 @@ public class ModController : MonoBehaviour
 
         if (discord != null)
         {
-            discord.RunCallbacks();
-            InvokeRepeating("UpdateDiscord", 5f, 5f);
+            try
+            {
+                discord.RunCallbacks();
+            }
+            catch (Discord.ResultException)
+            {
+                Debug.LogWarning("Failed to run Discord callbacks, disabling...");
+                discord = null;
+                CancelInvoke("UpdateDiscord");
+            }
         }
     }
 
@@ -93,6 +114,20 @@ public class ModController : MonoBehaviour
                 {
                     details = "On Mission: " + mission.title;
                 }
+                
+                if (SpeedrunTimer.instance.enabled || SpeedrunTimer.instance.finalTime != null)
+                {
+                    state = "Speedrunning";
+                    if (SpeedrunTimer.instance.finalTime != null)
+                    {
+                        state += " (⏱ " + SpeedrunTimer.instance.finalTime + ")";
+                    }
+                }
+                else
+                {
+                    state = "Playing alone";
+                }
+                
                 break;
             case "Loader 5": // Tutorial
                 details = "Tutorial";
@@ -108,8 +143,8 @@ public class ModController : MonoBehaviour
             State = state,
             Assets =
             {
-                LargeImage = "zineth-ce", // Larger Image Asset Value
-                LargeText = "Zineth CE", // Large Image Tooltip
+                LargeImage = "zineth-ce",
+                LargeText = "Zineth CE"
             }
         };
 
@@ -131,12 +166,22 @@ public class ModController : MonoBehaviour
                 // TODO: max players not sent to all players
             }
         }
-        
+        else if (SpeedrunTimer.instance != null && SpeedrunTimer.instance.enabled)
+        {
+            activity.Timestamps.Start = SpeedrunTimer.instance.startTimestamp;
+        }
+
         discord.GetActivityManager().UpdateActivity(activity, (result) =>
         {
             if (result != Discord.Result.Ok)
             {
                 Debug.LogWarning("Failed to update Discord Rich Presence");
+                if (result == Discord.Result.NotRunning)
+                {
+                    Debug.LogWarning("Discord appears to have been closed, disabling...");
+                    discord = null;
+                    CancelInvoke("UpdateDiscord");
+                }
             }
         });
     }

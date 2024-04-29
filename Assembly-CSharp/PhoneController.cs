@@ -286,6 +286,24 @@ public class PhoneController : MonoBehaviour
 		menu.buttons.Add(phoneButton);
 		position += base.transform.forward * -0.75f;
 		phoneButton.Init();
+		
+		phoneButton = Instantiate(PhoneTextController.buttonprefab) as PhoneButton;
+		phoneButton.transform.position = position;
+		phoneButton.transform.parent = menu.transform;
+		phoneButton.textmesh.text = "Discord RPC (on)";
+		phoneButton.textmesh.characterSize = 0.75f;
+		phoneButton.button_name = "Discord RPC (on)";
+		phoneButton.text = phoneButton.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
+		phoneButton.text += !PlayerPrefsX.GetBool("discord_rpc", true) ? "(off)" : "(on)";
+		phoneButton.command = ".discord_rpc";
+		phoneButton.screen = menu;
+		phoneButton.textmesh.alignment = TextAlignment.Right;
+		phoneButton.textmesh.anchor = TextAnchor.MiddleRight;
+		phoneButton.animateOnLoad = true;
+		phoneButton.left_button = menu.buttons[0];
+		menu.buttons.Add(phoneButton);
+		position += base.transform.forward * -0.75f;
+		phoneButton.Init();
 	}
 
 	private void ReplaceTwitterScreen()

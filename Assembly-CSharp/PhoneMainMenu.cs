@@ -723,7 +723,12 @@ public class PhoneMainMenu : PhoneScreen
 		}
 		else if (message.StartsWith("speedrun_toggle"))
 		{
-			PlayerPrefsX.SetBool("speedrun_mode", !PlayerPrefsX.GetBool("speedrun_mode", false));
+			var state = PlayerPrefsX.GetBool("speedrun_mode", false);
+			PlayerPrefsX.SetBool("speedrun_mode", !state);
+			if (state)
+			{
+				 SpeedrunTimer.instance.gameObject.SetActiveRecursively(SpeedrunTimer.instance.enabled = false);
+			}
 			button.text = button.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
 			button.text += !PlayerPrefsX.GetBool("speedrun_mode", false) ? "(off)" : "(on)";
 		}
@@ -733,6 +738,12 @@ public class PhoneMainMenu : PhoneScreen
 			PlayerPrefsX.SetBool("player_radar", PhoneMapController.player_radar);
 			button.text = button.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
 			button.text += !PhoneMapController.player_radar ? "(off)" : "(on)";
+		}
+		else if (message.StartsWith("discord_rpc"))
+		{
+			PlayerPrefsX.SetBool("discord_rpc", !PlayerPrefsX.GetBool("discord_rpc", true));
+			button.text = button.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
+			button.text += !PlayerPrefsX.GetBool("discord_rpc", true) ? "(off)" : "(on)";
 		}
 		return true;
 	}
