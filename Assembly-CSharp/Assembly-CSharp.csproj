@@ -2,7 +2,7 @@
   <PropertyGroup>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-    <TargetFramework>net20</TargetFramework>
+    <TargetFramework>net35</TargetFramework>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>5</LangVersion>
