@@ -115,7 +115,7 @@ public class ModController : MonoBehaviour
                     details = "On Mission: " + mission.title;
                 }
                 
-                if (SpeedrunTimer.instance.enabled || SpeedrunTimer.instance.finalTime != null)
+                if (SpeedrunTimer.instance != null && (SpeedrunTimer.instance.enabled || SpeedrunTimer.instance.finalTime != null))
                 {
                     state = "Speedrunning";
                     if (SpeedrunTimer.instance.finalTime != null)

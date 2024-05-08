@@ -745,6 +745,11 @@ public class PhoneMainMenu : PhoneScreen
 			button.text = button.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
 			button.text += !PlayerPrefsX.GetBool("discord_rpc", true) ? "(off)" : "(on)";
 		}
+		else if (message.StartsWith("cycle_speedrun_type") && SpeedrunTimer.instance != null)
+		{
+			PlayerPrefsX.SetEnum("speedrun_type", SpeedrunTimer.instance.CycleRunType());
+			button.text = string.Format("Run Type ({0})", PlayerPrefsX.GetEnum("speedrun_type", SpeedrunTimer.RunTypes.Off));
+		}
 		return true;
 	}
 	

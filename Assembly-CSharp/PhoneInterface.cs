@@ -301,6 +301,7 @@ public class PhoneInterface : MonoBehaviour
 		StoreInfo("version", version);
 		StoreInfoInt("tried_tutorial");
 		StoreInfoInt("speedrun_mode");
+		StoreInfoString("speedrun_type");
 		StoreInfo("volume_master", 0.75f);
 		StoreInfo("volume_menu", 1f);
 		StoreInfo("volume_ring", 1f);

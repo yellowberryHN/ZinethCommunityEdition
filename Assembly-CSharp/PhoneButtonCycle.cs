@@ -7,9 +7,9 @@ public class PhoneButtonCycle : PhoneButton
 	private void Awake()
 	{
 		Init();
-		if (colors.Length == 0)
+		if (colors == null)
 		{
-			colors[0] = "white";
+			colors = new[] { "white" };
 		}
 	}
 

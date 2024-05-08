@@ -73,6 +73,8 @@ public class PhoneController : MonoBehaviour
 
 	private float ringtimer;
 
+	private Color ringcolor = Color.red;
+
 	private int vibratecount;
 
 	private float vibrateinterval = 0.5f;
@@ -88,7 +90,7 @@ public class PhoneController : MonoBehaviour
 	private GameObject phonebuttonopen;
 
 	private GameObject phonebuttonhome;
-
+	
 	public static float deltatime
 	{
 		get
@@ -268,6 +270,29 @@ public class PhoneController : MonoBehaviour
 		menu.buttons.Add(phoneButton);
 		position += base.transform.forward * -0.75f;
 		phoneButton.Init();
+
+		// Speedrun Type cycle button
+		
+		if (PlayerPrefsX.GetBool("speedrun_mode", false))
+		{
+			phoneButton = Instantiate(PhoneTextController.buttonprefab) as PhoneButton;
+			phoneButton.transform.position = position;
+			phoneButton.transform.parent = menu.transform;
+			phoneButton.textmesh.text = "Run Type";
+			phoneButton.textmesh.characterSize = 0.75f;
+			phoneButton.button_name = "SpeedrunType";
+			phoneButton.text = string.Format("Run Type ({0})", PlayerPrefsX.GetEnum("speedrun_type", SpeedrunTimer.RunTypes.Off));
+			phoneButton.command = ".cycle_speedrun_type";
+			phoneButton.screen = menu;
+			phoneButton.textmesh.alignment = TextAlignment.Right;
+			phoneButton.textmesh.anchor = TextAnchor.MiddleRight;
+			phoneButton.animateOnLoad = true;
+			phoneButton.left_button = menu.buttons[0];
+			menu.buttons.Add(phoneButton);
+			position += base.transform.forward * -0.75f;
+			phoneButton.enabled = true;
+			phoneButton.Init();
+		}
 		
 		phoneButton = Instantiate(PhoneTextController.buttonprefab) as PhoneButton;
 		phoneButton.transform.position = position;
@@ -309,11 +334,12 @@ public class PhoneController : MonoBehaviour
 	private void ReplaceTwitterScreen()
 	{
 		if (!(bool)GameObject.Find("PhoneMainMenu")) return;
-		var textMenu = GameObject.Find("PhoneTextTest");
+		var textMenu = GameObject.Find("PhoneTextTest").GetComponent<PhoneChatMenu>();
 
-		textMenu.GetComponent<PhoneChatMenu>().icon_texture = (Texture2D)Resources.Load("icon_text", typeof(Texture2D));; //new Texture2D(32, 32);
-			
-		GameObject.Find("PhoneMainMenu").GetComponent<PhoneMainMenu>().menu_items[4] = "TextTest";
+		textMenu.icon_texture = Networking.instance.chat_icons[0]; // pizza icon!
+		textMenu.screenname = "Talk";
+		
+		GameObject.Find("PhoneMainMenu").GetComponent<PhoneMainMenu>().menu_items[4] = "Talk";
 	}
 
 	private void SetupScreenDict()
@@ -709,6 +735,18 @@ public class PhoneController : MonoBehaviour
 			ringcount = 3;
 		}
 		ringtimer = 0f;
+		ringcolor = Color.red;
+	}
+
+	public void OnNewChat()
+	{
+		ringcount += 1;
+		if (ringcount > 3)
+		{
+			ringcount = 3;
+		}
+		ringtimer = 0f;
+		ringcolor = Color.blue;
 	}
 
 	public void StopRinging()
@@ -751,6 +789,7 @@ public class PhoneController : MonoBehaviour
 		}
 		if ((bool)phoneviewcontroller)
 		{
+			phoneviewcontroller.SetLightColor(ringcolor);
 			phoneviewcontroller.SetLightBrightness(XInput.GetPhoneVibrateForce().magnitude * 5f);
 		}
 	}

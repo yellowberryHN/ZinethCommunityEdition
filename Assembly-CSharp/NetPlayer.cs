@@ -839,6 +839,9 @@ public class NetPlayer : MonoBehaviour
 	[RPC]
 	public void ChatMessage(string text)
 	{
+		if(PhoneController.powerstate == PhoneController.PowerState.closed || 
+		   PhoneController.instance.curscreen.screenname != "Talk") 
+			PhoneController.instance.OnNewChat();
 		Networking.AddChatMessage(text);
 	}
 

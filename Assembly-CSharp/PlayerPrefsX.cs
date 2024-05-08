@@ -36,4 +36,19 @@ public static class PlayerPrefsX
     {
         return new Color32(PlayerPrefs.GetInt(key, defaultValue.PackedColor));
     }
+
+    public static T GetEnum<T>(string key)
+    {
+        return (T)System.Enum.ToObject(typeof(T), PlayerPrefs.GetInt(key));
+    }
+
+    public static T GetEnum<T>(string key, T defaultValue)
+    {
+        return (T)System.Enum.ToObject(typeof(T), PlayerPrefs.GetInt(key, System.Convert.ToInt32(defaultValue)));
+    }
+
+    public static void SetEnum<T>(string key, T value)
+    {
+        PlayerPrefs.SetInt(key, System.Convert.ToInt32(value));
+    }
 }

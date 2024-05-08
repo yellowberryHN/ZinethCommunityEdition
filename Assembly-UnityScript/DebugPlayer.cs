@@ -29,7 +29,7 @@ public class DebugPlayer : MonoBehaviour
 		
 		if (PlayerPrefs.GetInt("speedrun_mode", 0) == 1)
 		{
-			new GameObject("Speedrunning").AddComponent<SpeedrunTimer>().Setup(guiText);
+			new GameObject("Speedrunning").AddComponent<SpeedrunTimer>().Setup();
 		}
 	}
 

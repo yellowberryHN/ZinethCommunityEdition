@@ -368,7 +368,7 @@ public class Networking : MonoBehaviour
 
 	private void OnConnectedToServer()
 	{
-		PhoneMemory.UnlockMenuQuiet("TextTest");
+		PhoneMemory.UnlockMenuQuiet("Talk");
 		//if (Application.isEditor)
 		//{
 			Debug.Log("connected to server...");
@@ -379,7 +379,7 @@ public class Networking : MonoBehaviour
 
 	private void OnDisconnectedFromServer(NetworkDisconnection info)
 	{
-		PhoneMemory.LockMenu("TextTest");
+		PhoneMemory.LockMenu("Talk");
 		Debug.Log("Disconnected from server: " + info);
 		if ((bool)client_net)
 		{
@@ -480,7 +480,7 @@ public class Networking : MonoBehaviour
 
 	private void StartServer()
 	{
-		PhoneMemory.UnlockMenuQuiet("TextTest");
+		PhoneMemory.UnlockMenuQuiet("Talk");
 		string comment = MakeServerComment();
 		Network.incomingPassword = password;
 		int result;

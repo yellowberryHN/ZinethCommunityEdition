@@ -271,6 +271,11 @@ public class PhoneViewController : MonoBehaviour
 		light_brightness = amount;
 	}
 
+	public void SetLightColor(Color color)
+	{
+		phoneviewlight.color = color;
+	}
+
 	public void HandleStick()
 	{
 		if ((bool)phoneviewstick)

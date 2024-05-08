@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class SpeedrunTimer : MonoBehaviour
 {
+    private static SpeedrunTimer _instance;
+    
     private float elapsedTime;
     
-    private GUIText _guiText;
-    
-    public GUIText behindText;
-    
-    private static SpeedrunTimer _instance;
+    private GUIText behindText;
+
+    public RunTypes runType;
     
     public long startTimestamp; // used by Discord
 
     public string finalTime { get; private set; }
 
     // sinful code
-    public void Setup(GUIText text)
+    public void Setup()
     {
         transform.Translate(new Vector3(0.0075f,0.075f,0f));
         gameObject.AddComponent<GUIText>();
@@ -35,11 +35,12 @@ public class SpeedrunTimer : MonoBehaviour
     private void Awake()
     {
         elapsedTime = 0f;
+        runType = PlayerPrefsX.GetEnum("speedrun_type", RunTypes.Off);
     }
 
     private void Start()
     {
-        System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+        var epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
         startTimestamp = (long)(System.DateTime.UtcNow - epochStart).TotalSeconds;
     }
     
@@ -77,5 +78,20 @@ public class SpeedrunTimer : MonoBehaviour
             }
             return _instance;
         }
+    }
+
+    public RunTypes CycleRunType()
+    {
+        runType = (RunTypes)(((int)runType + 1) % System.Enum.GetValues(typeof(RunTypes)).Length);
+        return runType;
+    }
+
+    public enum RunTypes
+    {
+        Off,
+        Moon,
+        Story,
+        Mission,
+        Capsule
     }
 }
