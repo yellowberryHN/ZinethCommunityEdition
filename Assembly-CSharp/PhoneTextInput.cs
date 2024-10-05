@@ -60,6 +60,7 @@ public class PhoneTextInput : PhoneButton
 			text_label.SetColor(Color.gray);
 			text_label.text = ">" + input_text;
 		}
+
 		base.OnUpdate();
 	}
 
@@ -158,7 +159,7 @@ public class PhoneTextInput : PhoneButton
 
 	private void OnGUI()
 	{
-		if (has_focus)
+		if (has_focus && PhoneController.powerstate == PhoneController.PowerState.open)
 		{
 			GUI.SetNextControlName("hahaok");
 			GUI.TextField(new Rect(-10f, -10f, 1f, 1f), string.Empty);

@@ -75,6 +75,8 @@ public class PhoneController : MonoBehaviour
 
 	private Color ringcolor = Color.red;
 
+	private bool ringsilent = false;
+
 	private int vibratecount;
 
 	private float vibrateinterval = 0.5f;
@@ -736,6 +738,7 @@ public class PhoneController : MonoBehaviour
 		}
 		ringtimer = 0f;
 		ringcolor = Color.red;
+		ringsilent = false;
 	}
 
 	public void OnNewChat()
@@ -747,6 +750,7 @@ public class PhoneController : MonoBehaviour
 		}
 		ringtimer = 0f;
 		ringcolor = Color.blue;
+		ringsilent = true;
 	}
 
 	public void StopRinging()
@@ -802,7 +806,7 @@ public class PhoneController : MonoBehaviour
 
 	private void Ring()
 	{
-		if (PhoneAudioController.StartRinging())
+		if (PhoneAudioController.StartRinging(ringsilent))
 		{
 			ringcount--;
 		}
@@ -810,6 +814,4 @@ public class PhoneController : MonoBehaviour
 		vibratecount = 2;
 		vibratetimer = 0f;
 	}
-
-	
 }

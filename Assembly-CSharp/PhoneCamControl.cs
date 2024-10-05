@@ -130,7 +130,7 @@ public class PhoneCamControl : PhoneScreen
 			{
 				if (hold_timer == 0f)
 				{
-					hold_timer = 0.2f;
+					hold_timer = 0.5f;
 				}
 			}
 			else

@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityScript.Lang;
 
 [Serializable]
 public class StopScript : MonoBehaviour
@@ -16,7 +15,7 @@ public class StopScript : MonoBehaviour
 
 	public virtual void OnTriggerEnter(Collider other)
 	{
-		UnityRuntimeServices.Invoke(GameObject.Find("SpawnPoint").GetComponent<SpawnPointScript>(), "ClearSpawns", new object[0], typeof(MonoBehaviour));
-		UnityRuntimeServices.Invoke(player.GetComponent<move>(), "Stop", new object[0], typeof(MonoBehaviour));
+		GameObject.Find("SpawnPoint").GetComponent<SpawnPointScript>().ClearSpawns();
+		player.GetComponent<move>().Stop();
 	}
 }

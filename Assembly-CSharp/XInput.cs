@@ -91,19 +91,20 @@ public class XInput : MonoBehaviour
 		{
 			return;
 		}
-		bool flag = true;
 		if (!prevState.IsConnected || !playerIndexSet)
 		{
-			flag = false;
+			bool controllerFound = false;
 			string[] joystickNames = Input.GetJoystickNames();
 			foreach (string text in joystickNames)
 			{
-				if (text == "Controller (XBOX 360 For Windows)" || text == "Controller (Xbox 360 Wireless Receiver for Windows)")
+				// TODO: try to make this more elegant?
+				var joyName = text.ToLower();
+				if (joyName.StartsWith("controller (xbox") && joyName.EndsWith("for windows)"))
 				{
-					flag = true;
+					controllerFound = true;
 				}
 			}
-			if (flag)
+			if (controllerFound)
 			{
 				FindPlayerIndex();
 			}

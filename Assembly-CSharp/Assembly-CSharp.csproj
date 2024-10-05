@@ -8,7 +8,6 @@
     <LangVersion>5</LangVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup />
   <ItemGroup>
     <ProjectReference Include="..\Assembly-UnityScript-firstpass\Assembly-UnityScript-firstpass.csproj" />
     <ProjectReference Include="..\Assembly-UnityScript\Assembly-UnityScript.csproj" />

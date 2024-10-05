@@ -94,4 +94,9 @@ public class SpeedrunTimer : MonoBehaviour
         Mission,
         Capsule
     }
+
+    private void MissionCheck()
+    {
+        //if(MissionController.is_setup)
+    }
 }

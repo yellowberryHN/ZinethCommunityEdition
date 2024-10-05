@@ -723,9 +723,9 @@ public class PhoneMainMenu : PhoneScreen
 		}
 		else if (message.StartsWith("speedrun_toggle"))
 		{
-			var state = PlayerPrefsX.GetBool("speedrun_mode", false);
-			PlayerPrefsX.SetBool("speedrun_mode", !state);
-			if (state)
+			var old_state = PlayerPrefsX.GetBool("speedrun_mode", false);
+			PlayerPrefsX.SetBool("speedrun_mode", !old_state);
+			if (old_state && SpeedrunTimer.instance != null)
 			{
 				 SpeedrunTimer.instance.gameObject.SetActiveRecursively(SpeedrunTimer.instance.enabled = false);
 			}

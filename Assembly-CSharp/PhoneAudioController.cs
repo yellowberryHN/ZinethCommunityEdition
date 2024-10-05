@@ -212,18 +212,16 @@ public class PhoneAudioController : MonoBehaviour
 		return audioSource;
 	}
 
-	public static bool StartRinging()
+	public static bool StartRinging(bool silent)
 	{
 		if (gobj_ring == null)
 		{
-			gobj_ring = PlayAudioClip(audcon.clip_ring_short, SoundType.ring);
+			gobj_ring = PlayAudioClip(audcon.clip_ring_short, silent ? 0.0f : GetTypeVolume(SoundType.ring));
 			return true;
 		}
-		if (!gobj_ring.isPlaying)
-		{
-			gobj_ring.Play();
-			return true;
-		}
-		return false;
+		if (gobj_ring.isPlaying) return false;
+		
+		gobj_ring.Play();
+		return true;
 	}
 }

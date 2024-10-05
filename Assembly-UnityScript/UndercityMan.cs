@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using Boo.Lang.Runtime;
 using UnityEngine;
-using UnityScript.Lang;
 
 [Serializable]
 public class UndercityMan : MonoBehaviour
@@ -50,38 +47,12 @@ public class UndercityMan : MonoBehaviour
 
 	public virtual void TurnOff(Transform obj)
 	{
-		IEnumerator enumerator = UnityRuntimeServices.GetEnumerator(obj);
-		while (enumerator.MoveNext())
-		{
-			object obj2 = enumerator.Current;
-			if (!(obj2 is Transform))
-			{
-				obj2 = RuntimeServices.Coerce(obj2, typeof(Transform));
-			}
-			Transform transform = (Transform)obj2;
-			TurnOff(transform);
-			UnityRuntimeServices.Update(enumerator, transform);
-			transform.gameObject.active = false;
-			UnityRuntimeServices.Update(enumerator, transform);
-		}
+		obj.gameObject.SetActiveRecursively(false);
 	}
 
 	public virtual void TurnOn(Transform obj)
 	{
-		IEnumerator enumerator = UnityRuntimeServices.GetEnumerator(obj);
-		while (enumerator.MoveNext())
-		{
-			object obj2 = enumerator.Current;
-			if (!(obj2 is Transform))
-			{
-				obj2 = RuntimeServices.Coerce(obj2, typeof(Transform));
-			}
-			Transform transform = (Transform)obj2;
-			TurnOn(transform);
-			UnityRuntimeServices.Update(enumerator, transform);
-			transform.gameObject.active = true;
-			UnityRuntimeServices.Update(enumerator, transform);
-		}
+		obj.gameObject.SetActiveRecursively(true);
 	}
 
 	public virtual void OnTriggerEnter()

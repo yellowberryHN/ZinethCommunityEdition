@@ -108,8 +108,11 @@ public class DLCControl : MonoBehaviour
 	private bool gui_show_current;
 
 	private bool gui_show_local;
-
+#if DEBUG
+	private bool debug_gui = true;
+#else
 	private bool debug_gui = false;
+#endif
 
 	public string current_version
 	{

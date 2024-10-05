@@ -87,10 +87,12 @@ public class PhoneTweetButton : PhoneButton
 
 	public override void Init()
 	{
-		back_normal_color = PhoneMemory.settings.mailColor;
-		back_selected_color = Color.Lerp(back_normal_color, Color.white, 0.6f);
-
 		// recolor mail
+		if (name == "PhoneMailButton(Clone)")
+		{
+			back_normal_color = PhoneMemory.settings.mailColor;
+			back_selected_color = Color.Lerp(back_normal_color, Color.white, 0.6f);
+		}
 		if (name == "SingleTweet" && my_mail != null)
 		{
 			if ((bool)username_label)

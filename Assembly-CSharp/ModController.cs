@@ -195,7 +195,7 @@ public class ModController : MonoBehaviour
     private bool debugMenuActive;
     
     private string commandToRun = "";
-    
+
     private void OnGUI()
     {
         if (Application.loadedLevelName == "Loader 1" && !Networking.instance.enabled) 
@@ -227,6 +227,18 @@ public class ModController : MonoBehaviour
                     Camera.mainCamera.GetComponent<EdgeDetectEffect>().enabled = 
                         !Camera.mainCamera.GetComponent<EdgeDetectEffect>().enabled;
                 }
+                if (GUILayout.Button("send test mail"))
+                {
+                    var newMail = new PhoneMail();
+                    newMail.color = new Color(Random.Range(0.0f, 1.0f),Random.Range(0.0f, 1.0f),Random.Range(0.0f, 1.0f));
+                    newMail.id = "coloredMail" + newMail.color;
+                    newMail.body = "No way, it's a colored mail!";
+                    newMail.sender = "yellowberry";
+                    newMail.is_new = true;
+                    newMail.subject = "Colored mail!";
+
+                    MailController.SendMail(newMail);
+                }
                 GUILayout.BeginHorizontal();
                 commandToRun = GUILayout.TextField(commandToRun);
                 if (GUILayout.Button("run command"))
@@ -235,7 +247,6 @@ public class ModController : MonoBehaviour
                 }
                 GUILayout.EndHorizontal();
             }
-            
         }
     }
 #endif

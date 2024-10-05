@@ -59,7 +59,7 @@ public class PhoneChatMenu : PhoneMainMenu
 
 	private void UpdateChat()
 	{
-		if (use_network_chat && Networking.chat_log != null && Networking.chat_log.Count > 0 && lastmessage != Networking.chat_log[Networking.chat_log.Count - 1])
+		if (use_network_chat && Networking.chat_log != null && Networking.chat_log.Count > 0)
 		{
 			SetupChat();
 		}

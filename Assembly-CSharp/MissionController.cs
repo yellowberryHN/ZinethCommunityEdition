@@ -46,8 +46,10 @@ public class MissionController : MonoBehaviour
 	private static bool auto_next_mission = true;
 
 	public MissionObject[] unlock_camera_missions = new MissionObject[0];
-
+	
 	public MissionGUIText missionGUIPrefab;
+	
+	public MissionObject[] story_missions = new MissionObject[0];
 
 	public static Arrow arrowRef
 	{
@@ -411,9 +413,24 @@ public class MissionController : MonoBehaviour
 		{
 			GetInstance().CheckUnlockCamera();
 		}
+		MonoBehaviour.print("mission completed: " + mobj.name);
 		return true;
 	}
 
+	public bool CheckStoryCompleted()
+	{
+		MissionObject[] array = story_missions;
+		foreach (MissionObject item in array)
+		{
+			if (!completed_missions.Contains(item))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
 	public bool CheckUnlockCamera()
 	{
 		if (!unlocked_cam)

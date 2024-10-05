@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Capsule : MonoBehaviour
@@ -45,6 +46,14 @@ public class Capsule : MonoBehaviour
 		get
 		{
 			return collected_list.Count > 0;
+		}
+	}
+
+	public static bool all_collected
+	{
+		get
+		{
+			return collected_list.Count == all_list.Count;
 		}
 	}
 
@@ -115,7 +124,7 @@ public class Capsule : MonoBehaviour
 
 	public void Enable()
 	{
-		if (collected_list.Contains(this))
+		if (collected_list.Contains(this) && all_list.Contains(this))
 		{
 			collected_list.Remove(this);
 		}
@@ -133,7 +142,7 @@ public class Capsule : MonoBehaviour
 
 	public void Disable()
 	{
-		if (!collected_list.Contains(this))
+		if (!collected_list.Contains(this) && all_list.Contains(this))
 		{
 			collected_list.Add(this);
 		}
@@ -157,6 +166,10 @@ public class Capsule : MonoBehaviour
 			PhoneInterface.SendPhoneCommand("open_mail tut_capsule");
 		}
 		Disable();
+		if (SpeedrunTimer.instance != null && SpeedrunTimer.instance.runType == SpeedrunTimer.RunTypes.Capsule && all_collected)
+		{
+			SpeedrunTimer.instance.StopTimer();
+		}
 		collectedTime = DateTime.Now;
 		respawnTime = DateTime.Now;
 		respawnTime = respawnTime.AddSeconds(respawnSeconds);
