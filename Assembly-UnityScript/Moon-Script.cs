@@ -171,9 +171,23 @@ public class Moon_Script : MonoBehaviour
 	{
 		onMoon = true;
 		player.GetComponent<move>().LandOnMoon();
-		
-		if(SpeedrunTimer.instance != null && SpeedrunTimer.instance.runType == SpeedrunTimer.RunTypes.Moon)
-			SpeedrunTimer.instance.StopTimer();
+
+		if (SpeedrunTimer.instance == null) return;
+		switch (SpeedrunTimer.instance.runType)
+		{
+			case SpeedrunTimer.RunTypes.Moon:
+				SpeedrunTimer.instance.StopTimer();
+				break;
+			case SpeedrunTimer.RunTypes.Story:
+			{
+				if (MissionController.GetInstance().CheckStoryCompleted())
+				{
+					SpeedrunTimer.instance.StopTimer();
+				}
+
+				break;
+			}
+		}
 	}
 
 	public virtual void OnCollisionEnter(Collision obj)

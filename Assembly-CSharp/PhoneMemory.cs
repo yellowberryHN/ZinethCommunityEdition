@@ -914,8 +914,8 @@ public class PhoneMemory : MonoBehaviour
 		colorthemes.Add("killer", phoneColorPalette);
 		
 		//settings.pallete = colorthemes["white"];
-		settings.Palette = colorthemes[PlayerPrefs.GetString("phone_theme", "white")];
-		settings.Palette = colorthemes["white"];
+		var selected_theme = PlayerPrefs.GetString("phone_theme", "white");
+		settings.Palette = colorthemes[colorthemes.ContainsKey(selected_theme) ? selected_theme : "white"];
 	}
 
 	private PhoneColorPalette QuickColorAdder(string name, int r1, int g1, int b1, int r2, int g2, int b2, int r3, int g3, int b3)

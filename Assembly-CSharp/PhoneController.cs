@@ -283,7 +283,7 @@ public class PhoneController : MonoBehaviour
 			phoneButton.textmesh.text = "Run Type";
 			phoneButton.textmesh.characterSize = 0.75f;
 			phoneButton.button_name = "SpeedrunType";
-			phoneButton.text = string.Format("Run Type ({0})", PlayerPrefsX.GetEnum("speedrun_type", SpeedrunTimer.RunTypes.Off));
+			phoneButton.text = string.Format("Run Type ({0})", PlayerPrefsX.GetEnum("speedrun_type", SpeedrunTimer.RunTypes.Manual));
 			phoneButton.command = ".cycle_speedrun_type";
 			phoneButton.screen = menu;
 			phoneButton.textmesh.alignment = TextAlignment.Right;

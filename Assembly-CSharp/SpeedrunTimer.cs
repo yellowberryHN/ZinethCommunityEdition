@@ -35,7 +35,15 @@ public class SpeedrunTimer : MonoBehaviour
     private void Awake()
     {
         elapsedTime = 0f;
-        runType = PlayerPrefsX.GetEnum("speedrun_type", RunTypes.Off);
+        switch (Application.loadedLevelName)
+        {
+            case "Loader 1": // Main Game
+                runType = PlayerPrefsX.GetEnum("speedrun_type", RunTypes.Manual);
+                break;
+            default:
+                runType = RunTypes.Manual;
+                break;
+        }
     }
 
     private void Start()
@@ -88,15 +96,10 @@ public class SpeedrunTimer : MonoBehaviour
 
     public enum RunTypes
     {
-        Off,
+        Manual,
         Moon,
         Story,
         Mission,
         Capsule
-    }
-
-    private void MissionCheck()
-    {
-        //if(MissionController.is_setup)
     }
 }

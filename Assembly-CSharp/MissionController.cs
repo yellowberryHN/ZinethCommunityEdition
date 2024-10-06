@@ -204,6 +204,7 @@ public class MissionController : MonoBehaviour
 		is_setup = false;
 		ClearMissions();
 		AddAttachedMissions();
+		SetStoryMissions();
 		is_setup = true;
 	}
 
@@ -223,6 +224,20 @@ public class MissionController : MonoBehaviour
 			{
 				AddMission(missionObject);
 			}
+		}
+	}
+
+	private void SetStoryMissions()
+	{
+		if (Application.loadedLevelName == "Loader 1")
+		{
+			story_missions = new MissionObject[]
+			{
+				all_missions["Intro_1"],
+				all_missions["LostPages"],
+				all_missions["DeliverZines"],
+				all_missions["Moon"],
+			};
 		}
 	}
 
@@ -411,21 +426,33 @@ public class MissionController : MonoBehaviour
 		}
 		if (is_setup)
 		{
-			GetInstance().CheckUnlockCamera();
+			var controller = GetInstance();
+			controller.CheckUnlockCamera();
+			if (!controller.CheckAllMissionsCompleted()) return true;
+			if (SpeedrunTimer.instance != null && SpeedrunTimer.instance.runType == SpeedrunTimer.RunTypes.Mission)
+			{
+				SpeedrunTimer.instance.StopTimer();
+			}
 		}
-		MonoBehaviour.print("mission completed: " + mobj.name);
+		
 		return true;
 	}
 
 	public bool CheckStoryCompleted()
 	{
-		MissionObject[] array = story_missions;
-		foreach (MissionObject item in array)
+		foreach (MissionObject item in story_missions)
 		{
-			if (!completed_missions.Contains(item))
-			{
-				return false;
-			}
+			if (!completed_missions.Contains(item)) return false;
+		}
+
+		return true;
+	}
+
+	public bool CheckAllMissionsCompleted()
+	{
+		foreach (var mission_kv in all_missions)
+		{
+			if (!completed_missions.Contains(mission_kv.Value)) return false;
 		}
 
 		return true;
@@ -435,13 +462,9 @@ public class MissionController : MonoBehaviour
 	{
 		if (!unlocked_cam)
 		{
-			MissionObject[] array = unlock_camera_missions;
-			foreach (MissionObject item in array)
+			foreach (MissionObject item in unlock_camera_missions)
 			{
-				if (!completed_missions.Contains(item))
-				{
-					return false;
-				}
+				if (!completed_missions.Contains(item)) return false;
 			}
 		}
 		if (Application.isEditor)
