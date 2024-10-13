@@ -85,34 +85,10 @@ public class PhoneTweetButton : PhoneButton
 		wantedscale = normal_scale;
 	}
 
-	public override void Init()
-	{
-		// recolor mail
-		if (name == "PhoneMailButton(Clone)")
-		{
-			back_normal_color = PhoneMemory.settings.mailColor;
-			back_selected_color = Color.Lerp(back_normal_color, Color.white, 0.6f);
-		}
-		if (name == "SingleTweet" && my_mail != null)
-		{
-			if ((bool)username_label)
-			{
-				var titleBack = base.gameObject.transform.FindChild("TitleBack");
-				titleBack.gameObject.renderer.material.color = Color.Lerp(back_normal_color, back_normal_color * 2f, 0.2f);
-			}
-			if ((bool)bodytext_label)
-			{
-				var bodyBack = base.gameObject.transform.FindChild("BodyBack");
-				bodyBack.gameObject.renderer.material.color = Color.Lerp(back_normal_color, back_normal_color * 2f, 0.2f);
-			}
-		}
-		
-		base.Init();
-	}
-
 	public override void OnLoad()
 	{
 		base.OnLoad();
+		OnThemeChange();
 		if (my_mail != null)
 		{
 			if (my_mail.color != Color.clear)
@@ -234,6 +210,41 @@ public class PhoneTweetButton : PhoneButton
 		if (expand_on_select)
 		{
 			wantedscale = normal_scale;
+		}
+	}
+
+	public override void OnThemeChange()
+	{
+		base.OnThemeChange();
+		if (name == "PhoneMailButton(Clone)")
+		{
+			back_normal_color = PhoneMemory.settings.mailColor;
+			back_selected_color = Color.Lerp(back_normal_color, Color.white, 0.6f);
+			
+			if ((bool)background_box) background_box.renderer.material.color = back_normal_color;
+			
+			if ((bool)sender_label) sender_label.OnThemeChange(); // TODO: this doesn't change, probably set to override
+			if ((bool)bodytext_label) bodytext_label.OnThemeChange();
+		}
+		if (name == "SingleTweet")
+		{
+			back_normal_color = PhoneMemory.settings.mailColor;
+			back_selected_color = Color.Lerp(back_normal_color, Color.white, 0.6f);
+			
+			var titleBack = gameObject.transform.FindChild("TitleBack");
+			titleBack.gameObject.renderer.material.color = Color.Lerp(back_normal_color, back_normal_color * 2f, 0.2f);
+			
+			var bodyBack = gameObject.transform.FindChild("BodyBack");
+			bodyBack.gameObject.renderer.material.color = Color.Lerp(back_normal_color, back_normal_color * 2f, 0.2f);
+			
+			if ((bool)background_box) background_box.renderer.material.color = back_normal_color;
+			
+			// subject line
+			if ((bool)username_label) username_label.OnThemeChange();
+			// sender line
+			if ((bool)sender_label) sender_label.OnThemeChange(); // TODO: this doesn't change, probably set to override
+			// mail body
+			if ((bool)bodytext_label) bodytext_label.OnThemeChange();
 		}
 	}
 }
