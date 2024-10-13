@@ -120,7 +120,7 @@ public class PhoneShooterMonster : PhoneElement
 
 	private void Start()
 	{
-		bounds = base.transform.parent.collider.bounds;
+		bounds = transform.parent.collider.bounds;
 	}
 
 	private void Awake()
@@ -151,12 +151,12 @@ public class PhoneShooterMonster : PhoneElement
 	{
 		if (startscale == Vector3.zero)
 		{
-			startscale = base.transform.localScale;
+			startscale = transform.localScale;
 		}
 		Vector3 localScale = startscale;
 		localScale.x *= scale.x;
 		localScale.z *= scale.y;
-		base.transform.localScale = localScale;
+		transform.localScale = localScale;
 	}
 
 	public virtual void SetSpriteSet(SpriteSet spriteset)
@@ -223,13 +223,13 @@ public class PhoneShooterMonster : PhoneElement
 
 	public virtual PhoneShooterBullet Shoot(Vector3 direction, float damage)
 	{
-		PhoneShooterBullet phoneShooterBullet = Object.Instantiate(bulletprefab, base.transform.position, Quaternion.identity) as PhoneShooterBullet;
+		PhoneShooterBullet phoneShooterBullet = Instantiate(bulletprefab, transform.position, Quaternion.identity) as PhoneShooterBullet;
 		phoneShooterBullet.owner = this;
 		phoneShooterBullet.velocity = direction * bullet_speed;
 		phoneShooterBullet.damage = damage;
 		phoneShooterBullet.homing = bullet_homing;
 		phoneShooterBullet.renderer.material.color = color;
-		phoneShooterBullet.transform.parent = base.transform.parent;
+		phoneShooterBullet.transform.parent = transform.parent;
 		if ((bool)target_trans)
 		{
 			phoneShooterBullet.target = target_trans;
@@ -261,7 +261,7 @@ public class PhoneShooterMonster : PhoneElement
 
 	public virtual PhoneLabel ShowText(Vector3 vec, string stext, float time, Color tcolor, bool outline)
 	{
-		PhoneLabel phoneLabel = Object.Instantiate(PhoneShooterController.slabel_prefab) as PhoneLabel;
+		PhoneLabel phoneLabel = Instantiate(PhoneShooterController.slabel_prefab) as PhoneLabel;
 		phoneLabel.transform.position = vec;
 		phoneLabel.transform.parent = base.transform.parent;
 		phoneLabel.textmesh.text = stext;
@@ -269,7 +269,7 @@ public class PhoneShooterMonster : PhoneElement
 		phoneLabel.overrideColor = true;
 		phoneLabel.color = tcolor;
 		phoneLabel.velocity = Vector3.forward;
-		Object.Destroy(phoneLabel.gameObject, time);
+		Destroy(phoneLabel.gameObject, time);
 		if (outline)
 		{
 			Vector3 vec2 = vec + new Vector3(0.02f, -0.02f, -0.02f);
@@ -293,17 +293,17 @@ public class PhoneShooterMonster : PhoneElement
 
 	public virtual void OnDeath()
 	{
-		PhoneController.EmitParts(base.transform.position, (int)(2f + Mathf.Ceil(monster.level / 4f)));
+		PhoneController.EmitParts(transform.position, (int)(2f + Mathf.Ceil(monster.level / 4f)));
 		PhoneEffects.AddCamShake(monster.level / 20f);
 		PhoneAudioController.PlayAudioClip("enemy_die", SoundType.game);
 		if ((bool)deathdrop_prefab && !controller.battle_mode)
 		{
-			PhoneShooterPickup phoneShooterPickup = Object.Instantiate(deathdrop_prefab) as PhoneShooterPickup;
-			phoneShooterPickup.transform.position = base.transform.position + Vector3.down * 0.5f;
-			phoneShooterPickup.transform.parent = base.transform.parent;
+			PhoneShooterPickup phoneShooterPickup = Instantiate(deathdrop_prefab) as PhoneShooterPickup;
+			phoneShooterPickup.transform.position = transform.position + Vector3.down * 0.5f;
+			phoneShooterPickup.transform.parent = transform.parent;
 			phoneShooterPickup.Resize(1, (int)Mathf.Max(Mathf.Pow(monster.level, 1.25f), 3f));
 		}
-		Object.Destroy(base.gameObject);
+		Destroy(gameObject);
 	}
 
 	private void OnTriggerEnter(Collider other)

@@ -66,7 +66,8 @@ public class PhoneShooterExp : PhoneElement
 
 	public virtual void Resize()
 	{
-		Vector3 normalized = base.transform.localScale.normalized;
+		// logic error?
+		Vector3 normalized = transform.localScale.normalized;
 		normalized *= exp_vals.magnitude / 5f;
 	}
 
@@ -93,15 +94,14 @@ public class PhoneShooterExp : PhoneElement
 			text = text + "+" + exp_vals[i].ToString(".0") + "\n";
 			monster.monster.stats[i].Grow(exp_vals[i]);
 		}
-		monster.ShowText(base.transform.position + Vector3.up * 4f, text, 0.25f, color, true);
-		Object.Destroy(base.gameObject);
+		monster.ShowText(transform.position + Vector3.up * 4f, text, 0.25f, color, true);
+		Destroy(gameObject);
 	}
 
 	public virtual void Display()
 	{
-		Vector4 vector = exp_vals;
-		vector = exp_vals.normalized;
+		Vector4 vector = exp_vals.normalized;
 		color = new Color(vector[0], vector[1], vector[2], 1f - Random.Range(0f, vector[3]));
-		base.renderer.material.color = color;
+		renderer.material.color = color;
 	}
 }

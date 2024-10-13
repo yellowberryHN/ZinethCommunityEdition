@@ -122,7 +122,7 @@ public class PhoneShooterController : PhoneScreen
 
 	public override void OnLoad()
 	{
-		base.gameObject.SetActiveRecursively(true);
+		gameObject.SetActiveRecursively(true);
 		battle_mode = current_level.trainer != null;
 		enemy_level = current_level.difficulty;
 		StartGame();
@@ -158,12 +158,12 @@ public class PhoneShooterController : PhoneScreen
 
 	public override void OnExit()
 	{
-		PhoneElement[] componentsInChildren = base.gameObject.GetComponentsInChildren<PhoneElement>();
+		PhoneElement[] componentsInChildren = gameObject.GetComponentsInChildren<PhoneElement>();
 		foreach (PhoneElement phoneElement in componentsInChildren)
 		{
 			if (!stat_elements.Contains(phoneElement))
 			{
-				Object.Destroy(phoneElement.gameObject);
+				Destroy(phoneElement.gameObject);
 			}
 		}
 		PhoneMemory.SaveMonsters();
@@ -181,9 +181,9 @@ public class PhoneShooterController : PhoneScreen
 		PhoneMemory.SaveMonsters();
 		if (textlabel == null)
 		{
-			textlabel = Object.Instantiate(label_prefab) as PhoneLabel;
-			textlabel.transform.position = base.transform.position + Vector3.up * 4f;
-			textlabel.transform.parent = base.transform;
+			textlabel = Instantiate(label_prefab) as PhoneLabel;
+			textlabel.transform.position = transform.position + Vector3.up * 4f;
+			textlabel.transform.parent = transform;
 		}
 		textlabel.textmesh.characterSize = 1f;
 		textlabel.textmesh.alignment = TextAlignment.Center;
@@ -206,7 +206,7 @@ public class PhoneShooterController : PhoneScreen
 	{
 		if ((bool)textlabel)
 		{
-			Object.Destroy(textlabel.gameObject);
+			Destroy(textlabel.gameObject);
 		}
 		PhoneLabel[] array = new PhoneLabel[4] { attack_stat_label, defense_stat_label, magic_stat_label, glam_stat_label };
 		foreach (PhoneLabel phoneLabel in array)
@@ -270,7 +270,7 @@ public class PhoneShooterController : PhoneScreen
 				PlayerPrefsX.SetBool("phone_shooter_tut", true);
 				PlayerPrefs.Save();
 				stat_elements.Remove(attack_tip_label);
-				Object.Destroy(attack_tip_label.gameObject);
+				Destroy(attack_tip_label.gameObject);
 			}
 			else
 			{
@@ -363,7 +363,7 @@ public class PhoneShooterController : PhoneScreen
 			label.animateOnLoad = true;
 			if (label.animateOnLoad)
 			{
-				label.transform.position += base.transform.forward * -0.25f;
+				label.transform.position += transform.forward * -0.25f;
 			}
 			label.gameObject.active = true;
 			if ((bool)label.shadow_label)
@@ -384,7 +384,7 @@ public class PhoneShooterController : PhoneScreen
 			label.animateOnLoad = true;
 			if (label.animateOnLoad)
 			{
-				label.transform.position += base.transform.forward * -0.25f;
+				label.transform.position += transform.forward * -0.25f;
 			}
 			label.gameObject.active = true;
 			if ((bool)label.shadow_label)
@@ -408,12 +408,12 @@ public class PhoneShooterController : PhoneScreen
 			}
 			battle_enemy_object = SpawnBoss(battle_enemy_monster, vector);
 		}
-		battle_start_timer -= base.deltatime;
+		battle_start_timer -= deltatime;
 		if (textlabel == null)
 		{
-			textlabel = Object.Instantiate(label_prefab) as PhoneLabel;
-			textlabel.transform.position = base.transform.position + Vector3.up * 4f + Vector3.forward * 1f;
-			textlabel.transform.parent = base.transform;
+			textlabel = Instantiate(label_prefab) as PhoneLabel;
+			textlabel.transform.position = transform.position + Vector3.up * 4f + Vector3.forward * 1f;
+			textlabel.transform.parent = transform;
 			textlabel.textmesh.alignment = TextAlignment.Center;
 			textlabel.textmesh.anchor = TextAnchor.MiddleCenter;
 			textlabel.textmesh.characterSize = 4f;
@@ -425,7 +425,7 @@ public class PhoneShooterController : PhoneScreen
 		}
 		if (battle_start_timer <= 0f && (bool)textlabel)
 		{
-			Object.Destroy(textlabel.gameObject);
+			Destroy(textlabel.gameObject);
 		}
 	}
 
@@ -446,14 +446,14 @@ public class PhoneShooterController : PhoneScreen
 				current_level.trainer.OnDefeated();
 			}
 		}
-		gameovertimer += base.deltatime;
+		gameovertimer += deltatime;
 		if (gameovertimer >= 0.25f)
 		{
 			if (textlabel == null)
 			{
-				textlabel = Object.Instantiate(label_prefab) as PhoneLabel;
-				textlabel.transform.position = base.transform.position + Vector3.up * 4f;
-				textlabel.transform.parent = base.transform;
+				textlabel = Instantiate(label_prefab) as PhoneLabel;
+				textlabel.transform.position = transform.position + Vector3.up * 4f;
+				textlabel.transform.parent = transform;
 			}
 			textlabel.textmesh.characterSize = 2.5f;
 			string text = textlabel.text;
@@ -470,8 +470,8 @@ public class PhoneShooterController : PhoneScreen
 			textlabel.textmesh.anchor = TextAnchor.MiddleCenter;
 		}
 		if (gameovertimer > 0.75f && PhoneInput.IsPressedDown())
-		{
-			Object.Destroy(textlabel.gameObject);
+		{ 
+			Destroy(textlabel.gameObject);
 			controller.LoadScreen("Game");
 		}
 	}
@@ -482,14 +482,14 @@ public class PhoneShooterController : PhoneScreen
 		{
 			PhoneAudioController.PlayAudioClip("die", SoundType.game);
 		}
-		gameovertimer += base.deltatime;
+		gameovertimer += deltatime;
 		if (gameovertimer >= 0.25f)
 		{
 			if (textlabel == null)
 			{
-				textlabel = Object.Instantiate(label_prefab) as PhoneLabel;
-				textlabel.transform.position = base.transform.position + Vector3.up * 4f;
-				textlabel.transform.parent = base.transform;
+				textlabel = Instantiate(label_prefab) as PhoneLabel;
+				textlabel.transform.position = transform.position + Vector3.up * 4f;
+				textlabel.transform.parent = transform;
 			}
 			textlabel.textmesh.characterSize = 2.5f;
 			string text = textlabel.text;
@@ -507,7 +507,7 @@ public class PhoneShooterController : PhoneScreen
 		}
 		if (gameovertimer > 0.5f && PhoneInput.IsPressedDown())
 		{
-			Object.Destroy(textlabel.gameObject);
+			Destroy(textlabel.gameObject);
 			controller.LoadScreen("Game");
 		}
 	}
@@ -527,8 +527,8 @@ public class PhoneShooterController : PhoneScreen
 		if (enemytimer <= 0f)
 		{
 			int num = Mathf.Min(1 + (int)Mathf.Pow(wave, 0.25f), 10);
-			int num2 = base.transform.GetComponentsInChildren(typeof(PhoneShooterEnemy)).Length;
-			num2 += base.transform.GetComponentsInChildren(typeof(PhoneShooterSpawner)).Length;
+			int num2 = transform.GetComponentsInChildren(typeof(PhoneShooterEnemy)).Length;
+			num2 += transform.GetComponentsInChildren(typeof(PhoneShooterSpawner)).Length;
 			if (num2 < num)
 			{
 				SpawnEnemy();
@@ -543,14 +543,14 @@ public class PhoneShooterController : PhoneScreen
 
 	private void UpdateElements()
 	{
-		PhoneElement[] componentsInChildren = base.gameObject.GetComponentsInChildren<PhoneElement>();
+		PhoneElement[] componentsInChildren = gameObject.GetComponentsInChildren<PhoneElement>();
 		foreach (PhoneElement phoneElement in componentsInChildren)
 		{
 			phoneElement.OnUpdate();
 			if (phoneElement.name.Contains("Enemy") || phoneElement.name.StartsWith("food_") || phoneElement.name.Contains("Bullet") || phoneElement.name.Contains("Player") || phoneElement.name.Contains("Attack"))
 			{
 				Vector3 localPosition = phoneElement.transform.localPosition;
-				localPosition.y = 5f + (base.transform.position.z - phoneElement.renderer.bounds.min.z) / 100f;
+				localPosition.y = 5f + (transform.position.z - phoneElement.renderer.bounds.min.z) / 100f;
 				if (phoneElement.transform.localPosition != localPosition)
 				{
 					phoneElement.transform.localPosition = localPosition;
@@ -561,7 +561,7 @@ public class PhoneShooterController : PhoneScreen
 
 	private PhoneMonster GetMonster()
 	{
-		return GetMonster((float)enemy_level + (float)wave / 50f);
+		return GetMonster(enemy_level + wave / 50f);
 	}
 
 	private PhoneMonster GetMonster(float level)
@@ -574,9 +574,9 @@ public class PhoneShooterController : PhoneScreen
 		Vector3 result = default(Vector3);
 		for (int i = 0; i < 3; i++)
 		{
-			result[i] = Random.Range(base.collider.bounds.min[i], base.collider.bounds.max[i]);
+			result[i] = Random.Range(collider.bounds.min[i], collider.bounds.max[i]);
 		}
-		result.y = base.transform.position.y + 1f;
+		result.y = transform.position.y + 1f;
 		return result;
 	}
 
@@ -588,8 +588,8 @@ public class PhoneShooterController : PhoneScreen
 	private void SpawnEnemy(PhoneMonster monster, Vector3 pos)
 	{
 		Vector3 up = Vector3.up;
-		PhoneShooterSpawner phoneShooterSpawner = Object.Instantiate(spawner_prefab, pos - up, Quaternion.identity) as PhoneShooterSpawner;
-		phoneShooterSpawner.transform.parent = base.transform;
+		PhoneShooterSpawner phoneShooterSpawner = Instantiate(spawner_prefab, pos - up, Quaternion.identity) as PhoneShooterSpawner;
+		phoneShooterSpawner.transform.parent = transform;
 		phoneShooterSpawner.monster = monster;
 		phoneShooterSpawner.prefab = enemy_prefab;
 		phoneShooterSpawner.offset = up;
@@ -598,7 +598,7 @@ public class PhoneShooterController : PhoneScreen
 
 	private PhoneShooterPlayer SpawnPlayer()
 	{
-		return SpawnPlayer(base.transform.position + Vector3.up);
+		return SpawnPlayer(transform.position + Vector3.up);
 	}
 
 	private PhoneShooterPlayer SpawnPlayer(Vector3 pos)
@@ -608,16 +608,16 @@ public class PhoneShooterController : PhoneScreen
 
 	private PhoneShooterPlayer SpawnPlayer(PhoneMonster monster, Vector3 pos)
 	{
-		PhoneShooterPlayer phoneShooterPlayer = Object.Instantiate(player_prefab, pos, Quaternion.identity) as PhoneShooterPlayer;
-		phoneShooterPlayer.transform.parent = base.transform;
+		PhoneShooterPlayer phoneShooterPlayer = Instantiate(player_prefab, pos, Quaternion.identity) as PhoneShooterPlayer;
+		phoneShooterPlayer.transform.parent = transform;
 		phoneShooterPlayer.SetMonster(monster);
 		return phoneShooterPlayer;
 	}
 
 	private PhoneShooterEnemy SpawnBoss(PhoneMonster monster, Vector3 pos)
 	{
-		PhoneShooterEnemy phoneShooterEnemy = Object.Instantiate(enemy_prefab, pos, Quaternion.identity) as PhoneShooterEnemy;
-		phoneShooterEnemy.transform.parent = base.transform;
+		PhoneShooterEnemy phoneShooterEnemy = Instantiate(enemy_prefab, pos, Quaternion.identity) as PhoneShooterEnemy;
+		phoneShooterEnemy.transform.parent = transform;
 		phoneShooterEnemy.controller = this;
 		phoneShooterEnemy.SetMonster(monster);
 		return phoneShooterEnemy;

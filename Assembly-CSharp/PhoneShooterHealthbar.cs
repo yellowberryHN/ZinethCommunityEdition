@@ -19,7 +19,7 @@ public class PhoneShooterHealthbar : MonoBehaviour
 			backbar.renderer.material.color = Color.white;
 			backscale = backbar.localScale;
 		}
-		backscale = base.transform.localScale;
+		backscale = transform.localScale;
 	}
 
 	public void OnUpdate()
@@ -32,16 +32,16 @@ public class PhoneShooterHealthbar : MonoBehaviour
 		{
 			if (back_timer <= 0f)
 			{
-				backscale.x = base.transform.localScale.x;
+				backscale.x = transform.localScale.x;
 			}
 			back_timer = 2f;
 			old_health = monster.health;
 		}
-		Vector3 localScale = base.transform.localScale;
+		Vector3 localScale = transform.localScale;
 		localScale.x = Mathf.Max(0f, monster.health / monster.maxhealth);
-		if (base.transform.localScale != localScale)
+		if (transform.localScale != localScale)
 		{
-			base.transform.localScale = localScale;
+			transform.localScale = localScale;
 		}
 		if ((bool)backbar)
 		{

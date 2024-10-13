@@ -79,7 +79,7 @@ public class PhoneShooterLevelMenu : PhoneMainMenu
 		if ((bool)vslabel && current_level.trainer != null)
 		{
 			vslabel.text = "VS";
-			vslabel.textmesh.characterSize = Mathf.Lerp(2.5f, 3.2f, (float)(Time.frameCount % 10) / 10f);
+			vslabel.textmesh.characterSize = Mathf.Lerp(2.5f, 3.2f, (Time.frameCount % 10) / 10f);
 		}
 		if (!PhoneMemory.trainer_challenge && levelind >= PhoneResourceController.phoneshooterlevels.Count)
 		{
@@ -100,7 +100,7 @@ public class PhoneShooterLevelMenu : PhoneMainMenu
 		}
 		menuind = 0;
 		UpdateLevelTexture();
-		PhoneElement[] array = base.elements;
+		PhoneElement[] array = elements;
 		foreach (PhoneElement phoneElement in array)
 		{
 			phoneElement.OnLoad();
@@ -160,7 +160,7 @@ public class PhoneShooterLevelMenu : PhoneMainMenu
 		UpdateLevelTexture();
 		if ((bool)nextbut)
 		{
-			nextbut.transform.position -= base.transform.right * 0.15f;
+			nextbut.transform.position -= transform.right * 0.15f;
 		}
 		DoArrows();
 	}
@@ -189,7 +189,7 @@ public class PhoneShooterLevelMenu : PhoneMainMenu
 		UpdateLevelTexture();
 		if ((bool)prevbut)
 		{
-			prevbut.transform.position += base.transform.right * 0.15f;
+			prevbut.transform.position += transform.right * 0.15f;
 		}
 		DoArrows();
 	}

@@ -34,7 +34,7 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 
 	private void Start()
 	{
-		bounds = base.transform.parent.collider.bounds;
+		bounds = transform.parent.collider.bounds;
 	}
 
 	public override void OnUpdate()
@@ -55,19 +55,19 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 	private void DoMovement()
 	{
 		Vector3 vector = Vector3.zero;
-		base.rigidbody.drag = 30f;
+		rigidbody.drag = 30f;
 		if (PhoneInput.controltype == PhoneInput.ControlType.Mouse)
 		{
 			if (PhoneInput.GetTouchPoint() != Vector3.one * -1f)
 			{
 				Vector3 transformedTouchPoint = PhoneInput.GetTransformedTouchPoint();
-				transformedTouchPoint.y = base.transform.position.y;
-				transformedTouchPoint = (transformedTouchPoint - base.transform.position) * base.realspeed;
-				if (transformedTouchPoint.magnitude > base.realspeed)
+				transformedTouchPoint.y = transform.position.y;
+				transformedTouchPoint = (transformedTouchPoint - transform.position) * realspeed;
+				if (transformedTouchPoint.magnitude > realspeed)
 				{
-					transformedTouchPoint = transformedTouchPoint.normalized * base.realspeed;
+					transformedTouchPoint = transformedTouchPoint.normalized * realspeed;
 				}
-				base.transform.position += transformedTouchPoint * PhoneElement.deltatime;
+				transform.position += transformedTouchPoint * deltatime;
 				vector = transformedTouchPoint;
 				curdir = transformedTouchPoint;
 			}
@@ -81,10 +81,10 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 				{
 					controlDir.Normalize();
 				}
-				controlDir *= base.realspeed;
+				controlDir *= realspeed;
 				curdir = new Vector3(controlDir.x, 0f, controlDir.y);
 				vector = curdir;
-				base.transform.position += curdir * PhoneElement.deltatime;
+				transform.position += curdir * deltatime;
 			}
 		}
 		if (attack_timer > 0f)
@@ -116,7 +116,7 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 
 	private void DoAttacking()
 	{
-		attack_timer = Mathf.Max(0f, attack_timer - PhoneElement.deltatime);
+		attack_timer = Mathf.Max(0f, attack_timer - deltatime);
 		if (attack_timer <= 0f && PhoneInput.IsPressedDown())
 		{
 			Vector2 dir = new Vector2(curdir.x, curdir.z);
@@ -137,17 +137,17 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 		{
 			num2 = 0;
 		}
-		PhoneShooterAttack phoneShooterAttack = Object.Instantiate(attackprefab) as PhoneShooterAttack;
-		phoneShooterAttack.transform.position = base.transform.position + new Vector3(dir.normalized.x, 0f, dir.normalized.y) * 0.5f;
+		PhoneShooterAttack phoneShooterAttack = Instantiate(attackprefab) as PhoneShooterAttack;
+		phoneShooterAttack.transform.position = transform.position + new Vector3(dir.normalized.x, 0f, dir.normalized.y) * 0.5f;
 		Vector3 localScale = phoneShooterAttack.transform.localScale;
 		localScale.x *= monster.scale.x;
 		localScale.z *= monster.scale.y;
 		phoneShooterAttack.transform.localScale = localScale;
 		phoneShooterAttack.owner = this;
 		phoneShooterAttack.velocity = new Vector3(dir.normalized.x, 0f, dir.normalized.y) * 2f;
-		phoneShooterAttack.damage = base.attack * 1f;
+		phoneShooterAttack.damage = attack * 1f;
 		phoneShooterAttack.renderer.material.color = Color.white;
-		phoneShooterAttack.transform.parent = base.transform.parent;
+		phoneShooterAttack.transform.parent = transform.parent;
 		phoneShooterAttack.spriteplayer.SetSpriteSet(monster.spriteset);
 		phoneShooterAttack.spriteplayer.PlayAnimation("bullet", 0f);
 		phoneShooterAttack.spriteplayer.SetFrame(phoneShooterAttack.renderer.material, num2);
@@ -157,7 +157,7 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 
 	private void DoShooting()
 	{
-		shoot_timer = Mathf.Max(0f, shoot_timer - PhoneElement.deltatime);
+		shoot_timer = Mathf.Max(0f, shoot_timer - deltatime);
 		ShootAtNearest();
 	}
 
@@ -169,11 +169,11 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 		}
 		PhoneShooterEnemy phoneShooterEnemy = null;
 		float num = float.PositiveInfinity;
-		PhoneShooterEnemy[] componentsInChildren = base.transform.parent.gameObject.GetComponentsInChildren<PhoneShooterEnemy>();
+		PhoneShooterEnemy[] componentsInChildren = transform.parent.gameObject.GetComponentsInChildren<PhoneShooterEnemy>();
 		PhoneShooterEnemy[] array = componentsInChildren;
 		foreach (PhoneShooterEnemy phoneShooterEnemy2 in array)
 		{
-			float num2 = Vector3.Distance(base.transform.position, phoneShooterEnemy2.transform.position);
+			float num2 = Vector3.Distance(transform.position, phoneShooterEnemy2.transform.position);
 			if (num2 < num)
 			{
 				num = num2;
@@ -183,7 +183,7 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 		if (phoneShooterEnemy != null)
 		{
 			target_trans = phoneShooterEnemy.transform;
-			Vector3 normalized = (phoneShooterEnemy.transform.position - base.transform.position).normalized;
+			Vector3 normalized = (phoneShooterEnemy.transform.position - transform.position).normalized;
 			Shoot(normalized);
 			ResetShootTimer();
 		}
@@ -210,14 +210,14 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 
 	private void PullExpTowards()
 	{
-		Debug.DrawLine(base.transform.position, base.transform.position + Vector3.right * GetPullDistance(), Color.red);
-		PhoneShooterPickup[] componentsInChildren = base.transform.parent.gameObject.GetComponentsInChildren<PhoneShooterPickup>();
+		Debug.DrawLine(base.transform.position, transform.position + Vector3.right * GetPullDistance(), Color.red);
+		PhoneShooterPickup[] componentsInChildren = transform.parent.gameObject.GetComponentsInChildren<PhoneShooterPickup>();
 		PhoneShooterPickup[] array = componentsInChildren;
 		foreach (PhoneShooterPickup phoneShooterPickup in array)
 		{
 			Vector3 position = phoneShooterPickup.transform.position;
-			position.y = base.transform.position.y;
-			float num = Vector3.Distance(base.transform.position, position);
+			position.y = transform.position.y;
+			float num = Vector3.Distance(transform.position, position);
 			if (num < 0.2f)
 			{
 				Collide_Pickup(phoneShooterPickup);
@@ -225,10 +225,10 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 			if (num < GetPullDistance() && phoneShooterPickup.allow_magnet)
 			{
 				float num2 = pullspeed * (1f - num / GetPullDistance());
-				monster.glamStat.Grow(num2 / 200f * PhoneElement.deltatime);
+				monster.glamStat.Grow(num2 / 200f * deltatime);
 				num2 /= phoneShooterPickup.givehealth / 1f;
-				Vector3 normalized = (base.transform.position - phoneShooterPickup.transform.position).normalized;
-				normalized *= num2 * PhoneElement.deltatime;
+				Vector3 normalized = (transform.position - phoneShooterPickup.transform.position).normalized;
+				normalized *= num2 * deltatime;
 				phoneShooterPickup.transform.position += normalized;
 			}
 		}
@@ -236,7 +236,7 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 
 	public override void OnDeath()
 	{
-		PhoneController.EmitParts(base.transform.position, (int)(maxhealth * 0.75f));
+		PhoneController.EmitParts(transform.position, (int)(maxhealth * 0.75f));
 		base.OnDeath();
 	}
 
@@ -247,7 +247,7 @@ public class PhoneShooterPlayer : PhoneShooterMonster
 
 	public override void Collide_Enemy(PhoneShooterEnemy enemy)
 	{
-		enemy.health -= base.attack;
+		enemy.health -= attack;
 		health -= enemy.attack;
 		PhoneController.EmitParts(enemy.transform.position, 10);
 	}

@@ -32,12 +32,12 @@ public class PhoneShooterSpawner : PhoneElement
 	public void SetColor(Color col)
 	{
 		color = col;
-		base.renderer.material.color = color;
+		renderer.material.color = color;
 	}
 
 	public override void OnUpdate()
 	{
-		timer -= PhoneElement.deltatime;
+		timer -= deltatime;
 		if (timer <= 0f)
 		{
 			Spawn();
@@ -47,7 +47,7 @@ public class PhoneShooterSpawner : PhoneElement
 			}
 			else
 			{
-				Object.Destroy(base.gameObject);
+				Destroy(gameObject);
 			}
 		}
 		Display();
@@ -55,11 +55,11 @@ public class PhoneShooterSpawner : PhoneElement
 
 	public virtual PhoneShooterMonster Spawn()
 	{
-		PhoneShooterMonster phoneShooterMonster = Object.Instantiate(prefab, base.transform.position + offset, Quaternion.identity) as PhoneShooterMonster;
-		phoneShooterMonster.transform.parent = base.transform.parent;
+		PhoneShooterMonster phoneShooterMonster = Instantiate(prefab, transform.position + offset, Quaternion.identity) as PhoneShooterMonster;
+		phoneShooterMonster.transform.parent = transform.parent;
 		phoneShooterMonster.SetMonster(monster);
 		phoneShooterMonster.controller = controller;
-		PhoneController.EmitParts(base.transform.position, 6 + (int)monster.level);
+		PhoneController.EmitParts(transform.position, 6 + (int)monster.level);
 		return phoneShooterMonster;
 	}
 
@@ -72,6 +72,6 @@ public class PhoneShooterSpawner : PhoneElement
 		}
 		num *= 1.5f;
 		num = Mathf.Ceil(num * 8f) / 8f;
-		base.transform.localScale = base.transform.localScale.normalized * num;
+		transform.localScale = transform.localScale.normalized * num;
 	}
 }

@@ -30,7 +30,7 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 
 	private void Start()
 	{
-		bounds = base.transform.parent.collider.bounds;
+		bounds = transform.parent.collider.bounds;
 	}
 
 	public override void OnUpdate()
@@ -115,7 +115,7 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 		if ((bool)playerobj)
 		{
 			Vector3 position = playerobj.transform.position;
-			if (Vector3.Distance(position, base.transform.position) <= 2f)
+			if (Vector3.Distance(position, transform.position) <= 2f)
 			{
 				MoveFromPoint(position);
 			}
@@ -127,7 +127,7 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 		if ((bool)playerobj)
 		{
 			Vector3 position = playerobj.transform.position;
-			position.z = base.transform.position.z;
+			position.z = transform.position.z;
 			MoveTowardsPoint(position);
 		}
 	}
@@ -137,7 +137,7 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 		if ((bool)playerobj)
 		{
 			Vector3 position = playerobj.transform.position;
-			position.x = base.transform.position.x;
+			position.x = transform.position.x;
 			MoveTowardsPoint(position);
 		}
 	}
@@ -148,8 +148,8 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 		{
 			Vector3 position = playerobj.transform.localPosition * -1f;
 			Vector3 vector = playerobj.transform.parent.TransformPoint(position);
-			vector.y = base.transform.position.y;
-			Debug.DrawLine(base.transform.position, vector);
+			vector.y = transform.position.y;
+			Debug.DrawLine(transform.position, vector);
 			MoveTowardsPoint(vector);
 		}
 	}
@@ -174,7 +174,7 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 		if ((bool)playerobj)
 		{
 			Vector3 position = playerobj.transform.position;
-			Vector3 pos = base.transform.position - position;
+			Vector3 pos = transform.position - position;
 			float magnitude = pos.magnitude;
 			magnitude = Mathf.Max(magnitude, 1f);
 			float num = Mathf.Atan2(pos.z, pos.x);
@@ -204,16 +204,16 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 
 	protected virtual void MoveJitter(float amount)
 	{
-		if (Vector3.Distance(base.transform.position, storePos) <= 0.5f || UnityEngine.Random.value < 0.05f * (PhoneElement.deltatime / (1f / 60f)))
+		if (Vector3.Distance(transform.position, storePos) <= 0.5f || UnityEngine.Random.value < 0.05f * (deltatime / (1f / 60f)))
 		{
 			storePos = Vector3.zero;
 		}
 		if (storePos == Vector3.zero)
 		{
 			storePos = RandomPosition();
-			storePos.y = base.transform.position.y;
+			storePos.y = transform.position.y;
 		}
-		Vector3 vector = storePos - base.transform.position;
+		Vector3 vector = storePos - transform.position;
 		Vector2 vector2 = new Vector2(vector.x, vector.z);
 		vector2 = Vector2.ClampMagnitude(vector2, 1f + monster.level / 2f);
 		vector2 += UnityEngine.Random.insideUnitCircle * amount;
@@ -222,12 +222,12 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 
 	protected virtual void MoveTowardsPoint(Vector3 pos)
 	{
-		MoveByVec((pos - base.transform.position).normalized);
+		MoveByVec((pos - transform.position).normalized);
 	}
 
 	protected virtual void MoveFromPoint(Vector3 pos)
 	{
-		MoveByVec((base.transform.position - pos).normalized);
+		MoveByVec((transform.position - pos).normalized);
 	}
 
 	protected virtual void MoveByVec(Vector2 vec)
@@ -237,12 +237,12 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 
 	protected virtual void MoveByVec(Vector3 vec)
 	{
-		MoveByVecRaw(vec * base.realspeed);
+		MoveByVecRaw(vec * realspeed);
 	}
 
 	protected virtual void MoveByVecRaw(Vector3 vec)
 	{
-		base.transform.position += vec * PhoneElement.deltatime;
+		transform.position += vec * deltatime;
 		if (monster.flying_animate)
 		{
 			sprite_player.play_speed = 0.5f + vec.magnitude * 0.5f;
@@ -255,7 +255,7 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 
 	protected virtual void DoShoot()
 	{
-		shoot_timer = Mathf.Max(0f, shoot_timer - PhoneElement.deltatime);
+		shoot_timer = Mathf.Max(0f, shoot_timer - deltatime);
 		if (shoot_timer <= 0f && ShootAtPlayer())
 		{
 			ResetShootTimer();
@@ -268,8 +268,8 @@ public class PhoneShooterEnemy : PhoneShooterMonster
 		{
 			return false;
 		}
-		Vector3 normalized = (playerobj.transform.position - base.transform.position).normalized;
-		Shoot(normalized, base.magic / 2f);
+		Vector3 normalized = (playerobj.transform.position - transform.position).normalized;
+		Shoot(normalized, magic / 2f);
 		return true;
 	}
 }

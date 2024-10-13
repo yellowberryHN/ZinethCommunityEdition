@@ -42,7 +42,7 @@ public class PhoneShooterPickup : PhoneElement
 	{
 		if (magnet_timer > 0f)
 		{
-			magnet_timer -= PhoneElement.deltatime;
+			magnet_timer -= deltatime;
 			if (magnet_timer <= 0f)
 			{
 				allow_magnet = true;
@@ -65,16 +65,16 @@ public class PhoneShooterPickup : PhoneElement
 	public virtual void Resize()
 	{
 		_inited = true;
-		Vector3 normalized = base.transform.localScale.normalized;
+		Vector3 normalized = transform.localScale.normalized;
 		size = 2.5f + givehealth / 12f;
-		base.transform.localScale = normalized * size;
+		transform.localScale = normalized * size;
 	}
 
 	public virtual void ChooseSprite()
 	{
 		sprite_index = Random.Range(0, sprites.Length);
-		base.renderer.material.mainTexture = sprites[sprite_index];
-		base.name = "food_" + sprites[sprite_index].name;
+		renderer.material.mainTexture = sprites[sprite_index];
+		name = "food_" + sprites[sprite_index].name;
 	}
 
 	public virtual void ChooseRandom()
@@ -90,14 +90,14 @@ public class PhoneShooterPickup : PhoneElement
 	public virtual void OnUsed(PhoneShooterMonster monster)
 	{
 		float num = givehealth;
-		if ("food_" + monster.monster.bloodtype == base.name)
+		if ("food_" + monster.monster.bloodtype == name)
 		{
 			num *= 1.5f;
 			string stext = "Tasty!";
 			monster.ShowText(base.transform.position + Vector3.up * 4f + Vector3.forward * 0.25f, stext, 0.5f, Color.yellow, true);
 		}
 		string stext2 = "+" + num.ToString("0.0");
-		monster.ShowText(base.transform.position + Vector3.up * 4f, stext2, 0.25f, color, true);
+		monster.ShowText(transform.position + Vector3.up * 4f, stext2, 0.25f, color, true);
 		if (weight_gain_enabled)
 		{
 			Vector2 scale = monster.monster.scale;
@@ -107,7 +107,7 @@ public class PhoneShooterPickup : PhoneElement
 		}
 		monster.Heal(num);
 		PhoneAudioController.PlayAudioClip("health_up", SoundType.game);
-		Object.Destroy(base.gameObject);
+		Destroy(gameObject);
 	}
 
 	public virtual void Display()
@@ -116,23 +116,23 @@ public class PhoneShooterPickup : PhoneElement
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.name == base.name)
+		if (other.name == name)
 		{
-			Vector3 position = (base.transform.position + other.transform.position) / 2f;
+			Vector3 position = (transform.position + other.transform.position) / 2f;
 			PhoneShooterPickup component = other.gameObject.GetComponent<PhoneShooterPickup>();
 			if (givehealth >= component.givehealth)
 			{
 				givehealth += component.givehealth * 1.1f;
 				Resize();
-				Object.Destroy(component.gameObject);
-				base.transform.position = position;
+				Destroy(component.gameObject);
+				transform.position = position;
 			}
 			else
 			{
 				component.givehealth += givehealth * 1.1f;
 				component.Resize();
 				component.transform.position = position;
-				Object.Destroy(base.gameObject);
+				Destroy(gameObject);
 			}
 		}
 	}
