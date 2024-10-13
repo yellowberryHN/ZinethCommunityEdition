@@ -741,10 +741,10 @@ public class PhoneMainMenu : PhoneScreen
 		}
 		else if (message.StartsWith("discord_rpc"))
 		{
-			PlayerPrefsX.SetBool("discord_rpc", !PlayerPrefsX.GetBool("discord_rpc", true));
+			PlayerPrefsX.SetBool("discord_rpc", !PlayerPrefsX.GetBool("discord_rpc", false));
 			DiscordController.instance.enabled = PlayerPrefsX.GetBool("discord_rpc");
 			button.text = button.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
-			button.text += !PlayerPrefsX.GetBool("discord_rpc", true) ? "(off)" : "(on)";
+			button.text += !PlayerPrefsX.GetBool("discord_rpc", false) ? "(off)" : "(on)";
 		}
 		else if (message.StartsWith("cycle_speedrun_type") && SpeedrunTimer.instance != null)
 		{

@@ -321,7 +321,7 @@ public class PhoneController : MonoBehaviour
 		phoneButton.textmesh.characterSize = 0.75f;
 		phoneButton.button_name = "Discord RPC (on)";
 		phoneButton.text = phoneButton.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
-		phoneButton.text += !PlayerPrefsX.GetBool("discord_rpc", true) ? "(off)" : "(on)";
+		phoneButton.text += !PlayerPrefsX.GetBool("discord_rpc", false) ? "(off)" : "(on)";
 		phoneButton.command = ".discord_rpc";
 		phoneButton.screen = menu;
 		phoneButton.textmesh.alignment = TextAlignment.Right;
