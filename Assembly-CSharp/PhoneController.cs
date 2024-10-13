@@ -291,10 +291,10 @@ public class PhoneController : MonoBehaviour
 			phoneButton.animateOnLoad = true;
 			phoneButton.left_button = menu.buttons[0];
 			menu.buttons.Add(phoneButton);
-			position += base.transform.forward * -0.75f;
 			phoneButton.enabled = true;
 			phoneButton.Init();
 		}
+		position += base.transform.forward * -0.75f;
 		
 		phoneButton = Instantiate(PhoneTextController.buttonprefab) as PhoneButton;
 		phoneButton.transform.position = position;
@@ -331,6 +331,24 @@ public class PhoneController : MonoBehaviour
 		menu.buttons.Add(phoneButton);
 		position += base.transform.forward * -0.75f;
 		phoneButton.Init();
+		
+		phoneButton = Instantiate(PhoneTextController.buttonprefab) as PhoneButton;
+		phoneButton.transform.position = position;
+		phoneButton.transform.parent = menu.transform;
+		phoneButton.textmesh.text = "Phone Theme";
+		phoneButton.textmesh.characterSize = 0.7f;
+		phoneButton.button_name = "PhoneTheme";
+		phoneButton.text = string.Format("Phone Theme ({0})", PlayerPrefs.GetString("phone_theme", "white"));
+		phoneButton.command = ".cycle_phone_theme";
+		phoneButton.screen = menu;
+		phoneButton.textmesh.alignment = TextAlignment.Right;
+		phoneButton.textmesh.anchor = TextAnchor.MiddleRight;
+		phoneButton.animateOnLoad = true;
+		phoneButton.left_button = menu.buttons[0];
+		menu.buttons.Add(phoneButton);
+		phoneButton.enabled = true;
+		position += base.transform.forward * -0.75f;
+		phoneButton.Init();
 	}
 
 	private void ReplaceTwitterScreen()
@@ -353,7 +371,6 @@ public class PhoneController : MonoBehaviour
 		PhoneScreen[] componentsInChildren = base.transform.GetComponentsInChildren<PhoneScreen>();
 		foreach (PhoneScreen phoneScreen in componentsInChildren)
 		{
-			//Debug.Log(string.Format("Adding screen: {0} ({1})", phoneScreen.screenname, phoneScreen.name));
 			screendict.Add(phoneScreen.screenname, phoneScreen);
 		}
 	}
@@ -588,6 +605,14 @@ public class PhoneController : MonoBehaviour
 			}
 		}
 	}
+	
+	public void SetPhoneTheme(string theme)
+	{
+		phonememory.SetTheme(theme);
+		curscreen.OnThemeChange();
+		phoneviewcontroller.phoneviewbordertop.Find("Catco").GetComponent<PhoneLabel>().OnThemeChange();
+		PhoneOverlayMenu.instance.OnThemeChange();
+	}
 
 	public void OnScreenOpen()
 	{
@@ -707,7 +732,7 @@ public class PhoneController : MonoBehaviour
 		{
 			if (part_array[i] == null)
 			{
-				ParticleSystem component = (Object.Instantiate(particlesys.gameObject) as GameObject).GetComponent<ParticleSystem>();
+				ParticleSystem component = (Instantiate(particlesys.gameObject) as GameObject).GetComponent<ParticleSystem>();
 				component.transform.position = pos;
 				component.transform.parent = trans;
 				part_array[i] = component;

@@ -415,11 +415,7 @@ public class DLCControl : MonoBehaviour
 
 	private static string URLDecode(XmlNode node)
 	{
-		if (node == null)
-		{
-			return string.Empty;
-		}
-		return URLDecode(node.InnerText);
+		return node == null ? string.Empty : URLDecode(node.InnerText);
 	}
 
 	private static string URLDecode(string url)

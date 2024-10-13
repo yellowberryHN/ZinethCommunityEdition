@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,6 +43,20 @@ public class PhoneOverlayMenu : PhoneScreen
 		}
 	}
 
+	private static PhoneOverlayMenu _instance;
+	
+	public static PhoneOverlayMenu instance
+	{
+		get
+		{
+			if (_instance == null)
+			{
+				_instance = Object.FindObjectOfType(typeof(PhoneOverlayMenu)) as PhoneOverlayMenu;
+			}
+			return _instance;
+		}
+	}
+
 	public override void Init()
 	{
 		SetupButtons();
@@ -83,7 +96,7 @@ public class PhoneOverlayMenu : PhoneScreen
 		{
 			element.OnUpdate();
 		}
-		clocklabel.text = DateTime.Now.ToString("H:mm");
+		clocklabel.text = System.DateTime.Now.ToString("H:mm");
 		UpdateFramerate();
 		UpdateMoney();
 	}

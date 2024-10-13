@@ -93,6 +93,13 @@ public class PhoneLabel : PhoneElement
 		}
 	}
 
+	public override void OnThemeChange()
+	{
+		base.OnThemeChange();
+		if (overrideColor) return;
+		textmesh.renderer.material.color = PhoneMemory.settings.textColor;
+	}
+
 	public void SetColor(Color col)
 	{
 		textmesh.renderer.material.color = col;

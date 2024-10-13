@@ -5,14 +5,12 @@ public class ModController : MonoBehaviour
 {
     public static ModController instance;
     private System.IntPtr windowHandle;
-    
-    [DllImport("user32.dll", EntryPoint = "FindWindow")]
-    public static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
-    
-    [DllImport("user32.dll", EntryPoint = "SetWindowTextW", CharSet = CharSet.Unicode)]
-    public static extern bool SetWindowTextW(System.IntPtr hWnd, string lpString);
 
-    public static Discord.Discord discord;
+    [DllImport("user32.dll", EntryPoint = "FindWindow")]
+    private static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+    [DllImport("user32.dll", EntryPoint = "SetWindowTextW", CharSet = CharSet.Unicode)]
+    private static extern bool SetWindowTextW(System.IntPtr hWnd, string lpString);
 
     private void Awake()
     {
@@ -21,26 +19,25 @@ public class ModController : MonoBehaviour
             Destroy(this);
             return;
         }
+
         instance = this;
         DontDestroyOnLoad(gameObject);
         Debug.Log("Mod controller initialized.");
-        UpdateTitle();
-        if (PlayerPrefsX.GetBool("discord_rpc", true)) // discord rich presence enableda
+        if (SystemInfo.graphicsDeviceID == 0) // batchmode
         {
-            try
-            {
-                discord = new Discord.Discord(1233330405092888660, (ulong)Discord.CreateFlags.NoRequireDiscord);
-                InvokeRepeating("UpdateDiscord", 5f, 5f);
-            }
-            catch (Discord.ResultException)
-            {
-                Debug.LogWarning("Failed to initialize Discord integration, might not be running.");
-                discord = null;
-                CancelInvoke("UpdateDiscord");
-            }
+            Application.LoadLevel("Loader 1");
+            return;
         }
+        UpdateTitle();
+        SpawnDiscordController();
     }
-    
+
+    private void SpawnDiscordController()
+    {
+        var dc = new GameObject("DiscordController");
+        dc.AddComponent<DiscordController>().enabled = PlayerPrefsX.GetBool("discord_rpc");
+    }
+
     // TODO: I really quite dislike this solution, find a better way to do this
     private void UpdateTitle()
     {
@@ -82,116 +79,21 @@ public class ModController : MonoBehaviour
                 Application.LoadLevel("Loader 1");
             }
         }
-
-        if (discord != null)
-        {
-            try
-            {
-                discord.RunCallbacks();
-            }
-            catch (Discord.ResultException)
-            {
-                Debug.LogWarning("Failed to run Discord callbacks, disabling...");
-                discord = null;
-                CancelInvoke("UpdateDiscord");
-            }
-        }
     }
 
-    public void UpdateDiscord()
-    {
-        var details = string.Empty;
-        var state = string.Empty;
-        
-        details = "Main Menu";
-        switch (Application.loadedLevelName)
-        {
-            case "test": // Custom Map
-            case "Loader 1": // Game
-                details = "Skating";
-                MissionObject mission = MissionController.focus_mission;
-                if (mission != null)
-                {
-                    details = "On Mission: " + mission.title;
-                }
-                
-                if (SpeedrunTimer.instance != null && (SpeedrunTimer.instance.enabled || SpeedrunTimer.instance.finalTime != null))
-                {
-                    state = "Speedrunning";
-                    if (SpeedrunTimer.instance.finalTime != null)
-                    {
-                        state += " (⏱ " + SpeedrunTimer.instance.finalTime + ")";
-                    }
-                }
-                else
-                {
-                    state = "Playing alone";
-                }
-                
-                break;
-            case "Loader 5": // Tutorial
-                details = "Tutorial";
-                break;
-            default:
-                details = "Main Menu";
-                break;
-        }
-
-        var activity = new Discord.Activity
-        {
-            Details = details,
-            State = state,
-            Assets =
-            {
-                LargeImage = "zineth-ce",
-                LargeText = "Zineth CE"
-            }
-        };
-
-        if (Application.loadedLevelName == "test")
-        {
-            activity.Details += " (Custom Map)";
-        }
-        if (Networking.instance != null && Networking.instance.enabled)
-        {
-            activity.State = "Playing together";
-            if (Network.isServer)
-            {
-                activity.Party.Size.CurrentSize = Network.connections.Length + 1;
-                activity.Party.Size.MaxSize = Network.maxConnections + 1;
-            }
-            else if (Network.isClient)
-            {
-                activity.Party.Size.CurrentSize = Networking.netplayer_dic.Count;
-                // TODO: max players not sent to all players
-            }
-        }
-        else if (SpeedrunTimer.instance != null && SpeedrunTimer.instance.enabled)
-        {
-            activity.Timestamps.Start = SpeedrunTimer.instance.startTimestamp;
-        }
-
-        discord.GetActivityManager().UpdateActivity(activity, (result) =>
-        {
-            if (result != Discord.Result.Ok)
-            {
-                Debug.LogWarning("Failed to update Discord Rich Presence");
-                if (result == Discord.Result.NotRunning)
-                {
-                    Debug.LogWarning("Discord appears to have been closed, disabling...");
-                    discord = null;
-                    CancelInvoke("UpdateDiscord");
-                }
-            }
-        });
-    }
-
-#if DEBUG
     private void OnLevelWasLoaded(int level)
     {
+#if DEBUG
         Debug.Log(string.Format("Loaded {0} ({1})", Application.loadedLevelName, Application.loadedLevel));
+#endif
+        if (Application.loadedLevelName == "Loader 1" && !Networking.instance.enabled && SystemInfo.graphicsDeviceID == 0)
+        {
+            Networking.instance.enabled = true;
+        }
     }
     
+    
+#if DEBUG
     private bool debugMenuActive;
     
     private string commandToRun = "";
@@ -222,11 +124,22 @@ public class ModController : MonoBehaviour
                 {
                     Debug.Log(MonsterTraits.Name.createFullName());
                 }
-                if (GUILayout.Button("toggle edge detect"))
+
+                var edgeDetect = Camera.mainCamera.GetComponent<EdgeDetectEffect>();
+                if (GUILayout.Button(string.Format("toggle edge detect ({0})", edgeDetect.threshold)))
                 {
-                    Camera.mainCamera.GetComponent<EdgeDetectEffect>().enabled = 
-                        !Camera.mainCamera.GetComponent<EdgeDetectEffect>().enabled;
+                    edgeDetect.enabled = !edgeDetect.enabled;
                 }
+                
+                edgeDetect.threshold = GUILayout.HorizontalSlider(edgeDetect.threshold, 0.016f, 0.1f);
+
+                if (GUILayout.Button(string.Format("cycle phone theme ({0})", PhoneMemory.current_theme)))
+                {
+                    PhoneMemory.CycleSelectedTheme();
+                    PhoneController.instance.SetPhoneTheme(PhoneMemory.current_theme);
+                    PlayerPrefs.SetString("phone_theme", PhoneMemory.current_theme);
+                }
+                
                 if (GUILayout.Button("send test mail"))
                 {
                     var newMail = new PhoneMail();
@@ -238,6 +151,16 @@ public class ModController : MonoBehaviour
                     newMail.subject = "Colored mail!";
 
                     MailController.SendMail(newMail);
+                }
+
+                if (GUILayout.Button("create phone color key"))
+                {
+                    PlayerPrefsX.SetColor("color_phone", Color.black);
+                }
+
+                if (GUILayout.Button("update phone color"))
+                {
+                    PhoneController.instance.SetPhoneColor(PlayerPrefsX.GetColor("color_phone", Color.white));
                 }
                 GUILayout.BeginHorizontal();
                 commandToRun = GUILayout.TextField(commandToRun);

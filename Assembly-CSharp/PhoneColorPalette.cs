@@ -16,6 +16,8 @@ public class PhoneColorPalette
 	
 	public Color mail = new Color(0f, 0f, 0f, 0f);
 
+	public bool dark;
+
 	public PhoneColorPalette()
 	{
 	}

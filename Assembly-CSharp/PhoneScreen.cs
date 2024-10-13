@@ -60,6 +60,15 @@ public class PhoneScreen : MonoBehaviour
 	{
 	}
 
+	public virtual void OnThemeChange()
+	{
+		PhoneElement[] componentsInChildren = GetComponentsInChildren<PhoneElement>();
+		foreach (PhoneElement phoneElement in componentsInChildren)
+		{
+			phoneElement.OnThemeChange();
+		}
+	}
+
 	public virtual bool ButtonMessage(PhoneButton button, string message)
 	{
 		MonoBehaviour.print("empty message receiver (" + message + ")");

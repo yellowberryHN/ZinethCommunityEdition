@@ -162,11 +162,8 @@ public class PhoneButton : PhoneElement
 		{
 			button_icon.localScale = Vector3.zero;
 		}
-		textmesh.renderer.material.color = PhoneMemory.settings.selectableTextColor;
-		if (use_own_color)
-		{
-			textmesh.renderer.material.color = text_normal;
-		}
+		
+		textmesh.renderer.material.color = use_own_color ? text_normal : PhoneMemory.settings.selectableTextColor;
 		SetBorderActive(always_use_background_border);
 	}
 
@@ -185,6 +182,13 @@ public class PhoneButton : PhoneElement
 		{
 			background_border.localScale = Vector3.Lerp(background_border.localScale, background_border_newscale, Time.deltaTime * 20f);
 		}
+	}
+
+	public override void OnThemeChange()
+	{
+		base.OnThemeChange();
+		if(use_own_color) return;
+		textmesh.renderer.material.color = PhoneMemory.settings.selectableTextColor;
 	}
 
 	public override void Init()

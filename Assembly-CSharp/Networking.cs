@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class Networking : MonoBehaviour
@@ -116,6 +117,8 @@ public class Networking : MonoBehaviour
 
 	public static List<string> chat_log = new List<string>();
 
+	private Dictionary<string,string> server_config;
+
 	public Transform player_tran
 	{
 		get
@@ -194,9 +197,13 @@ public class Networking : MonoBehaviour
 
 	private void Start()
 	{
-		// set up custom master server
+		// set up custom master server, use playerprefs for future-proofing
+		var master_server = PlayerPrefs.GetString("master_server", "master.harpnetstudios.com");
+		PlayerPrefs.SetString("master_server", MasterServer.ipAddress = Network.natFacilitatorIP = master_server);
 
-		MasterServer.ipAddress = Network.natFacilitatorIP = "master.harpnetstudios.com";
+		#if DEBUG
+		server_comment_test = MakeServerCommentFromConfig(MakeServerConfig());
+		#endif
 		
 		LoadLastServer();
 		GetServerList();
@@ -346,10 +353,10 @@ public class Networking : MonoBehaviour
 		showgui = GUILayout.Toggle(showgui, "gui (net test)");
 		if (showgui)
 		{
-			/*if (!Network.isClient && !Network.isServer)
+			if (!Network.isClient && !Network.isServer)
 			{
 				drawsettings = GUILayout.Toggle(drawsettings, "NAT");
-			}*/
+			}
 			GUILayout.EndHorizontal();
 			if (Network.isServer)
 			{
@@ -363,6 +370,9 @@ public class Networking : MonoBehaviour
 			{
 				NoneGUI();
 			}
+			#if DEBUG
+			TestingGUI();
+			#endif
 		}
 	}
 
@@ -427,6 +437,7 @@ public class Networking : MonoBehaviour
 		else if (Network.isClient)
 		{
 			Network.Disconnect();
+			GetServerList();
 		}
 		CleanUpNetObjs();
 	}
@@ -478,10 +489,104 @@ public class Networking : MonoBehaviour
 		return arg;
 	}
 
+	private Dictionary<string, string> MakeServerConfig(string mode = "Free Skate", string[] features = null)
+	{
+		if (features == null) features = new string[] {};
+		var config = new Dictionary<string, string>();
+		config.Add("version", PhoneInterface.version);
+		switch (Application.loadedLevelName)
+		{
+			case "Loader 1":
+				config.Add("level", "main");
+				break;
+			case "Loader 5":
+				config.Add("level", "tutorial");
+				break;
+			case "test":
+				config.Add("level", bundlefile);
+				break;
+		}
+		config.Add("mode", mode);
+		config.Add("features", string.Join(",", features));
+
+		return config;
+	}
+	
+	private const string CONFIG_RECORD_SEP = "\u001E";
+	private const string CONFIG_UNIT_SEP = "\u001F";
+
+	private string MakeServerCommentFromConfig(Dictionary<string, string> config)
+	{
+		return string.Join(CONFIG_RECORD_SEP, config.Select(pair => pair.Key + CONFIG_UNIT_SEP + pair.Value).ToArray());
+	}
+
+	private Dictionary<string, string> UnpackServerComment(string comment)
+	{
+		var dict = new Dictionary<string, string>();
+		if (!comment.StartsWith("version")) return dict;
+		var pairs = comment.Split(CONFIG_RECORD_SEP[0]);
+
+		foreach (var pair in pairs)
+		{
+			var keyValue = pair.Split(CONFIG_UNIT_SEP[0]);
+			dict[keyValue[0]] = keyValue.Length == 2 ? keyValue[1] : string.Empty;
+		}
+
+		return dict;
+	}
+
+	private string GetServerDescriptionFromConfig(Dictionary<string, string> config)
+	{
+		var desc = "<unknown>";
+		if (!config.ContainsKey("level")) return desc;
+		
+		switch (config["level"])
+		{
+			case "main":
+				desc = "Normal";
+				break;
+			case "tutorial":
+				desc = "Tutorial";
+				break;
+			default:
+				desc = "Custom";
+				if (!string.IsNullOrEmpty(config["level"]))
+				{
+					var text = config["level"];
+					if (text.StartsWith("http://") || text.StartsWith("https://"))
+					{
+						text = text.Substring(text.LastIndexOf("/") + 1);
+					}
+					desc = text;
+				}
+				break;
+		}
+		return desc;
+	}
+
+#if DEBUG
+	private string server_comment_test;
+	
+	private void TestingGUI()
+	{
+		GUILayout.BeginVertical("Box");
+		GUILayout.BeginHorizontal();
+		GUILayout.Label("server comment");
+		server_comment_test = GUILayout.TextField(server_comment_test);
+		GUILayout.EndHorizontal();
+		if (GUILayout.Button("parse"))
+		{
+			var parsed = UnpackServerComment(server_comment_test);
+			Debug.Log(MakeServerCommentFromConfig(parsed));
+			Debug.Log(GetServerDescriptionFromConfig(parsed));
+		}
+		GUILayout.EndVertical();
+	}
+#endif
+
 	private void StartServer()
 	{
 		PhoneMemory.UnlockMenuQuiet("Talk");
-		string comment = MakeServerComment();
 		Network.incomingPassword = password;
 		int result;
 		if (!int.TryParse(port, out result))
@@ -507,7 +612,8 @@ public class Networking : MonoBehaviour
 			max_players = 1.ToString();
 		}
 		Network.InitializeServer(result2, result, use_NAT);
-		MasterServer.RegisterHost(mastergameid, server_name, comment);
+		server_config = MakeServerConfig();
+		MasterServer.RegisterHost(mastergameid, server_name, MakeServerCommentFromConfig(server_config));
 		if (host_net == null && !batchMode)
 		{
 			host_net = Network.Instantiate(player_prefab, player_tran.position, player_tran.rotation, 0) as NetPlayer;
@@ -549,7 +655,7 @@ public class Networking : MonoBehaviour
 
 	private void NoneGUI()
 	{
-		//DrawSettings();
+		DrawSettings();
 		DrawBundleList();
 		DrawSceneList();
 		GUILayout.BeginVertical("Box");
@@ -599,41 +705,69 @@ public class Networking : MonoBehaviour
 		GUILayout.EndVertical();
 	}
 
+	private void DrawServerVersion(string version)
+	{
+		var base_color = GUI.color;
+		var same_version = version == PhoneInterface.version;
+		GUILayout.BeginVertical("Box");
+		GUILayout.Label(version, new GUIStyle
+		{
+			fontStyle = FontStyle.Bold,
+			normal = { textColor = same_version ? base_color : Color.red }
+		});
+		GUILayout.EndVertical();
+	}
+
 	private void DrawServerList()
 	{
 		HostData[] array = serverdats;
 		foreach (HostData hostData in array)
 		{
+			var host_config = UnpackServerComment(hostData.comment);
+			var host_version = host_config.ContainsKey("version") ? host_config["version"] : "???";
+			var host_mode = host_config.ContainsKey("mode") ? host_config["mode"] : "???";
+			
+			var base_color = GUI.color;
 			GUILayout.BeginVertical("Box");
 			GUILayout.BeginHorizontal();
 			GUILayout.Label(string.Format("{0} ({1}/{2})", hostData.gameName, hostData.connectedPlayers, hostData.playerLimit));
 			GUILayout.Space(5f);
 			GUILayout.Space(5f);
 			GUILayout.FlexibleSpace();
+			DrawServerVersion(host_version);
+			GUILayout.EndHorizontal();
+			GUILayout.BeginHorizontal();
+			GUILayout.Label(host_mode);
+			GUILayout.EndHorizontal();
+			GUILayout.BeginHorizontal();
+			GUILayout.Label(GetServerDescriptionFromConfig(host_config));
+			if (hostData.useNat)
+			{
+				GUI.color = Color.yellow;
+				GUILayout.Label("NAT");
+				GUI.color = base_color;
+			}
+			GUILayout.Space(5f);
+			GUILayout.Space(5f);
+			GUILayout.FlexibleSpace();
+			if (hostData.passwordProtected)
+			{
+				GUI.color = string.IsNullOrEmpty(password) ? Color.red : Color.yellow;
+			}
+			
+			#if DEBUG
+			GUI.enabled = (host_version == PhoneInterface.version || Input.GetButton("Debug"));
+			#else
+			GUI.enabled = host_version == PhoneInterface.version;
+			#endif
+			
 			if (GUILayout.Button("Connect"))
 			{
 				Network.Connect(hostData, password);
+				server_config = host_config;
 			}
-			GUILayout.EndHorizontal();
-			GUILayout.BeginHorizontal();
-			GUILayout.Label(hostData.comment);
-			if (hostData.useNat)
-			{
-				Color color = GUI.color;
-				GUI.color = Color.yellow;
-				GUILayout.Label("NAT");
-				GUI.color = color;
-			}
-			if (hostData.passwordProtected)
-			{
-				Color color2 = GUI.color;
-				if (string.IsNullOrEmpty(password))
-				{
-					GUI.color = Color.red;
-				}
-				GUILayout.Label("Password");
-				GUI.color = color2;
-			}
+			GUI.enabled = true;
+			GUI.color = base_color;
 			GUILayout.EndHorizontal();
 			GUILayout.EndVertical();
 		}
@@ -927,6 +1061,25 @@ public class Networking : MonoBehaviour
 		GUI.DragWindow();
 	}
 
+	private void LoadBundle(string path)
+	{
+		if ((bool)my_net_player)
+		{
+			my_net_player.DoLoadBundle(path);
+		}
+		else
+		{
+			SpawnPointScript.instance.LoadAndSpawn(path);
+			bundlefile = path;
+		}
+		if (Network.isServer)
+		{
+			MasterServer.UnregisterHost();
+			server_config = MakeServerConfig();
+			MasterServer.RegisterHost(mastergameid, server_name, MakeServerCommentFromConfig(server_config));
+		}
+	}
+
 	private void DrawBundleList()
 	{
 		if (Application.loadedLevelName != "test")
@@ -953,20 +1106,7 @@ public class Networking : MonoBehaviour
 				string fileName = Path.GetFileName(path);
 				if (GUILayout.Button(fileName))
 				{
-					if ((bool)my_net_player)
-					{
-						my_net_player.DoLoadBundle(fileName);
-					}
-					else
-					{
-						SpawnPointScript.instance.LoadAndSpawn(fileName);
-						bundlefile = fileName;
-					}
-					if (Network.isServer)
-					{
-						MasterServer.UnregisterHost();
-						MasterServer.RegisterHost(mastergameid, server_name, MakeServerComment(Application.loadedLevelName, fileName));
-					}
+					LoadBundle(fileName);
 				}
 			}
 		}
@@ -980,19 +1120,7 @@ public class Networking : MonoBehaviour
 			if (bundleURL != "http://")
 			{
 				bundlefile = bundleURL;
-				if ((bool)my_net_player)
-				{
-					my_net_player.DoLoadBundle(bundleURL);
-				}
-				else
-				{
-					SpawnPointScript.instance.LoadAndSpawn(bundleURL);
-				}
-				if (Network.isServer)
-				{
-					MasterServer.UnregisterHost();
-					MasterServer.RegisterHost(mastergameid, server_name, MakeServerComment(Application.loadedLevelName, bundleURL));
-				}
+				LoadBundle(bundleURL);
 			}
 		}
 		bundleURL = GUILayout.TextField(bundleURL);
@@ -1019,11 +1147,6 @@ public class Networking : MonoBehaviour
 		{
 			if (text != loadedLevelName && GUILayout.Button(text))
 			{
-				if (Network.isServer)
-				{
-					MasterServer.UnregisterHost();
-					MasterServer.RegisterHost(mastergameid, server_name, MakeServerComment(text, bundlefile));
-				}
 				if ((bool)my_net_player)
 				{
 					my_net_player.DoSceneCommand(text);
@@ -1031,6 +1154,12 @@ public class Networking : MonoBehaviour
 				else
 				{
 					Application.LoadLevel(text);
+				}
+				if (Network.isServer)
+				{
+					MasterServer.UnregisterHost();
+					server_config = MakeServerConfig();
+					MasterServer.RegisterHost(mastergameid, server_name, MakeServerCommentFromConfig(server_config));
 				}
 			}
 		}
@@ -1093,6 +1222,15 @@ public class Networking : MonoBehaviour
 
 	public static bool IsDev()
 	{
+		if (ModController.instance != null)
+		{
+			var discord_id = DiscordController.GetDiscordID();
+			switch (discord_id)
+			{
+				case 608720898845048833L:
+					return true;
+			}
+		}
 		return false;
 	}
 }

@@ -2,7 +2,20 @@ using UnityEngine;
 
 public class PhoneSettings
 {
-	public PhoneColorPalette Palette;
+	private PhoneColorPalette _palette;
+
+	public PhoneColorPalette Palette
+	{
+		get
+		{
+			return _palette;
+		}
+		set
+		{
+			_palette = value;
+			PhoneController.instance.SetBackColor(_palette.back);
+		}
+	}
 
 	public bool muted;
 
@@ -22,7 +35,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return Palette.back;
+			return _palette.back;
 		}
 	}
 
@@ -30,7 +43,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return Palette.text;
+			return _palette.text;
 		}
 	}
 
@@ -38,7 +51,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return Palette.selected;
+			return _palette.selected;
 		}
 	}
 
@@ -46,7 +59,7 @@ public class PhoneSettings
 	{
 		get
 		{
-			return Palette.selectable;
+			return _palette.selectable;
 		}
 	}
 
@@ -54,11 +67,11 @@ public class PhoneSettings
 	{
 		get
 		{
-			if (Palette.particles == new Color(0f, 0f, 0f, 0f))
+			if (_palette.particles == new Color(0f, 0f, 0f, 0f))
 			{
-				return Palette.selected;
+				return _palette.selected;
 			}
-			return Palette.particles;
+			return _palette.particles;
 		}
 	}
 	
@@ -66,11 +79,11 @@ public class PhoneSettings
 	{
 		get
 		{
-			if (Palette.mail == new Color(0f, 0f, 0f, 0f))
+			if (_palette.mail == new Color(0f, 0f, 0f, 0f))
 			{
 				return new Color {r = 0.9764706f, g = 0.9960784f, b = 0.7411765f, a = 1f};
 			}
-			return Palette.mail;
+			return _palette.mail;
 		}
 	}
 	

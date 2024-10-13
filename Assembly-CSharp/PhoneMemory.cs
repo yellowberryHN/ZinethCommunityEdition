@@ -45,8 +45,12 @@ public class PhoneMemory : MonoBehaviour
 	public PhoneMail[] mail_auto_list = new PhoneMail[0];
 
 	public Dictionary<string, PhoneColorPalette> colorthemes = new Dictionary<string, PhoneColorPalette>();
+	
+	private List<string> theme_keys = new List<string>();
+	
+	private int theme_idx = -1;
 
-	private static PhoneMemory main
+	public static PhoneMemory main
 	{
 		get
 		{
@@ -489,6 +493,7 @@ public class PhoneMemory : MonoBehaviour
 	{
 		PlayerPrefs.SetString("version", PhoneInterface.version);
 		PlayerPrefs.SetInt("times_file_played", PlayerPrefs.GetInt("times_file_played", 0) + 1);
+		SetupColors();
 		SetupMonsters();
 		SetupZines();
 		MailController.active_mail.Clear();
@@ -810,6 +815,12 @@ public class PhoneMemory : MonoBehaviour
 		}
 	}
 
+	public void AddTheme(string name, PhoneColorPalette palette)
+	{
+		colorthemes.Add(name, palette);
+		theme_keys.Add(name);
+	}
+
 	private void SetupColors()
 	{
 		PhoneColorPalette phoneColorPalette = new PhoneColorPalette
@@ -820,7 +831,7 @@ public class PhoneMemory : MonoBehaviour
 			back = new Color32(154, 245, 184),
 			mail = new Color32(245, 215,245)
 		};
-		colorthemes.Add("old", phoneColorPalette);
+		AddTheme("old", phoneColorPalette);
 		
 		phoneColorPalette = new PhoneColorPalette
 		{
@@ -830,7 +841,7 @@ public class PhoneMemory : MonoBehaviour
 			back = new Color32(94, 65, 47),
 			mail = new Color32(137, 82, 48)
 		};
-		colorthemes.Add("papua", phoneColorPalette);
+		AddTheme("papua", phoneColorPalette);
 		
 		phoneColorPalette = new PhoneColorPalette
 		{
@@ -838,9 +849,10 @@ public class PhoneMemory : MonoBehaviour
 			selectable = new Color32(139, 172, 15),
 			selected = new Color32(155, 188, 15),
 			back = new Color32(15, 56, 15),
-			mail = new Color32(195,226,195)
+			mail = new Color32(195,226,195),
+			dark = true
 		};
-		colorthemes.Add("gameboy", phoneColorPalette);
+		AddTheme("gameboy", phoneColorPalette);
 		
 		phoneColorPalette = new PhoneColorPalette
 		{
@@ -849,7 +861,7 @@ public class PhoneMemory : MonoBehaviour
 			selected = new Color32(190, 240, 125),
 			back = new Color32(255, 237, 144)
 		};
-		colorthemes.Add("moment", phoneColorPalette);
+		AddTheme("moment", phoneColorPalette);
 		
 		phoneColorPalette = new PhoneColorPalette
 		{
@@ -859,7 +871,7 @@ public class PhoneMemory : MonoBehaviour
 			selected = new Color32(126, 208, 214),
 			mail = new Color32(76, 85, 61)
 		};
-		colorthemes.Add("frogs", phoneColorPalette);
+		AddTheme("frogs", phoneColorPalette);
 		
 		phoneColorPalette = new PhoneColorPalette
 		{
@@ -868,7 +880,7 @@ public class PhoneMemory : MonoBehaviour
 			selectable = new Color32(30, 30, 30),
 			selected = new Color32(255, 153, 0)
 		};
-		colorthemes.Add("gamebookers", phoneColorPalette);
+		AddTheme("gamebookers", phoneColorPalette);
 		
 		phoneColorPalette = new PhoneColorPalette
 		{
@@ -879,7 +891,7 @@ public class PhoneMemory : MonoBehaviour
 			mail = new Color32(68,60,53)
 		};
 		phoneColorPalette.particles = phoneColorPalette.selected;
-		colorthemes.Add("honey", phoneColorPalette);
+		AddTheme("honey", phoneColorPalette);
 		
 		phoneColorPalette = new PhoneColorPalette
 		{
@@ -887,10 +899,11 @@ public class PhoneMemory : MonoBehaviour
 			text = new Color32(255, 255, 255),
 			selectable = new Color32(231, 80, 80),
 			selected = new Color32(255, 20, 20),
-			mail = Color.gray
+			mail = Color.gray,
+			dark = true
 		};
 		phoneColorPalette.particles = phoneColorPalette.selected;
-		colorthemes.Add("black", phoneColorPalette);
+		AddTheme("black", phoneColorPalette);
 		
 		phoneColorPalette = new PhoneColorPalette
 		{
@@ -900,7 +913,7 @@ public class PhoneMemory : MonoBehaviour
 			selected = new Color32(50, 50, 140)
 		};
 		phoneColorPalette.particles = phoneColorPalette.selected;
-		colorthemes.Add("white", phoneColorPalette);
+		AddTheme("white", phoneColorPalette);
 		
 		phoneColorPalette = new PhoneColorPalette
 		{
@@ -908,20 +921,39 @@ public class PhoneMemory : MonoBehaviour
 			text = new Color32(203, 207, 180),
 			selectable = new Color32(171, 106, 110),
 			selected = new Color32(247, 52, 91),
-			mail = new Color32(26,26,26)
+			mail = new Color32(26,26,26),
+			dark = true
 		};
 		phoneColorPalette.particles = phoneColorPalette.selected;
-		colorthemes.Add("killer", phoneColorPalette);
+		AddTheme("killer", phoneColorPalette);
 		
-		//settings.pallete = colorthemes["white"];
 		var selected_theme = PlayerPrefs.GetString("phone_theme", "white");
 		settings.Palette = colorthemes[colorthemes.ContainsKey(selected_theme) ? selected_theme : "white"];
+		theme_idx = theme_keys.IndexOf(selected_theme);
+	}
+	
+	public static void CycleSelectedTheme()
+	{
+		main.theme_idx = (main.theme_idx + 1) % main.theme_keys.Count;
+	}
+
+	public static string current_theme
+	{
+		get
+		{
+			return main.theme_keys[main.theme_idx];
+		}
+	}
+
+	internal void SetTheme(string theme)
+	{
+		settings.Palette = colorthemes[theme];
 	}
 
 	private PhoneColorPalette QuickColorAdder(string name, int r1, int g1, int b1, int r2, int g2, int b2, int r3, int g3, int b3)
 	{
 		PhoneColorPalette phoneColorPalette = new PhoneColorPalette(new Color32(r1, g1, b1), new Color32(r2, g2, b2), new Color32(r2, g2, b2), new Color32(r3, g3, b3));
-		colorthemes.Add(name, phoneColorPalette);
+		AddTheme(name, phoneColorPalette);
 		return phoneColorPalette;
 	}
 }

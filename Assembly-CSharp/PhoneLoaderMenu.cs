@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PhoneLoaderMenu : PhoneMainMenu
@@ -35,12 +36,33 @@ public class PhoneLoaderMenu : PhoneMainMenu
 		}
 	}
 
+	private void Awake()
+	{
+		UpdateColors();
+	}
+
 	private void Start()
 	{
 		custom_maps_enabled = PlayerPrefsX.GetBool("custom_maps_loader", false);
 		if (hide_background)
 		{
 			HideBackground();
+		}
+	}
+	
+	private void UpdateColors()
+	{
+		if (PhoneMemory.settings.Palette.dark)
+		{
+			PhoneButton[] componentsInChildren = base.gameObject.GetComponentsInChildren<PhoneButton>(true);
+			foreach (PhoneButton button in componentsInChildren)
+			{
+				var oldSelected = button.text_selected;
+				var oldNormal = button.text_normal;
+				button.text_selected = oldNormal;
+				button.text_normal = oldSelected;
+				button.back_selected_color = Color.white;
+			}
 		}
 	}
 

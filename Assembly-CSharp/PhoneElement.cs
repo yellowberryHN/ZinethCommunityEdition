@@ -66,6 +66,11 @@ public class PhoneElement : MonoBehaviour
 		}
 	}
 
+	public virtual void OnThemeChange()
+	{
+		// nothing here
+	}
+	
 	public virtual void PressPos()
 	{
 		transform.position = PhoneController.presspos + (transform.position - GetCenter());

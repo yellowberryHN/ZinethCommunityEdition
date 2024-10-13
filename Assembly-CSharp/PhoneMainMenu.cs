@@ -742,10 +742,7 @@ public class PhoneMainMenu : PhoneScreen
 		else if (message.StartsWith("discord_rpc"))
 		{
 			PlayerPrefsX.SetBool("discord_rpc", !PlayerPrefsX.GetBool("discord_rpc", true));
-			
-			if (PlayerPrefsX.GetBool("discord_rpc")) ModController.instance.EnableDiscordRPC();
-			else ModController.instance.DisableDiscordRPC();
-			
+			DiscordController.instance.enabled = PlayerPrefsX.GetBool("discord_rpc");
 			button.text = button.text.Replace("(on)", string.Empty).Replace("(off)", string.Empty);
 			button.text += !PlayerPrefsX.GetBool("discord_rpc", true) ? "(off)" : "(on)";
 		}
@@ -753,6 +750,13 @@ public class PhoneMainMenu : PhoneScreen
 		{
 			PlayerPrefsX.SetEnum("speedrun_type", SpeedrunTimer.instance.CycleRunType());
 			button.text = string.Format("Run Type ({0})", PlayerPrefsX.GetEnum("speedrun_type", SpeedrunTimer.RunTypes.Manual));
+		}
+		else if (message.StartsWith("cycle_phone_theme"))
+		{
+			PhoneMemory.CycleSelectedTheme();
+			PhoneController.instance.SetPhoneTheme(PhoneMemory.current_theme);
+			PlayerPrefs.SetString("phone_theme", PhoneMemory.current_theme);
+			button.text = string.Format("Phone Theme ({0})", PlayerPrefs.GetString("phone_theme", "white"));
 		}
 		return true;
 	}
