@@ -756,7 +756,7 @@ public class PhoneMainMenu : PhoneScreen
 			PhoneMemory.CycleSelectedTheme();
 			PhoneController.instance.SetPhoneTheme(PhoneMemory.current_theme);
 			PlayerPrefs.SetString("phone_theme", PhoneMemory.current_theme);
-			button.text = string.Format("Phone Theme ({0})", PlayerPrefs.GetString("phone_theme", "white"));
+			button.text = string.Format("Theme ({0})", PlayerPrefs.GetString("phone_theme", "white"));
 		}
 		return true;
 	}

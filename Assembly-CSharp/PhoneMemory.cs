@@ -899,7 +899,7 @@ public class PhoneMemory : MonoBehaviour
 			text = new Color32(255, 255, 255),
 			selectable = new Color32(231, 80, 80),
 			selected = new Color32(255, 20, 20),
-			mail = Color.gray,
+			mail = new Color32(80, 80, 80),
 			dark = true
 		};
 		phoneColorPalette.particles = phoneColorPalette.selected;

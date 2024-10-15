@@ -88,7 +88,7 @@ public class PhoneTweetButton : PhoneButton
 	public override void OnLoad()
 	{
 		base.OnLoad();
-		OnThemeChange();
+		OnThemeChange(); // stupid hack
 		if (my_mail != null)
 		{
 			if (my_mail.color != Color.clear)
@@ -216,35 +216,39 @@ public class PhoneTweetButton : PhoneButton
 	public override void OnThemeChange()
 	{
 		base.OnThemeChange();
+		
+		if (name == "PhoneMissionButton(Clone)")
+		{
+			use_own_color = username_label.overrideColor = true;
+			username_label.color = username_label.textmesh.renderer.material.color = Color.black;
+			return;
+		}
+		
+		back_normal_color = PhoneMemory.settings.mailColor;
+		back_selected_color = Color.Lerp(back_normal_color, Color.white, 0.6f);
+		
+		if ((bool)background_box) background_box.renderer.material.color = back_normal_color;
+		
+		if ((bool)username_label) username_label.OnThemeChange();
+		if ((bool)sender_label)
+		{
+			sender_label.overrideColor = false;
+			sender_label.OnThemeChange();
+		}
+		if ((bool)bodytext_label) bodytext_label.OnThemeChange();
+		
 		if (name == "PhoneMailButton(Clone)")
 		{
 			back_normal_color = PhoneMemory.settings.mailColor;
 			back_selected_color = Color.Lerp(back_normal_color, Color.white, 0.6f);
-			
-			if ((bool)background_box) background_box.renderer.material.color = back_normal_color;
-			
-			if ((bool)sender_label) sender_label.OnThemeChange(); // TODO: this doesn't change, probably set to override
-			if ((bool)bodytext_label) bodytext_label.OnThemeChange();
 		}
 		if (name == "SingleTweet")
 		{
-			back_normal_color = PhoneMemory.settings.mailColor;
-			back_selected_color = Color.Lerp(back_normal_color, Color.white, 0.6f);
-			
 			var titleBack = gameObject.transform.FindChild("TitleBack");
 			titleBack.gameObject.renderer.material.color = Color.Lerp(back_normal_color, back_normal_color * 2f, 0.2f);
-			
+		
 			var bodyBack = gameObject.transform.FindChild("BodyBack");
 			bodyBack.gameObject.renderer.material.color = Color.Lerp(back_normal_color, back_normal_color * 2f, 0.2f);
-			
-			if ((bool)background_box) background_box.renderer.material.color = back_normal_color;
-			
-			// subject line
-			if ((bool)username_label) username_label.OnThemeChange();
-			// sender line
-			if ((bool)sender_label) sender_label.OnThemeChange(); // TODO: this doesn't change, probably set to override
-			// mail body
-			if ((bool)bodytext_label) bodytext_label.OnThemeChange();
 		}
 	}
 }

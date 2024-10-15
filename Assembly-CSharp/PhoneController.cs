@@ -335,10 +335,10 @@ public class PhoneController : MonoBehaviour
 		phoneButton = Instantiate(PhoneTextController.buttonprefab) as PhoneButton;
 		phoneButton.transform.position = position;
 		phoneButton.transform.parent = menu.transform;
-		phoneButton.textmesh.text = "Phone Theme";
+		phoneButton.textmesh.text = "Theme";
 		phoneButton.textmesh.characterSize = 0.7f;
 		phoneButton.button_name = "PhoneTheme";
-		phoneButton.text = string.Format("Phone Theme ({0})", PlayerPrefs.GetString("phone_theme", "white"));
+		phoneButton.text = string.Format("Theme ({0})", PlayerPrefs.GetString("phone_theme", "white"));
 		phoneButton.command = ".cycle_phone_theme";
 		phoneButton.screen = menu;
 		phoneButton.textmesh.alignment = TextAlignment.Right;
@@ -609,6 +609,10 @@ public class PhoneController : MonoBehaviour
 	public void SetPhoneTheme(string theme)
 	{
 		phonememory.SetTheme(theme);
+		foreach (var screen in bgscreens)
+		{
+			screen.OnThemeChange();
+		}
 		curscreen.OnThemeChange();
 		phoneviewcontroller.phoneviewbordertop.Find("Catco").GetComponent<PhoneLabel>().OnThemeChange();
 		PhoneOverlayMenu.instance.OnThemeChange();

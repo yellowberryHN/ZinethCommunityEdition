@@ -865,4 +865,13 @@ public class PhoneMailMenu : PhoneMainMenu
 			}
 		}
 	}
+
+	public override void OnThemeChange()
+	{
+		base.OnThemeChange();
+		foreach (var button in mailbuttons)
+		{
+			button.OnThemeChange();
+		}
+	}
 }

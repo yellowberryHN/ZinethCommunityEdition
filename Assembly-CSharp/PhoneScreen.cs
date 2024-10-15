@@ -32,6 +32,7 @@ public class PhoneScreen : MonoBehaviour
 
 	public virtual void Init()
 	{
+		OnThemeChange();
 	}
 
 	public virtual void OnLoad()
@@ -62,7 +63,7 @@ public class PhoneScreen : MonoBehaviour
 
 	public virtual void OnThemeChange()
 	{
-		PhoneElement[] componentsInChildren = GetComponentsInChildren<PhoneElement>();
+		PhoneElement[] componentsInChildren = GetComponentsInChildren<PhoneElement>(true);
 		foreach (PhoneElement phoneElement in componentsInChildren)
 		{
 			phoneElement.OnThemeChange();

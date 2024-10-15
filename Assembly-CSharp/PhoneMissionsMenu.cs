@@ -144,4 +144,10 @@ public class PhoneMissionsMenu : PhoneMailMenu
 			focus_marker.renderer.enabled = false;
 		}
 	}
+
+	public override void OnLoad()
+	{
+		base.OnLoad();
+		OnThemeChange();
+	}
 }
